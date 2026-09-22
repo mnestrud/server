@@ -11,6 +11,7 @@ import base64
 import html
 import json
 import re
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -94,13 +95,45 @@ def icon(path: Path) -> str | None:
 CSS: list[str] = []  # one background-image rule per icon, so each data URI appears once
 
 
-def cell(uri: str | None, surface: str, invert: bool = False) -> str:
+def changed_files() -> dict[str, str]:
+    """Provider icon files this branch adds (A) or modifies (M), relative to where it forked from dev."""
+    base = subprocess.check_output(
+        ["git", "merge-base", "dev", "HEAD"], cwd=ROOT, text=True
+    ).strip()
+    out = subprocess.check_output(
+        ["git", "diff", "--name-status", base, "--", "music_assistant/providers"],
+        cwd=ROOT,
+        text=True,
+    )
+    status = {}
+    for line in out.splitlines():
+        code, path = line.split("\t", 1)
+        status[path] = code[0]
+    # uncommitted work counts too
+    for line in subprocess.check_output(
+        ["git", "status", "--porcelain", "--", "music_assistant/providers"], cwd=ROOT, text=True
+    ).splitlines():
+        code, path = line[:2].strip() or "M", line[3:]
+        status.setdefault(path, "A" if code == "?" else code[0])
+    return status
+
+
+CHANGED = changed_files()
+BADGE = {"A": '<div class="tag new">NEW</div>', "M": '<div class="tag chg">CHANGED</div>'}
+
+
+def badge(path: Path) -> str:
+    return BADGE.get(CHANGED.get(str(path.relative_to(ROOT)), ""), "")
+
+
+def cell(uri: str | None, surface: str, path: Path | None = None, invert: bool = False) -> str:
     if uri is None:
         return f'<td class="{surface} missing">MISSING</td>'
     name = f"i{len(CSS)}"
     CSS.append(f".{name}{{background-image:url({uri})}}")
     inv = " inv" if invert else ""
-    return f'<td class="{surface}"><span class="ic {name}{inv}"></span><span class="ic s {name}{inv}"></span></td>'
+    tag = badge(path) if path else ""
+    return f'<td class="{surface}"><span class="ic {name}{inv}"></span><span class="ic s {name}{inv}"></span>{tag}</td>'
 
 
 def size_cell(*paths: Path) -> str:
@@ -165,11 +198,11 @@ for group, (desc, domains) in GROUPS.items():
         rows.append(
             "<tr>"
             f"<th>{domain}<br><small>{note}</small></th>"
-            + cell(default, "light")
-            + cell(default, "dark")
-            + cell(dark, "dark")
-            + cell(mono, "dark")
-            + cell(mono, "light", invert=True)
+            + cell(default, "light", d / "icon.svg")
+            + cell(default, "dark", d / "icon.svg")
+            + cell(dark, "dark", d / "icon_dark.svg")
+            + cell(mono, "dark", d / "icon_monochrome.svg")
+            + cell(mono, "light", d / "icon_monochrome.svg", invert=True)
             + size_cell(d / "icon_dark.svg", d / "icon_monochrome.svg")
             + f"<td>{group}</td></tr>"
         )
@@ -190,13 +223,18 @@ td.dark{{background:#121212;color:#888}}
 td.missing{{color:#e33;font-weight:600}}
 .over{{color:#e33;font-weight:600}}
 .inv{{filter:invert(1)}}
+.tag{{font-size:10px;font-weight:700;letter-spacing:.5px;margin-top:4px}}
+.tag.new{{color:#2a9d3f}}
+.tag.chg{{color:#d98200}}
 {"".join(CSS)}
 </style></head><body>
 <h1>backlog#158 &mdash; provider icon dark and monochrome variants</h1>
 <p>Each cell shows the icon at 48px and 24px (the setup wizard badge uses 16px).
 Column 2 is today's dark-theme rendering; column 3 is the new dark file.
 The monochrome file must be white on transparent: the UI shows it as-is on dark (column 4)
-and CSS-inverts it on light (column 5), exactly as rendered here. Sizes over 5&nbsp;KB fail the repo lint.</p>
+and CSS-inverts it on light (column 5), exactly as rendered here. Sizes over 5&nbsp;KB fail the repo lint.<br>
+A cell without a badge is the file shipping today; <b style="color:#2a9d3f">NEW</b> did not exist before this branch;
+<b style="color:#d98200">CHANGED</b> existed and was replaced. MISSING means no file yet.</p>
 <table>
 <tr><th>provider</th><th>icon.svg on light</th><th>icon.svg on dark<br>(today)</th>
 <th>icon_dark.svg on dark</th>
