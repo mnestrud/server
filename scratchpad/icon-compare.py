@@ -7,123 +7,29 @@ Icons are embedded as data URIs (the way the frontend serves them), so the page 
 self-contained and ids inside the SVGs cannot clash.
 """
 
-import base64
 import html
 import json
 import re
-import subprocess
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-PROVIDERS = ROOT / "music_assistant" / "providers"
+from iconlib import CHANGED, GROUPS, LIMIT, PROVIDERS, ROOT, data_uri, icon_file
+
 OUT = Path(__file__).with_suffix(".html")
-LIMIT = 5 * 1024
-
-GROUPS = {
-    "A": (
-        "text edit: icon.svg with the dark colour swapped to white",
-        [
-            "airplay_receiver",
-            "fastmcp_server",
-            "nicovideo",
-            "orf_radiothek",
-            "wikipedia",
-            "_demo_music_provider",
-            "_demo_player_provider",
-            "_demo_plugin_provider",
-            "test",
-        ],
-    ),
-    "B": (
-        "Claude Design: multi-colour brand mark, brand colour too dark, or embedded PNG",
-        [
-            "airplay",
-            "fully_kiosk",
-            "siriusxm",
-            "lastfm_recommendations",
-            "lastfm_scrobble",
-            "heos",
-            "somafm",
-            "neteasecloudmusic",
-            "nugs",
-            "theaudiodb",
-            "deezer",
-            "filesystem_onedrive",
-            "storytel",
-            "bbc_sounds",
-            "pandora",
-            "yandex_station",
-            "ibroadcast",
-            "gpodder",
-            "lrclib",
-            "musicme",
-            "internet_archive",
-            "radioparadise",
-            "musiccast",
-            "mpd",
-        ],
-    ),
-    "skip": (
-        "no file planned: readable on dark as-is (black tile vanishes, light glyph stays)",
-        [
-            "abc_radio_network",
-            "amplipi",
-            "apple_music",
-            "bluesound",
-            "nts",
-            "podcastfeed",
-            "ariacast_receiver",
-            "sonos",
-            "chromecast",
-        ],
-    ),
-}
-
-
-def data_uri(path: Path) -> str | None:
-    if not path.exists():
-        return None
-    mime = "image/svg+xml" if path.suffix == ".svg" else "image/png"
-    return f"data:{mime};base64,{base64.b64encode(path.read_bytes()).decode()}"
-
-
-def icon(path: Path) -> str | None:
-    """Prefer svg, fall back to png, like detect_provider_icons."""
-    return data_uri(path.with_suffix(".svg")) or data_uri(path.with_suffix(".png"))
 
 
 CSS: list[str] = []  # one background-image rule per icon, so each data URI appears once
 
 
-def changed_files() -> dict[str, str]:
-    """Provider icon files this branch adds (A) or modifies (M), relative to where it forked from dev."""
-    base = subprocess.check_output(
-        ["git", "merge-base", "dev", "HEAD"], cwd=ROOT, text=True
-    ).strip()
-    out = subprocess.check_output(
-        ["git", "diff", "--name-status", base, "--", "music_assistant/providers"],
-        cwd=ROOT,
-        text=True,
-    )
-    status = {}
-    for line in out.splitlines():
-        code, path = line.split("\t", 1)
-        status[path] = code[0]
-    # uncommitted work counts too
-    for line in subprocess.check_output(
-        ["git", "status", "--porcelain", "--", "music_assistant/providers"], cwd=ROOT, text=True
-    ).splitlines():
-        code, path = line[:2].strip() or "M", line[3:]
-        status.setdefault(path, "A" if code == "?" else code[0])
-    return status
-
-
-CHANGED = changed_files()
 BADGE = {"A": '<div class="tag new">NEW</div>', "M": '<div class="tag chg">CHANGED</div>'}
 
 
 def badge(path: Path) -> str:
     return BADGE.get(CHANGED.get(str(path.relative_to(ROOT)), ""), "")
+
+
+def icon(path: Path) -> str | None:
+    f = icon_file(path)
+    return data_uri(f) if f else None
 
 
 def cell(uri: str | None, surface: str, path: Path | None = None, invert: bool = False) -> str:
