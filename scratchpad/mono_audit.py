@@ -52,7 +52,7 @@ def _colours(text: str) -> set[str]:
     body = re.sub(r"<style[^>]*>.*?</style>", "", text, flags=re.DOTALL)
     found = set(re.findall(r"(?:fill|stroke|stop-color)\s*[:=]\s*\"?\s*([#\w(),%]+)", body))
     for sheet in styles:
-        for classes, rule in re.findall(r"([.\w\s,]+)\{([^}]*)\}", sheet):
+        for classes, rule in re.findall(r"([.\w\s,-]+)\{([^}]*)\}", sheet):
             cols = re.findall(r"(?:fill|stroke|stop-color)\s*:\s*([#\w(),%]+)", rule)
             if not cols:
                 continue

@@ -39,10 +39,9 @@
   "status": "bw"
  },
  "ard_audiothek": {
-  "action": "derived",
-  "detail": "no fill set (defaults to black), 2744 B",
-  "how": "icon_monochrome.svg: no fill -> #fff on <svg>",
-  "status": "black"
+  "action": "debt",
+  "detail": "#000, #fff, 2744 B",
+  "status": "bw"
  },
  "ariacast_receiver": {
   "action": "design",
