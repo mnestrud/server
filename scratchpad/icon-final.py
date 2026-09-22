@@ -11,7 +11,15 @@ Run from server/: python scratchpad/icon-final.py
 import html
 from pathlib import Path
 
-from iconlib import PROVIDERS, all_providers, change_of, data_uri, icon_file, pending_design
+from iconlib import (
+    PROVIDERS,
+    all_providers,
+    change_of,
+    data_uri,
+    icon_file,
+    original_data_uri,
+    pending_design,
+)
 
 OUT = Path(__file__).with_suffix(".html")
 CSS: list[str] = []
@@ -41,10 +49,21 @@ def cell(
     name = f"i{len(CSS)}"
     CSS.append(f".{name}{{background-image:url({uri})}}")
     inv = " inv" if invert else ""
-    return (
-        f'<td class="{surface}"><span class="ic {name}{inv}"></span><span class="ic s {name}{inv}"></span>'
-        f"<small>{caption or label(path)}</small></td>"
-    )
+    icons = f'<span class="ic {name}{inv}"></span><span class="ic s {name}{inv}"></span>'
+    text = caption or label(path)
+    # a replaced file: also embed the original and let the caption toggle between the two
+    if change_of(path) == "M" and (orig := original_data_uri(path)):
+        oname = f"i{len(CSS)}"
+        CSS.append(f".{oname}{{background-image:url({orig})}}")
+        icons = (
+            f'<span class="cur">{icons}</span>'
+            f'<span class="old"><span class="ic {oname}{inv}"></span><span class="ic s {oname}{inv}"></span></span>'
+        )
+        text = text.replace(
+            "replaced",
+            '<a href="#" class="tog" data-alt="showing original — click for replaced">replaced</a>',
+        )
+    return f'<td class="{surface}">{icons}<small>{text}</small></td>'
 
 
 rows = []
@@ -94,14 +113,32 @@ td small{{display:block;font-size:11px;margin-top:4px}}
 .ph{{display:inline-block;width:48px;height:48px;line-height:48px;border:2px dashed #888;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.5px}}
 td.pending .ph{{border-color:#d98200;color:#d98200}}
 td.missing .ph{{border-color:#e33;color:#e33}}
+.old{{display:none}}
+td.show-old .old{{display:inline}}
+td.show-old .cur{{display:none}}
+a.tog{{color:#d98200;font-weight:700;text-decoration:underline dotted;cursor:pointer}}
+td.show-old a.tog{{color:#2a7bd9}}
 {"".join(CSS)}
-</style></head><body>
+</style>
+<script>
+document.addEventListener("click", function (e) {{
+  const a = e.target.closest("a.tog");
+  if (!a) return;
+  e.preventDefault();
+  const td = a.closest("td");
+  td.classList.toggle("show-old");
+  const alt = a.dataset.alt;
+  a.dataset.alt = a.textContent;
+  a.textContent = alt;
+}});
+</script>
+</head><body>
 <h1>Provider icons &mdash; proposed final state (backlog#158)</h1>
 <p>One row per provider ({len(rows)}). Each column is what the UI renders after this branch:
 light theme shows <code>icon.svg</code>; dark theme shows <code>icon_dark.svg</code> when it exists, else <code>icon.svg</code>;
 <code>icon_monochrome.svg</code> is shown as-is on dark and CSS-inverted on light.
 Each cell names the file it comes from and whether that file is <b>orig</b> (shipping today, untouched),
-<b>replaced</b> (existed, discarded and replaced on this branch) or <b>new</b> (there was no such file before).
+<b style="color:#d98200">replaced</b> (existed, discarded and replaced on this branch — click the word to see the original on the same background) or <b>new</b> (there was no such file before).
 <b style="color:#d98200">DESIGN</b> = still to be produced in Claude Design; <b style="color:#e33">none</b> = no file and none planned.</p>
 <table><thead>
 <tr><th>provider</th><th>light theme</th><th>dark theme</th><th>monochrome on dark</th><th>monochrome on light<br>(inverted by UI)</th></tr>

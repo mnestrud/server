@@ -122,6 +122,18 @@ def changed_files() -> dict[str, str]:
 
 
 CHANGED = changed_files()
+BASE = subprocess.check_output(["git", "merge-base", "dev", "HEAD"], cwd=ROOT, text=True).strip()
+
+
+def original_data_uri(path: Path) -> str | None:
+    """The file as it was before this branch (from the branch base), as a data URI."""
+    rel = str(path.relative_to(ROOT))
+    try:
+        raw = subprocess.check_output(["git", "show", f"{BASE}:{rel}"], cwd=ROOT)
+    except subprocess.CalledProcessError:
+        return None
+    mime = "image/svg+xml" if path.suffix == ".svg" else "image/png"
+    return f"data:{mime};base64,{base64.b64encode(raw).decode()}"
 
 
 def change_of(path: Path) -> str:
