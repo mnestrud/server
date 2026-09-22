@@ -42,7 +42,6 @@ GROUPS = {
             "musiccast",
             "musicme",
             "amplipi",
-            "mpd",
             "radioparadise",
             "heos",
             "ibroadcast",
@@ -53,6 +52,7 @@ GROUPS = {
         "no icon_dark planned: readable on dark as-is, or the user chose to keep icon.svg",
         [
             "airplay",
+            "mpd",
             "nugs",
             "filesystem_onedrive",
             "deezer",

@@ -513,7 +513,7 @@ write(
     "icon.svg, everything white",
 )
 
-# 27. ai_radio: monochrome = tile white, glyph black; itunes_artwork: icon.svg in lifted greyscale
+# 27. ai_radio: monochrome = tile white, radio strokes and stars black; itunes_artwork: greyscale
 write(
     "ai_radio",
     "icon_monochrome.svg",
@@ -521,11 +521,12 @@ write(
         (PROVIDERS / "ai_radio" / "icon.svg").read_text(),
         [
             ('fill="#18bcf2"', 'fill="#fff"'),
+            ('stroke="#ffffff"', 'stroke="#000"'),
             ('fill="#f7d562"', 'fill="#000"'),
             ('fill="#efb04d"', 'fill="#000"'),
         ],
     ),
-    "icon.svg with the tile white and the glyph black",
+    "icon.svg with the tile white, the radio strokes and stars black",
 )
 write(
     "itunes_artwork",
@@ -555,25 +556,27 @@ write("nugs", "icon.svg", nugs, "nugs.net logo SVG, sphere only")
 write("nugs", "icon_monochrome.svg", greyscale(nugs), "the sphere in lifted greyscale")
 (PROVIDERS / "nugs" / "icon_dark.svg").unlink(missing_ok=True)
 
-# 30. mpd: dark variant = icon.svg as-is (editor metadata dropped to fit the budget); the traced
-#     vector read as a grey box, and the user chose the original raster
-write(
-    "mpd",
-    "icon_dark.svg",
-    minify_svg((PROVIDERS / "mpd" / "icon.svg").read_text(), decimals=2),
-    "copy of icon.svg, editor metadata dropped",
-)
+# 30. mpd: no dark file — icon.svg serves the dark theme as-is (user's call)
+(PROVIDERS / "mpd" / "icon_dark.svg").unlink(missing_ok=True)
 
-# 31. gpodder: dark variant = the art with a thick white outline (a stroked copy behind it);
-#     monochrome = that file with every fill black
+# 31. gpodder: dark variant = the whole art with a thick white outline around its silhouette
+#     (a dilate filter on the flattened group, drawn behind the art); monochrome = same, fills black
 gp = minify_svg((PROVIDERS / "gpodder" / "icon.svg").read_text(), decimals=1)
 gp_paths = re.search(r"<svg[^>]*>(.*)</svg>", gp, re.DOTALL).group(1)
 gp_dark = (
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
-    f'<defs><g id="a">{gp_paths}</g></defs>'
-    '<use href="#a" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><use href="#a"/></svg>'
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 72 72">'
+    '<defs><filter id="o" x="-15%" y="-15%" width="130%" height="130%">'
+    '<feMorphology in="SourceAlpha" operator="dilate" radius="3" result="d"/>'
+    '<feFlood flood-color="#fff"/><feComposite in2="d" operator="in"/></filter>'
+    f'<g id="a">{gp_paths}</g></defs>'
+    '<use href="#a" filter="url(#o)"/><use href="#a"/></svg>'
 )
-write("gpodder", "icon_dark.svg", gp_dark, "icon.svg with a 6-unit white outline behind the art")
+write(
+    "gpodder",
+    "icon_dark.svg",
+    gp_dark,
+    "icon.svg with a 3-unit white outline around the whole silhouette",
+)
 write(
     "gpodder",
     "icon_monochrome.svg",
