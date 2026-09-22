@@ -9,6 +9,7 @@ self-contained and ids inside the SVGs cannot clash.
 
 import base64
 import html
+import json
 import re
 from pathlib import Path
 
@@ -21,13 +22,10 @@ GROUPS = {
     "A": (
         "text edit: icon.svg with the dark colour swapped to white",
         [
-            "airplay",
             "airplay_receiver",
             "fastmcp_server",
-            "fully_kiosk",
             "nicovideo",
             "orf_radiothek",
-            "siriusxm",
             "wikipedia",
             "_demo_music_provider",
             "_demo_player_provider",
@@ -38,6 +36,9 @@ GROUPS = {
     "B": (
         "Claude Design: multi-colour brand mark, brand colour too dark, or embedded PNG",
         [
+            "airplay",
+            "fully_kiosk",
+            "siriusxm",
             "lastfm_recommendations",
             "lastfm_scrobble",
             "heos",
@@ -90,21 +91,25 @@ def icon(path: Path) -> str | None:
     return data_uri(path.with_suffix(".svg")) or data_uri(path.with_suffix(".png"))
 
 
-def cell(uri: str | None, surface: str) -> str:
+def cell(uri: str | None, surface: str, invert: bool = False) -> str:
     if uri is None:
         return f'<td class="{surface} missing">MISSING</td>'
+    inv = ' class="inv"' if invert else ""
     return (
-        f'<td class="{surface}"><img src="{uri}" width="48" height="48">'
-        f'<img src="{uri}" width="24" height="24"></td>'
+        f'<td class="{surface}"><img{inv} src="{uri}" width="48" height="48">'
+        f'<img{inv} src="{uri}" width="24" height="24"></td>'
     )
 
 
-def size_cell(path: Path) -> str:
-    if not path.exists():
-        return "<td>&mdash;</td>"
-    n = path.stat().st_size
-    cls = ' class="over"' if n > LIMIT else ""
-    return f"<td{cls}>{n} B</td>"
+def size_cell(*paths: Path) -> str:
+    parts = []
+    for path in paths:
+        if not path.exists():
+            parts.append("&mdash;")
+            continue
+        n = path.stat().st_size
+        parts.append(f'<span class="over">{n} B</span>' if n > LIMIT else f"{n} B")
+    return "<td>" + "<br>".join(parts) + "</td>"
 
 
 def colours(path: Path) -> str:
@@ -119,6 +124,29 @@ def colours(path: Path) -> str:
     return ", ".join(sorted(found))
 
 
+# monochrome work across ALL providers, from make-mono.py
+plan_path = Path(__file__).parent / "mono-plan.json"
+if plan_path.exists():
+    plan = json.loads(plan_path.read_text())
+    dark_scope = set(GROUPS["A"][1]) | set(GROUPS["B"][1])
+    by_action: dict[str, list[str]] = {"derived": [], "design": [], "debt": []}
+    for domain, item in sorted(plan.items()):
+        if domain in dark_scope and item["action"] != "debt":
+            continue  # already listed above; its monochrome is part of that row
+        by_action[item["action"]].append(domain)
+    GROUPS["M1"] = (
+        "monochrome derived by text edit (single-colour source recoloured to white)",
+        by_action["derived"],
+    )
+    GROUPS["M2"] = (
+        "monochrome for Claude Design (multi-colour or raster source)",
+        by_action["design"],
+    )
+    GROUPS["M3"] = (
+        "monochrome debt: renders correctly but is an oversized white raster or a black+white two-tone; optional",
+        by_action["debt"],
+    )
+
 rows = []
 for group, (desc, domains) in GROUPS.items():
     rows.append(
@@ -129,15 +157,18 @@ for group, (desc, domains) in GROUPS.items():
         default = icon(d / "icon")
         dark = icon(d / "icon_dark")
         mono = icon(d / "icon_monochrome")
+        note = colours(d / "icon.svg")
+        if plan_path.exists() and domain in plan:
+            note += f"<br>mono: {html.escape(plan[domain].get('how') or plan[domain]['status'])}"
         rows.append(
             "<tr>"
-            f"<th>{domain}<br><small>{html.escape(colours(d / 'icon.svg'))}</small></th>"
+            f"<th>{domain}<br><small>{note}</small></th>"
             + cell(default, "light")
             + cell(default, "dark")
             + cell(dark, "dark")
-            + cell(dark, "light")
-            + (cell(mono, "dark") if mono else '<td class="dark none">none</td>')
-            + size_cell(d / "icon_dark.svg")
+            + cell(mono, "dark")
+            + cell(mono, "light", invert=True)
+            + size_cell(d / "icon_dark.svg", d / "icon_monochrome.svg")
             + f"<td>{group}</td></tr>"
         )
 
@@ -154,15 +185,19 @@ td.light{{background:#fff}}
 td.dark{{background:#121212;color:#888}}
 td img{{vertical-align:middle;margin:0 6px}}
 td.missing{{color:#e33;font-weight:600}}
-td.over{{color:#e33;font-weight:600}}
+.over{{color:#e33;font-weight:600}}
+img.inv{{filter:invert(1)}}
 </style></head><body>
-<h1>backlog#158 &mdash; provider icon dark variants</h1>
+<h1>backlog#158 &mdash; provider icon dark and monochrome variants</h1>
 <p>Each cell shows the icon at 48px and 24px (the setup wizard badge uses 16px).
-Column 2 is today's dark-theme rendering; column 3 is the new file. Sizes over 5&nbsp;KB fail the repo lint.</p>
+Column 2 is today's dark-theme rendering; column 3 is the new dark file.
+The monochrome file must be white on transparent: the UI shows it as-is on dark (column 4)
+and CSS-inverts it on light (column 5), exactly as rendered here. Sizes over 5&nbsp;KB fail the repo lint.</p>
 <table>
 <tr><th>provider</th><th>icon.svg on light</th><th>icon.svg on dark<br>(today)</th>
-<th>icon_dark.svg on dark<br>(new)</th><th>icon_dark.svg on light<br>(sanity)</th>
-<th>icon_monochrome on dark</th><th>icon_dark size</th><th>group</th></tr>
+<th>icon_dark.svg on dark</th>
+<th>icon_monochrome on dark</th><th>icon_monochrome on light<br>(inverted by the UI)</th>
+<th>size<br>dark / mono</th><th>group</th></tr>
 {"".join(rows)}
 </table></body></html>
 """

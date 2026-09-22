@@ -8,11 +8,8 @@ PROVIDERS = Path("/home/ataraxia/code/music-assistant/server/music_assistant/pro
 # domain -> list of (old, new) replacements applied to icon.svg
 SWAPS = {
     "wikipedia": [("<path d=", '<path fill="#fff" d=')],
-    "airplay": [("fill:#0000ff", "fill:#fff")],
     "airplay_receiver": [('fill="currentColor"', 'fill="#fff"')],
     "orf_radiothek": [('fill="currentColor"', 'fill="#fff"')],
-    "siriusxm": [("fill: #0000eb", "fill: #fff")],
-    "fully_kiosk": [("fill:#00f;", "fill:#fff;")],
     "nicovideo": [('fill="#000"', 'fill="#fff"')],
     "fastmcp_server": [('stroke="black"', 'stroke="white"')],
 }
@@ -24,13 +21,39 @@ for demo in ("_demo_music_provider", "_demo_player_provider", "_demo_plugin_prov
         ("fill:__DARK__", "fill:rgb(100%,100%,100%)"),
     ]
 
-for domain, swaps in SWAPS.items():
+# monochrome must be white on transparent: the frontend shows it as-is on the dark theme
+# and CSS-inverts it on the light theme. For a single-colour glyph it equals the dark file.
+# The demo tile + bars boilerplate keeps just the bars in white.
+MONO = {
+    "wikipedia": SWAPS["wikipedia"],
+    "airplay_receiver": SWAPS["airplay_receiver"],
+    "orf_radiothek": SWAPS["orf_radiothek"],
+    "nicovideo": SWAPS["nicovideo"],
+    "fastmcp_server": SWAPS["fastmcp_server"],
+}
+DEMO_TILE = (
+    '<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" '
+    'd="M 1.5 0 L 23.5 0 C 24.328125 0 25 0.671875 25 1.5 L 25 23.5 C 25 24.328125 '
+    "24.328125 25 23.5 25 L 1.5 25 C 0.671875 25 0 24.328125 0 23.5 L 0 1.5 C 0 0.671875 "
+    '0.671875 0 1.5 0 Z M 1.5 0 "/>\n'
+)
+for demo in ("_demo_music_provider", "_demo_player_provider", "_demo_plugin_provider", "test"):
+    MONO[demo] = [(DEMO_TILE, "")]
+
+
+def write_variant(domain: str, name: str, swaps: list[tuple[str, str]]) -> None:
     src = PROVIDERS / domain / "icon.svg"
-    dst = PROVIDERS / domain / "icon_dark.svg"
+    dst = PROVIDERS / domain / name
     text = src.read_text()
     for old, new in swaps:
         assert old in text, f"{domain}: {old!r} not found"
         text = text.replace(old, new)
     assert text != src.read_text(), f"{domain}: unchanged"
     dst.write_text(text)
-    print(f"{domain:24s} {dst.stat().st_size:5d} B")
+    print(f"{domain:24s} {name:20s} {dst.stat().st_size:5d} B")
+
+
+for domain, swaps in SWAPS.items():
+    write_variant(domain, "icon_dark.svg", swaps)
+for domain, swaps in MONO.items():
+    write_variant(domain, "icon_monochrome.svg", swaps)
