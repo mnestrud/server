@@ -47,7 +47,19 @@ def _strip(text: str) -> str:
 
 
 def _colours(text: str) -> set[str]:
-    found = set(re.findall(r"(?:fill|stroke|stop-color)\s*[:=]\s*\"?\s*([#\w(),%]+)", text))
+    """Colours that actually paint something: attribute/inline values, plus <style> rules for a class some element uses without an inline fill of its own."""
+    styles = re.findall(r"<style[^>]*>(.*?)</style>", text, re.DOTALL)
+    body = re.sub(r"<style[^>]*>.*?</style>", "", text, flags=re.DOTALL)
+    found = set(re.findall(r"(?:fill|stroke|stop-color)\s*[:=]\s*\"?\s*([#\w(),%]+)", body))
+    for sheet in styles:
+        for classes, rule in re.findall(r"([.\w\s,]+)\{([^}]*)\}", sheet):
+            cols = re.findall(r"(?:fill|stroke|stop-color)\s*:\s*([#\w(),%]+)", rule)
+            if not cols:
+                continue
+            for cls in re.findall(r"\.([\w-]+)", classes):
+                users = re.findall(rf"<[a-z]+\b[^>]*class=\"[^\"]*\b{cls}\b[^\"]*\"[^>]*>", body)
+                if any(not re.search(r'style="[^"]*(?:fill|stroke)\s*:', e) for e in users):
+                    found.update(cols)
     return {c.lower() for c in found} - {"none", "evenodd", "nonzero"}
 
 

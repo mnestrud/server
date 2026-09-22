@@ -16,6 +16,7 @@ import re
 import sys
 from pathlib import Path
 
+from iconlib import change_of
 from mono_audit import PROVIDERS, _colours, _strip, audit, is_white
 
 DRY = "--dry-run" in sys.argv
@@ -75,10 +76,13 @@ if __name__ == "__main__":
     plan_path = Path(__file__).parent / "mono-plan.json"
     # keep what earlier runs derived: those files now audit as "ok" but are still our changes
     previous = json.loads(plan_path.read_text()) if plan_path.exists() else {}
+    # ... but only while the file is still ours (a derivation reverted to the original drops out)
     plan: dict[str, dict[str, str]] = {
         d: p
         for d, p in previous.items()
-        if p["action"] == "derived" and before.get(d, ("",))[0] == "ok"
+        if p["action"] == "derived"
+        and before.get(d, ("",))[0] == "ok"
+        and change_of(PROVIDERS / d / "icon_monochrome.svg")
     }
     for domain, (status, detail) in sorted(before.items()):
         if status == "ok":

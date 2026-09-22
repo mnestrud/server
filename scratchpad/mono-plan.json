@@ -39,9 +39,10 @@
   "status": "bw"
  },
  "ard_audiothek": {
-  "action": "debt",
-  "detail": "#000, #fff, 2744 B",
-  "status": "bw"
+  "action": "derived",
+  "detail": "no fill set (defaults to black), 2744 B",
+  "how": "icon_monochrome.svg: no fill -> #fff on <svg>",
+  "status": "black"
  },
  "ariacast_receiver": {
   "action": "design",
@@ -86,12 +87,6 @@
   "action": "design",
   "detail": "#20656c, #264346, #579ca0, #d3562c, #eb743b, #fffedb, 28026 B",
   "how": "design",
-  "status": "colour"
- },
- "deezer": {
-  "action": "derived",
-  "detail": "#a238ff, #ffffff, 3601 B",
-  "how": "icon.svg: #a238ff -> #fff",
   "status": "colour"
  },
  "digitally_incorporated": {
@@ -343,18 +338,6 @@
   "how": "icon_dark.svg: already white, copied",
   "status": "missing"
  },
- "plex": {
-  "action": "design",
-  "detail": "#282a2d, #e5a00d, #ffffff, 1649 B",
-  "how": "design",
-  "status": "colour"
- },
- "plex_connect": {
-  "action": "design",
-  "detail": "#18b6d2, #282a2d, #e5a00d, #ffffff, 3225 B",
-  "how": "design",
-  "status": "colour"
- },
  "podcast_index": {
   "action": "debt",
   "detail": "svg-wrapped PNG, luminance 1.00, 40334 B",
@@ -423,11 +406,6 @@
   "how": "icon_dark.svg: already white, copied",
   "status": "missing"
  },
- "siriusxm": {
-  "action": "debt",
-  "detail": "#0000eb, #ffffff, 2487 B",
-  "status": "bw"
- },
  "smart_fades": {
   "action": "derived",
   "detail": "",
@@ -489,9 +467,9 @@
  },
  "storytel": {
   "action": "derived",
-  "detail": "",
-  "how": "icon.svg: #ff501c -> #fff",
-  "status": "missing"
+  "detail": "no fill set (defaults to black), 474 B",
+  "how": "icon_monochrome.svg: no fill -> #fff on <svg>",
+  "status": "black"
  },
  "subsonic_scrobble": {
   "action": "derived",
@@ -514,12 +492,6 @@
   "action": "debt",
   "detail": "svg-wrapped PNG, luminance 1.00, 22168 B",
   "status": "png-white"
- },
- "tunein": {
-  "action": "design",
-  "detail": "#14d8cc, #1c203c, #ffffff, 2846 B",
-  "how": "design",
-  "status": "colour"
  },
  "universal_group": {
   "action": "debt",
