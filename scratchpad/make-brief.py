@@ -10,9 +10,7 @@ PROVIDERS = ROOT / "music_assistant" / "providers"
 OUT = Path(__file__).parent / "icon-dark-brief.md"
 RAW = "https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers"
 
-GROUP_B = {
-    "gpodder": "dark grey + purple + white",
-}
+GROUP_B = {}
 
 
 def strip_editor_noise(text: str) -> str:

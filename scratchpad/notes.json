@@ -19,7 +19,7 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "ai_radio": [
-  "icon_monochrome.svg: icon.svg in lifted greyscale"
+  "icon_monochrome.svg: icon.svg with the tile white and the glyph black"
  ],
  "airplay": [
   "icon.svg: original with #0000ff -> #0a84ff",
@@ -86,6 +86,16 @@
  "genius_lyrics": [
   "icon_monochrome.svg: from icon_monochrome.svg: #ffff64 -> #fff"
  ],
+ "gpodder": [
+  "icon_dark.svg: icon.svg with a 6-unit white outline behind the art",
+  "icon_monochrome.svg: icon_dark.svg with every fill black"
+ ],
+ "hass": [
+  "icon_monochrome.svg: kept as-is (user)"
+ ],
+ "hass_players": [
+  "icon_monochrome.svg: kept as-is (user)"
+ ],
  "heos": [
   "icon_dark.svg: icon.svg with black -> white",
   "icon_monochrome.svg: icon.svg, everything white"
@@ -94,7 +104,7 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "ibroadcast": [
-  "icon_dark.svg: icon.svg with the black background made white"
+  "icon_dark.svg: icon.svg with the square background made white"
  ],
  "internet_archive": [
   "icon_dark.svg: Commons logo+wordmark SVG, minified, white"
@@ -134,7 +144,7 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "mpd": [
-  "icon_dark.svg: icon.svg raster traced to vector, dark greys lightened",
+  "icon_dark.svg: copy of icon.svg, editor metadata dropped",
   "icon_monochrome.svg: kept as-is (user)"
  ],
  "msx_bridge": [
@@ -166,8 +176,8 @@
  ],
  "nugs": [
   "icon_dark.svg: nugs.net logo SVG, minified",
-  "icon.svg: nugs.net logo SVG with the white text made black",
-  "icon_monochrome.svg: nugs.net logo SVG in lifted greyscale"
+  "icon.svg: nugs.net logo SVG, sphere only",
+  "icon_monochrome.svg: the sphere in lifted greyscale"
  ],
  "openai_compatible": [
   "icon_monochrome.svg: icon.svg with purple -> white, white -> black"
@@ -193,6 +203,9 @@
  ],
  "radio_playlist": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "radiobrowser": [
+  "icon_monochrome.svg: kept as-is (user)"
  ],
  "radioparadise": [
   "icon_dark.svg: icon.svg raster traced to vector, black background made white"
@@ -273,5 +286,8 @@
  ],
  "yandex_ynison": [
   "icon_monochrome.svg: from icon.svg: #5b9bd5 -> #fff"
+ ],
+ "ytmusic": [
+  "icon_monochrome.svg: kept as-is (user)"
  ]
 }

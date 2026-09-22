@@ -513,46 +513,72 @@ write(
     "icon.svg, everything white",
 )
 
-# 27. ai_radio, itunes_artwork: monochrome = icon.svg in lifted greyscale
-for domain in ("ai_radio", "itunes_artwork"):
-    write(
-        domain,
-        "icon_monochrome.svg",
-        greyscale((PROVIDERS / domain / "icon.svg").read_text()),
-        "icon.svg in lifted greyscale",
-    )
+# 27. ai_radio: monochrome = tile white, glyph black; itunes_artwork: icon.svg in lifted greyscale
+write(
+    "ai_radio",
+    "icon_monochrome.svg",
+    swap(
+        (PROVIDERS / "ai_radio" / "icon.svg").read_text(),
+        [
+            ('fill="#18bcf2"', 'fill="#fff"'),
+            ('fill="#f7d562"', 'fill="#000"'),
+            ('fill="#efb04d"', 'fill="#000"'),
+        ],
+    ),
+    "icon.svg with the tile white and the glyph black",
+)
+write(
+    "itunes_artwork",
+    "icon_monochrome.svg",
+    greyscale((PROVIDERS / "itunes_artwork" / "icon.svg").read_text()),
+    "icon.svg in lifted greyscale",
+)
 
-# 28. ibroadcast: dark variant = icon.svg with the full-square near-black background made white
+# 28. ibroadcast: dark variant = icon.svg with the full-square background (path 0) made white;
+#     the B's counters keep their near-black
 ib = (PROVIDERS / "ibroadcast" / "icon.svg").read_text()
 write(
     "ibroadcast",
     "icon_dark.svg",
-    swap(ib, [("fill:rgb(13.72549%,9.411765%,7.45098%)", "fill:#fff")]),
-    "icon.svg with the black background made white",
+    swap(ib, [("fill:rgb(12.156863%,7.843137%,5.882353%)", "fill:#fff")]),
+    "icon.svg with the square background made white",
 )
 
-# 29. nugs: all three from nugs.net's own logo SVG (white wordmark + purple gradient mark):
-#     icon_dark as published, icon.svg with the white text made black, monochrome in greyscale
+# 29. nugs: nugs.net's logo SVG with the wordmark removed — just the purple sphere, which reads
+#     on light and dark alike (so no icon_dark); monochrome is the sphere in lifted greyscale
 nugs = minify_svg(
     (Path(__file__).parent / "sources" / "nugs-logo-xl.svg").read_text(), decimals=2, tight=True
 )
-write("nugs", "icon_dark.svg", nugs, "nugs.net logo SVG, minified")
-write(
-    "nugs",
-    "icon.svg",
-    nugs.replace('fill="white"', 'fill="#000"'),
-    "nugs.net logo SVG with the white text made black",
-)
-write("nugs", "icon_monochrome.svg", greyscale(nugs), "nugs.net logo SVG in lifted greyscale")
+nugs = re.sub(r'<path d="[^"]*" fill="white"/>', "", nugs)
+nugs = re.sub(r'viewBox="[^"]*"', 'viewBox="-1 -3 40 40"', nugs, count=1)
+write("nugs", "icon.svg", nugs, "nugs.net logo SVG, sphere only")
+write("nugs", "icon_monochrome.svg", greyscale(nugs), "the sphere in lifted greyscale")
+(PROVIDERS / "nugs" / "icon_dark.svg").unlink(missing_ok=True)
 
-# 30. mpd: dark variant traced from the icon.svg raster (4 colours), dark greys lightened so the
-#     mark reads on dark; the earlier copy of icon.svg was invisible there
-mpd_img = png_from_svg((PROVIDERS / "mpd" / "icon.svg").read_text())
+# 30. mpd: dark variant = icon.svg as-is (editor metadata dropped to fit the budget); the traced
+#     vector read as a grey box, and the user chose the original raster
 write(
     "mpd",
     "icon_dark.svg",
-    lighten_dark_fills(fit_budget(mpd_img, colours=4)),
-    "icon.svg raster traced to vector, dark greys lightened",
+    minify_svg((PROVIDERS / "mpd" / "icon.svg").read_text(), decimals=2),
+    "copy of icon.svg, editor metadata dropped",
+)
+
+# 31. gpodder: dark variant = the art with a thick white outline (a stroked copy behind it);
+#     monochrome = that file with every fill black
+gp = minify_svg((PROVIDERS / "gpodder" / "icon.svg").read_text(), decimals=1)
+gp_paths = re.search(r"<svg[^>]*>(.*)</svg>", gp, re.DOTALL).group(1)
+gp_dark = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
+    f'<defs><g id="a">{gp_paths}</g></defs>'
+    '<use href="#a" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><use href="#a"/></svg>'
+)
+write("gpodder", "icon_dark.svg", gp_dark, "icon.svg with a 6-unit white outline behind the art")
+write(
+    "gpodder",
+    "icon_monochrome.svg",
+    re.sub(r"fill:#[0-9a-fA-F]{3,6}", "fill:#000", gp_dark),
+    "icon_dark.svg with every fill black",
 )
 
 # monochromes the user chose to keep as they are
@@ -566,6 +592,10 @@ KEEP = {
     "soundcloud": "kept as-is (user)",
     "musicme": "kept as-is (user)",
     "mpd": "kept as-is (user)",
+    "ytmusic": "kept as-is (user)",
+    "radiobrowser": "kept as-is (user)",
+    "hass": "kept as-is (user)",
+    "hass_players": "kept as-is (user)",
 }
 
 for entry in done:
@@ -600,7 +630,8 @@ for domain, how in {
     "heos": "icon.svg, everything white",
     "ai_radio": "icon.svg in lifted greyscale",
     "itunes_artwork": "icon.svg in lifted greyscale",
-    "nugs": "nugs.net logo SVG in lifted greyscale",
+    "nugs": "nugs.net sphere in lifted greyscale",
+    "gpodder": "icon_dark.svg with every fill black",
 }.items():
     plan[domain] = {
         "status": plan.get(domain, {}).get("status", ""),

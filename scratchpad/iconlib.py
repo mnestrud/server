@@ -27,9 +27,7 @@ GROUPS = {
     ),
     "B": (
         "Claude Design: multi-colour brand mark, brand colour too dark, or embedded PNG",
-        [
-            "gpodder",
-        ],
+        [],
     ),
     "C": (
         "dark variant taken from an existing file (user-directed), no design needed",
@@ -48,13 +46,14 @@ GROUPS = {
             "radioparadise",
             "heos",
             "ibroadcast",
-            "nugs",
+            "gpodder",
         ],
     ),
     "skip": (
         "no icon_dark planned: readable on dark as-is, or the user chose to keep icon.svg",
         [
             "airplay",
+            "nugs",
             "filesystem_onedrive",
             "deezer",
             "lastfm_recommendations",

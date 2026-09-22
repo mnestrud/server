@@ -30,57 +30,7 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 
 # Part 1 — dark + monochrome
 
-## gpodder
-
-- why: dark grey + purple + white
-- viewBox: `0 0 64 64`
-- current colours: #4d4d4d, #974fa4, #fff
-- current size: 5184 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/gpodder/icon.svg
-- output 1: `music_assistant/providers/gpodder/icon_dark.svg`
-- output 2: `music_assistant/providers/gpodder/icon_monochrome.svg` — none exists: create one
 
 # Part 2 — monochrome only
 
 These providers keep their icon.svg and need only `icon_monochrome.svg`: pure white on transparent, vector, <= 5 KB, same viewBox as icon.svg. The current file (if any) is unusable for the reason given.
-
-## hass
-
-- current monochrome: colour — #18bcf2, #f2f4f9, #ffffff, 2671 B
-- viewBox: `0 0 240 240`
-- icon colours: #18BCF2, #F2F4F9
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/hass/icon.svg
-- output: `music_assistant/providers/hass/icon_monochrome.svg`
-
-## hass_players
-
-- current monochrome: colour — #18bcf2, #f2f4f9, #ffffff, 2671 B
-- viewBox: `0 0 240 240`
-- icon colours: #18BCF2, #F2F4F9
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/hass_players/icon.svg
-- output: `music_assistant/providers/hass_players/icon_monochrome.svg`
-
-## nugs
-
-- current monochrome: missing — none
-- viewBox: `0 0 135 36`
-- icon colours: #000, #57167E, #AD2CFC, url, white
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/nugs/icon.svg
-- output: `music_assistant/providers/nugs/icon_monochrome.svg`
-- official assets: site SVG logo is white + gradient: https://cdn.nugsdev.net/images/logo-xl.svg (site asset, not a published download)
-
-## radiobrowser
-
-- current monochrome: oversize — white, 10001 B
-- viewBox: `0 0 135.46666 135.46667`
-- icon colours: n/a
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/radiobrowser/icon.svg
-- output: `music_assistant/providers/radiobrowser/icon_monochrome.svg`
-
-## ytmusic
-
-- current monochrome: colour — #ff0000, #ffffff, 1954 B
-- viewBox: `0 0 24 24`
-- icon colours: #FF0000, white
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/ytmusic/icon.svg
-- output: `music_assistant/providers/ytmusic/icon_monochrome.svg`

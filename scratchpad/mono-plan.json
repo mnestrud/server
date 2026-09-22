@@ -27,7 +27,7 @@
   "action": "manual",
   "detail": "",
   "how": "icon.svg in lifted greyscale",
-  "status": "missing"
+  "status": "colour"
  },
  "airplay": {
   "action": "manual",
@@ -172,21 +172,21 @@
   "status": "black"
  },
  "gpodder": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon_dark.svg with every fill black",
   "status": "missing"
  },
  "hass": {
-  "action": "design",
-  "detail": "#18bcf2, #f2f4f9, #ffffff, 2671 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "hass_players": {
-  "action": "design",
-  "detail": "#18bcf2, #f2f4f9, #ffffff, 2671 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "heos": {
@@ -210,7 +210,7 @@
   "action": "manual",
   "detail": "",
   "how": "icon.svg in lifted greyscale",
-  "status": "missing"
+  "status": "colour"
  },
  "itunes_podcasts": {
   "action": "manual",
@@ -263,7 +263,7 @@
   "action": "manual",
   "detail": "",
   "how": "icon.svg PNG inverted, 160 px",
-  "status": "png-mixed"
+  "status": "colour"
  },
  "mammamiradio": {
   "action": "derived",
@@ -326,8 +326,8 @@
  "nugs": {
   "action": "manual",
   "detail": "",
-  "how": "nugs.net logo SVG in lifted greyscale",
-  "status": "missing"
+  "how": "nugs.net sphere in lifted greyscale",
+  "status": "colour"
  },
  "openai_compatible": {
   "action": "manual",
@@ -397,9 +397,9 @@
   "status": "missing"
  },
  "radiobrowser": {
-  "action": "design",
-  "detail": "white, 10001 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "oversize"
  },
  "radioparadise": {
@@ -550,7 +550,7 @@
   "action": "manual",
   "detail": "",
   "how": "icon.svg PNG in lifted greyscale",
-  "status": "png-mixed"
+  "status": "colour"
  },
  "yandex_station": {
   "action": "manual",
@@ -575,9 +575,9 @@
   "status": "bw"
  },
  "ytmusic": {
-  "action": "design",
-  "detail": "#ff0000, #ffffff, 1954 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  }
 }
