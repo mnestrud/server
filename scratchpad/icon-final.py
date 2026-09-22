@@ -104,7 +104,12 @@ for domain in all_providers():
         )
 
     mono_pending = "icon_monochrome.svg" if domain in PENDING_MONO else None
-    notes = notes_for(domain)
+    # changes column: one line per file that differs from upstream (added or replaced); nothing else
+    notes = [
+        n
+        for n in notes_for(domain)
+        if change_of(PROVIDERS / domain / n.split(":", 1)[0]) in ("A", "M")
+    ]
     if domain in PENDING_DARK:
         notes.append("icon_dark.svg: to be designed")
     if mono_pending:

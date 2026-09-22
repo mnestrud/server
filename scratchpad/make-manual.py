@@ -354,7 +354,7 @@ od = minify_svg(
     (
         Path(__file__).parent / "sources" / "Microsoft_OneDrive_Icon_(2025_-_present).svg"
     ).read_text(),
-    decimals=0,
+    decimals=1,
     tight=True,
 )
 write("filesystem_onedrive", "icon.svg", od, "Commons 2025 OneDrive icon, minified")
@@ -470,8 +470,8 @@ ys_img = png_from_svg((PROVIDERS / "yandex_smarthome" / "icon.svg").read_text())
 write(
     "yandex_smarthome",
     "icon_monochrome.svg",
-    greyscale(fit_budget(ys_img, colours=3)),
-    "icon.svg raster traced to vector, lifted greyscale",
+    greyscale(fit_budget(ys_img, colours=2)),
+    "icon.svg raster traced to vector, lifted greyscale (2 colours)",
 )
 
 # 23. (mpd's dark variant is step 30)
@@ -590,6 +590,21 @@ write(
     "icon_dark.svg with every fill black",
 )
 
+# monochromes my audit flagged for their colour values but which render pure white already:
+# restore the originals (the user's review + a render check)
+REVERT_MONO = (
+    "dlna",
+    "opensubsonic",
+    "spotify",
+    "spotify_connect",
+    "squeezelite",
+    "subsonic_scrobble",
+)
+for domain in REVERT_MONO:
+    (PROVIDERS / domain / "icon_monochrome.svg").write_bytes(
+        original(domain, "icon_monochrome.svg")
+    )
+
 # monochromes the user chose to keep as they are
 KEEP = {
     "builtin": "kept as-is (user)",
@@ -605,6 +620,7 @@ KEEP = {
     "radiobrowser": "kept as-is (user)",
     "hass": "kept as-is (user)",
     "hass_players": "kept as-is (user)",
+    **{d: "kept as-is (original already renders white; audit false positive)" for d in REVERT_MONO},
 }
 
 for entry in done:

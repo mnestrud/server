@@ -57,7 +57,7 @@
   "icon_monochrome.svg: kept as-is (user)"
  ],
  "dlna": [
-  "icon_monochrome.svg: from icon.svg: #4aaa42 -> #fff"
+  "icon_monochrome.svg: kept as-is (original already renders white; audit false positive)"
  ],
  "emby": [
   "icon_monochrome.svg: from icon_monochrome.svg: no fill -> #fff on <svg>"
@@ -183,7 +183,7 @@
   "icon_monochrome.svg: icon.svg with purple -> white, white -> black"
  ],
  "opensubsonic": [
-  "icon_monochrome.svg: from icon.svg: #fc0 -> #fff"
+  "icon_monochrome.svg: kept as-is (original already renders white; audit false positive)"
  ],
  "orf_radiothek": [
   "icon_dark.svg: icon.svg with the colour set to white",
@@ -241,19 +241,19 @@
   "icon_monochrome.svg: kept as-is (user)"
  ],
  "spotify": [
-  "icon_monochrome.svg: from icon.svg: #1ed760 -> #fff"
+  "icon_monochrome.svg: kept as-is (original already renders white; audit false positive)"
  ],
  "spotify_connect": [
-  "icon_monochrome.svg: from icon.svg: #1ed760 -> #fff"
+  "icon_monochrome.svg: kept as-is (original already renders white; audit false positive)"
  ],
  "squeezelite": [
-  "icon_monochrome.svg: from icon.svg: #2baaa6 -> #fff"
+  "icon_monochrome.svg: kept as-is (original already renders white; audit false positive)"
  ],
  "storytel": [
   "icon_monochrome.svg: from icon_monochrome.svg: no fill -> #fff on <svg>"
  ],
  "subsonic_scrobble": [
-  "icon_monochrome.svg: from icon.svg: #fc0 -> #fff"
+  "icon_monochrome.svg: kept as-is (original already renders white; audit false positive)"
  ],
  "teddycloud": [
   "icon_monochrome.svg: from icon_monochrome.svg: currentcolor -> #fff"
@@ -279,7 +279,7 @@
   "icon_monochrome.svg: icon.svg with the colour set to white"
  ],
  "yandex_smarthome": [
-  "icon_monochrome.svg: icon.svg raster traced to vector, lifted greyscale"
+  "icon_monochrome.svg: icon.svg raster traced to vector, lifted greyscale (2 colours)"
  ],
  "yandex_station": [
   "icon_monochrome.svg: icon.svg in lifted greyscale"

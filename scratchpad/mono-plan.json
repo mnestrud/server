@@ -114,9 +114,9 @@
   "status": "png-white"
  },
  "dlna": {
-  "action": "derived",
-  "detail": "#4aaa42, #ffffff, 4025 B",
-  "how": "icon.svg: #4aaa42 -> #fff",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
   "status": "colour"
  },
  "emby": {
@@ -336,9 +336,9 @@
   "status": "bw"
  },
  "opensubsonic": {
-  "action": "derived",
-  "detail": "white, 7347 B",
-  "how": "icon.svg: #fc0 -> #fff",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
   "status": "oversize"
  },
  "pandora": {
@@ -473,21 +473,21 @@
   "status": "colour"
  },
  "spotify": {
-  "action": "derived",
-  "detail": "#1ed760, #ffffff, 2698 B",
-  "how": "icon.svg: #1ed760 -> #fff",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
   "status": "colour"
  },
  "spotify_connect": {
-  "action": "derived",
-  "detail": "#1ed760, #ffffff, 2698 B",
-  "how": "icon.svg: #1ed760 -> #fff",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
   "status": "colour"
  },
  "squeezelite": {
-  "action": "derived",
-  "detail": "#2baaa6, #ffffff, 2967 B",
-  "how": "icon.svg: #2baaa6 -> #fff",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
   "status": "colour"
  },
  "storytel": {
@@ -497,9 +497,9 @@
   "status": "black"
  },
  "subsonic_scrobble": {
-  "action": "derived",
-  "detail": "white, 7347 B",
-  "how": "icon.svg: #fc0 -> #fff",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
   "status": "oversize"
  },
  "sync_group": {
