@@ -20,6 +20,7 @@ music_assistant/providers/lrclib/icon.svg	1
 music_assistant/providers/mpd/icon.svg	1
 music_assistant/providers/mpd/icon_monochrome.svg	1
 music_assistant/providers/musiccast/icon_monochrome.svg	1
+music_assistant/providers/opensubsonic/icon_monochrome.svg	1
 music_assistant/providers/pandora/icon_monochrome.svg	1
 music_assistant/providers/phishin/icon_monochrome.svg	1
 music_assistant/providers/podcast_index/icon_monochrome.svg	1
@@ -29,6 +30,7 @@ music_assistant/providers/radiobrowser/icon_monochrome.svg	1
 music_assistant/providers/radioparadise/icon.svg	1
 music_assistant/providers/radioparadise/icon_monochrome.svg	1
 music_assistant/providers/roku_media_assistant/icon_monochrome.svg	1
+music_assistant/providers/subsonic_scrobble/icon_monochrome.svg	1
 music_assistant/providers/sync_group/icon.svg	1
 music_assistant/providers/sync_group/icon_monochrome.svg	1
 music_assistant/providers/theaudiodb/icon_monochrome.svg	1
