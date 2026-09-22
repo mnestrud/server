@@ -74,6 +74,8 @@ if plan_path.exists():
     for domain, item in sorted(plan.items()):
         if domain in dark_scope and item["action"] != "debt":
             continue  # already listed above; its monochrome is part of that row
+        if item["action"] == "keep":
+            continue  # the user chose to keep the existing file; nothing to review
         by_action["derived" if item["action"] == "manual" else item["action"]].append(domain)
     GROUPS["M1"] = (
         "monochrome derived by text edit (single-colour source recoloured to white)",

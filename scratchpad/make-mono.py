@@ -81,9 +81,12 @@ if __name__ == "__main__":
     plan: dict[str, dict[str, str]] = {
         d: p
         for d, p in previous.items()
-        if p["action"] in ("derived", "manual")
-        and before.get(d, ("",))[0] in ("ok", "bw")
-        and change_of(PROVIDERS / d / "icon_monochrome.svg")
+        if (
+            p["action"] in ("derived", "manual")
+            and before.get(d, ("",))[0] in ("ok", "bw")
+            and change_of(PROVIDERS / d / "icon_monochrome.svg")
+        )
+        or p["action"] == "keep"
     }
     for domain, item in plan.items():
         if item["action"] == "derived":

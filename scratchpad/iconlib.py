@@ -31,8 +31,6 @@ GROUPS = {
             "heos",
             "ibroadcast",
             "gpodder",
-            "radioparadise",
-            "mpd",
         ],
     ),
     "C": (
@@ -47,6 +45,9 @@ GROUPS = {
             "lrclib",
             "musiccast",
             "musicme",
+            "amplipi",
+            "mpd",
+            "radioparadise",
         ],
     ),
     "skip": (
@@ -64,7 +65,6 @@ GROUPS = {
             "somafm",
             "storytel",
             "yandex_station",
-            "amplipi",
             "apple_music",
             "bluesound",
             "nts",

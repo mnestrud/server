@@ -19,7 +19,8 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "airplay": [
-  "icon.svg: original with #0000ff -> #0a84ff"
+  "icon.svg: original with #0000ff -> #0a84ff",
+  "icon_monochrome.svg: original icon.svg in white"
  ],
  "airplay_receiver": [
   "icon_dark.svg: icon.svg with the colour set to white",
@@ -31,6 +32,11 @@
  "ambient_sounds": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "amplipi": [
+  "icon_dark.svg: AmpliPi forum PNG, embedded at 160 px",
+  "icon.svg: same PNG with the white text made black",
+  "icon_monochrome.svg: same PNG, everything white"
+ ],
  "ariacast_receiver": [
   "icon_monochrome.svg: icon.svg with the blues set to black"
  ],
@@ -40,6 +46,12 @@
  ],
  "bose_soundtouch": [
   "icon_monochrome.svg: from icon.svg: already white, copied"
+ ],
+ "builtin": [
+  "icon_monochrome.svg: kept as-is (user)"
+ ],
+ "coverartarchive": [
+  "icon_monochrome.svg: kept as-is (user)"
  ],
  "dlna": [
   "icon_monochrome.svg: from icon.svg: #4aaa42 -> #fff"
@@ -54,9 +66,15 @@
  "filesystem_cloud": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "filesystem_nfs": [
+  "icon_monochrome.svg: kept as-is (user)"
+ ],
  "filesystem_onedrive": [
   "icon.svg: Commons 2025 OneDrive icon, minified",
   "icon_monochrome.svg: the new icon.svg in lifted greyscale"
+ ],
+ "filesystem_smb": [
+  "icon_monochrome.svg: kept as-is (user)"
  ],
  "fully_kiosk": [
   "icon_monochrome.svg: from icon.svg: #00f -> #fff",
@@ -71,11 +89,20 @@
  "internet_archive": [
   "icon_dark.svg: Commons logo+wordmark SVG, minified, white"
  ],
+ "itunes_podcasts": [
+  "icon_monochrome.svg: icon.svg in lifted greyscale"
+ ],
+ "jellyfin": [
+  "icon_monochrome.svg: icon.svg in lifted greyscale"
+ ],
  "lastfm_recommendations": [
   "icon_monochrome.svg: copy of lastfm_scrobble/icon_monochrome.svg"
  ],
  "lastfm_scrobble": [
   "icon_monochrome.svg: from icon_monochrome.svg: black -> #fff"
+ ],
+ "listenbrainz_scrobble": [
+  "icon_monochrome.svg: icon.svg with the shapes white and the detail lines black, minified"
  ],
  "local_audio": [
   "icon_monochrome.svg: from icon.svg: #4a90d9 -> #fff"
@@ -93,6 +120,10 @@
  "milkdrop_visualizer": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "mpd": [
+  "icon_dark.svg: copy of icon.svg, editor metadata dropped",
+  "icon_monochrome.svg: kept as-is (user)"
+ ],
  "msx_bridge": [
   "icon_dark.svg: the original white icon.svg",
   "icon.svg: original with the embedded PNG pixel-inverted"
@@ -100,11 +131,15 @@
  "music_quiz": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "musicbrainz": [
+  "icon_monochrome.svg: icon.svg in lifted greyscale"
+ ],
  "musiccast": [
   "icon_dark.svg: icon_monochrome.svg re-encoded at 128 px"
  ],
  "musicme": [
-  "icon_dark.svg: copy of icon_monochrome.svg"
+  "icon_dark.svg: copy of icon_monochrome.svg",
+  "icon_monochrome.svg: kept as-is (user)"
  ],
  "neteasecloudmusic": [
   "icon_monochrome.svg: from icon_monochrome.svg: #000000 -> #fff"
@@ -141,11 +176,17 @@
  "radio_playlist": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "radioparadise": [
+  "icon_dark.svg: icon.svg PNG with the black background made white, re-encoded at 128 px"
+ ],
  "rain_mood": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "recommendations": [
   "icon_monochrome.svg: from icon_monochrome.svg: currentcolor -> #fff"
+ ],
+ "roku_media_assistant": [
+  "icon_monochrome.svg: kept as-is (user)"
  ],
  "sendspin_source": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
@@ -164,6 +205,9 @@
  ],
  "sonic_similarity": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "soundcloud": [
+  "icon_monochrome.svg: kept as-is (user)"
  ],
  "spotify": [
   "icon_monochrome.svg: from icon.svg: #1ed760 -> #fff"
@@ -193,12 +237,21 @@
  "universal_player": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "webdav": [
+  "icon_monochrome.svg: kept as-is (user)"
+ ],
  "wiim": [
   "icon_monochrome.svg: from icon.svg: already white, copied"
  ],
  "wikipedia": [
   "icon_dark.svg: icon.svg with the colour set to white",
   "icon_monochrome.svg: icon.svg with the colour set to white"
+ ],
+ "yandex_smarthome": [
+  "icon_monochrome.svg: icon.svg PNG in lifted greyscale, re-encoded at 160 px"
+ ],
+ "yandex_station": [
+  "icon_monochrome.svg: icon.svg in lifted greyscale"
  ],
  "yandex_ynison": [
   "icon_monochrome.svg: from icon.svg: #5b9bd5 -> #fff"

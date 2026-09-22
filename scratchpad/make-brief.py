@@ -14,8 +14,6 @@ GROUP_B = {
     "heos": "multi-colour brand mark (near-black + red)",
     "ibroadcast": "dark brown + greys",
     "gpodder": "dark grey + purple + white",
-    "radioparadise": "embedded PNG, dark: needs re-drawing as a vector",
-    "mpd": "embedded PNG, mid-dark: needs re-drawing as a vector",
 }
 
 

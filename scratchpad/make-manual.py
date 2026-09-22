@@ -87,14 +87,63 @@ def greyscale(svg: str, lift: float = 0.45) -> str:
     )
 
 
-def reencode_png_in_svg(svg: str, width: int, invert: bool = False) -> str:
-    """Re-encode the embedded PNG at the given width as a 64-colour palette PNG; optionally invert it first."""
+def recolour(
+    img: Image.Image,
+    light: tuple[int, int, int] | None = None,
+    dark: tuple[int, int, int] | None = None,
+    all_: bool = False,
+    threshold: int = 128,
+) -> Image.Image:
+    """Recolour opaque pixels: light ones (luminance >= threshold) to `light`, dark ones to `dark`; all_=True recolours every opaque pixel to `light`."""
+    out = img.copy()
+    px = out.load()
+    for y in range(out.size[1]):
+        for x in range(out.size[0]):
+            r, g, b, a = px[x, y]
+            if a == 0:
+                continue
+            lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
+            if all_ or (lum >= threshold and light is not None):
+                px[x, y] = (*light, a)
+            elif lum < threshold and dark is not None:
+                px[x, y] = (*dark, a)
+    return out
+
+
+def png_svg(img: Image.Image, width: int) -> str:
+    """Wrap a PIL image as an svg with one embedded palette PNG at the given width."""
+    small = img.resize((width, round(img.size[1] * width / img.size[0])), Image.LANCZOS).quantize(
+        64
+    )
+    buf = io.BytesIO()
+    small.save(buf, "PNG", optimize=True)
+    w, h = small.size
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {w} {h}">'
+        f'<image width="{w}" height="{h}" xlink:href="data:image/png;base64,{base64.b64encode(buf.getvalue()).decode()}"/></svg>'
+    )
+
+
+def reencode_png_in_svg(
+    svg: str,
+    width: int,
+    invert: bool = False,
+    grey: bool = False,
+    black_to: tuple[int, int, int] | None = None,
+) -> str:
+    """Re-encode the embedded PNG at the given width as a 64-colour palette PNG, after optional pixel edits."""
     m = re.search(r"data:image/png;base64,((?:[A-Za-z0-9+/=%\s]|&#1[03];)+)", svg)
     raw = base64.b64decode(re.sub(r"\s|&#1[03];", "", m.group(1)))
     img = Image.open(io.BytesIO(raw)).convert("RGBA")
     if invert:
         rgb = ImageOps.invert(img.convert("RGB"))
         img = Image.merge("RGBA", (*rgb.split(), img.getchannel("A")))
+    if grey:
+        # lifted greyscale, like greyscale() for vectors: grey = 0.45 + 0.55 * luminance
+        lum = img.convert("L").point(lambda v: round(255 * (0.45 + 0.55 * v / 255)))
+        img = Image.merge("RGBA", (lum, lum, lum, img.getchannel("A")))
+    if black_to is not None:
+        img = recolour(img, dark=black_to, threshold=40)
     img = img.resize((width, round(img.size[1] * width / img.size[0])), Image.LANCZOS).quantize(64)
     buf = io.BytesIO()
     img.save(buf, "PNG", optimize=True)
@@ -138,8 +187,10 @@ def minify_svg(svg: str, decimals: int, tight: bool = False) -> str:
         flags=re.DOTALL,
     )
     svg = re.sub(r"<sodipodi:namedview.*?/>", "", svg, flags=re.DOTALL)
+    # ids are dropped only when nothing references them (gradient/clip ids must survive)
+    drop_ids = "id|" if "url(#" not in svg and "href=" not in svg else ""
     svg = re.sub(
-        r'\s+(id|version|xml:space|enable-background|xmlns:xlink|xmlns:svg|xmlns:sodipodi|xmlns:inkscape|inkscape:[\w-]+|sodipodi:[\w-]+)="[^"]*"',
+        rf'\s+({drop_ids}version|xml:space|enable-background|xmlns:xlink|xmlns:svg|xmlns:sodipodi|xmlns:inkscape|inkscape:[\w-]+|sodipodi:[\w-]+)="[^"]*"',
         "",
         svg,
     )
@@ -344,9 +395,104 @@ write(
     "icon.svg with purple -> white, white -> black",
 )
 
+# 19. airplay: monochrome from the (original) icon.svg in white — the old one was a different logo
+write(
+    "airplay",
+    "icon_monochrome.svg",
+    swap(original("airplay", "icon.svg").decode(), [("fill:#0000ff", "fill:#fff")]),
+    "original icon.svg in white",
+)
+
+# 20. amplipi: the wordmark PNG from the AmpliPi forum (white + red on transparent), embedded as a
+#     small palette PNG — no vector tracer on this box. icon_dark = as-is; icon.svg = the white
+#     text made black so it reads on light; monochrome = everything white.
+amp = Image.open(Path(__file__).parent / "sources" / "amplipi.png").convert("RGBA")
+write("amplipi", "icon_dark.svg", png_svg(amp, 160), "AmpliPi forum PNG, embedded at 160 px")
+write(
+    "amplipi",
+    "icon.svg",
+    png_svg(recolour(amp, light=(0, 0, 0)), 160),
+    "same PNG with the white text made black",
+)
+write(
+    "amplipi",
+    "icon_monochrome.svg",
+    png_svg(recolour(amp, light=(255, 255, 255), dark=(255, 255, 255), all_=True), 160),
+    "same PNG, everything white",
+)
+
+# 21. itunes_podcasts, jellyfin, musicbrainz, yandex_station: monochrome = icon.svg in lifted greyscale
+for domain in ("itunes_podcasts", "jellyfin", "musicbrainz", "yandex_station"):
+    write(
+        domain,
+        "icon_monochrome.svg",
+        greyscale((PROVIDERS / domain / "icon.svg").read_text()),
+        "icon.svg in lifted greyscale",
+    )
+
+# 22. yandex_smarthome: icon.svg is an embedded PNG — greyscale it pixel-wise (lifted), re-encode
+ys = (PROVIDERS / "yandex_smarthome" / "icon.svg").read_text()
+write(
+    "yandex_smarthome",
+    "icon_monochrome.svg",
+    reencode_png_in_svg(ys, width=160, grey=True),
+    "icon.svg PNG in lifted greyscale, re-encoded at 160 px",
+)
+
+# 23. mpd: current icon.svg is the dark variant (minified to fit the budget); monochrome kept
+write(
+    "mpd",
+    "icon_dark.svg",
+    minify_svg((PROVIDERS / "mpd" / "icon.svg").read_text(), decimals=2),
+    "copy of icon.svg, editor metadata dropped",
+)
+
+# 24. radioparadise: dark variant = icon.svg with the black square background turned white
+rp = (PROVIDERS / "radioparadise" / "icon.svg").read_text()
+write(
+    "radioparadise",
+    "icon_dark.svg",
+    reencode_png_in_svg(rp, width=128, black_to=(255, 255, 255)),
+    "icon.svg PNG with the black background made white, re-encoded at 128 px",
+)
+
+# 25. listenbrainz_scrobble: monochrome = the two half-hexagons white, the cream detail lines black
+#     (all-white would merge the lines into the shapes)
+write(
+    "listenbrainz_scrobble",
+    "icon_monochrome.svg",
+    minify_svg(
+        swap(
+            (PROVIDERS / "listenbrainz_scrobble" / "icon.svg").read_text(),
+            [
+                ('fill="#fffedb"', 'fill="#000"'),
+                ('fill="#eb743b"', 'fill="#fff"'),
+                ('fill="#353070"', 'fill="#fff"'),
+            ],
+        ),
+        decimals=2,
+    ),
+    "icon.svg with the shapes white and the detail lines black, minified",
+)
+
+# monochromes the user chose to keep as they are
+KEEP = {
+    "builtin": "kept as-is (user)",
+    "coverartarchive": "kept as-is (user)",
+    "filesystem_nfs": "kept as-is (user)",
+    "filesystem_smb": "kept as-is (user)",
+    "webdav": "kept as-is (user)",
+    "roku_media_assistant": "kept as-is (user)",
+    "soundcloud": "kept as-is (user)",
+    "musicme": "kept as-is (user)",
+    "mpd": "kept as-is (user)",
+}
+
 for entry in done:
     domain, rest = entry.split("/", 1)
     add_note(domain, re.sub(r" \(\d+ B\)$", "", rest))
+for domain, why in KEEP.items():
+    add_note(domain, f"icon_monochrome.svg: {why}")
 
 # record the monochromes this script owns so make-mono.py keeps them in the plan
 plan = json.loads(PLAN.read_text()) if PLAN.exists() else {}
@@ -363,12 +509,27 @@ for domain, how in {
     "lrclib": "icon.svg PNG inverted, 160 px",
     "nts": "copy of icon.svg (tile + text invert cleanly)",
     "openai_compatible": "icon.svg, purple -> white, white -> black",
+    "airplay": "original icon.svg in white",
+    "amplipi": "forum PNG, everything white",
+    "itunes_podcasts": "icon.svg in lifted greyscale",
+    "jellyfin": "icon.svg in lifted greyscale",
+    "musicbrainz": "icon.svg in lifted greyscale",
+    "yandex_station": "icon.svg in lifted greyscale",
+    "yandex_smarthome": "icon.svg PNG in lifted greyscale",
+    "listenbrainz_scrobble": "icon.svg, shapes white, detail lines black",
 }.items():
     plan[domain] = {
         "status": plan.get(domain, {}).get("status", ""),
         "detail": "",
         "action": "manual",
         "how": how,
+    }
+for domain, why in KEEP.items():
+    plan[domain] = {
+        "status": plan.get(domain, {}).get("status", ""),
+        "detail": "",
+        "action": "keep",
+        "how": why,
     }
 PLAN.write_text(json.dumps(plan, indent=1, sort_keys=True) + "\n")
 

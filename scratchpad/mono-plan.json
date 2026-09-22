@@ -30,8 +30,9 @@
   "status": "missing"
  },
  "airplay": {
-  "action": "debt",
-  "detail": "svg-wrapped PNG, luminance 1.00, 50591 B",
+  "action": "manual",
+  "detail": "",
+  "how": "original icon.svg in white",
   "status": "png-white"
  },
  "alexa": {
@@ -47,9 +48,9 @@
   "status": "missing"
  },
  "amplipi": {
-  "action": "design",
-  "detail": "#000000, #c01824, #f0f0f0, #ffffff, 1882 B",
-  "how": "design",
+  "action": "manual",
+  "detail": "",
+  "how": "forum PNG, everything white",
   "status": "colour"
  },
  "apple_music": {
@@ -91,9 +92,9 @@
   "status": "missing"
  },
  "builtin": {
-  "action": "design",
-  "detail": "#18bcf2, #f2f4f9, #ffffff, 11360 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "chromecast": {
@@ -102,9 +103,9 @@
   "status": "bw"
  },
  "coverartarchive": {
-  "action": "design",
-  "detail": "#20656c, #264346, #579ca0, #d3562c, #eb743b, #fffedb, 28026 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "digitally_incorporated": {
@@ -141,9 +142,9 @@
   "status": "png-white"
  },
  "filesystem_nfs": {
-  "action": "design",
-  "detail": "#000000, #1a1a1a, #4d4d4d, #595959, #676767, #696969, #737373, #878787, #999999, #a9a9a9, #b2b4b7, #b3b3b3, #cecece, #d7d7d7, #d8d8d8, #d9d9d9, #ebdba6, #f2d26a, #f3af61, #f4f4f4, #f6b650, #fc8723, #ff7512, #ff841f, #ff8521, #ff8a36, #ff9445, #ffab43, #ffb047, #ffb06c, #ffdbaa, #ffdd70, #fff3cc, #ffffff, url(#xmlid_10_), url(#xmlid_11_), url(#xmlid_12_), url(#xmlid_13_), url(#xmlid_14_), url(#xmlid_15_), url(#xmlid_16_), url(#xmlid_17_), url(#xmlid_18_), url(#xmlid_19_), url(#xmlid_1_), url(#xmlid_20_), url(#xmlid_21_), url(#xmlid_22_), url(#xmlid_23_), url(#xmlid_25_), url(#xmlid_26_), url(#xmlid_2_), url(#xmlid_3_), url(#xmlid_4_), url(#xmlid_5_), url(#xmlid_6_), url(#xmlid_7_), url(#xmlid_8_), url(#xmlid_9_), 24586 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "filesystem_onedrive": {
@@ -153,9 +154,9 @@
   "status": "colour"
  },
  "filesystem_smb": {
-  "action": "design",
-  "detail": "#000000, #1a1a1a, #4d4d4d, #595959, #676767, #696969, #737373, #878787, #999999, #a9a9a9, #b2b4b7, #b3b3b3, #cecece, #d7d7d7, #d8d8d8, #d9d9d9, #ebdba6, #f2d26a, #f3af61, #f4f4f4, #f6b650, #fc8723, #ff7512, #ff841f, #ff8521, #ff8a36, #ff9445, #ffab43, #ffb047, #ffb06c, #ffdbaa, #ffdd70, #fff3cc, #ffffff, url(#xmlid_10_), url(#xmlid_11_), url(#xmlid_12_), url(#xmlid_13_), url(#xmlid_14_), url(#xmlid_15_), url(#xmlid_16_), url(#xmlid_17_), url(#xmlid_18_), url(#xmlid_19_), url(#xmlid_1_), url(#xmlid_20_), url(#xmlid_21_), url(#xmlid_22_), url(#xmlid_23_), url(#xmlid_25_), url(#xmlid_26_), url(#xmlid_2_), url(#xmlid_3_), url(#xmlid_4_), url(#xmlid_5_), url(#xmlid_6_), url(#xmlid_7_), url(#xmlid_8_), url(#xmlid_9_), 24586 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "fully_kiosk": {
@@ -212,15 +213,15 @@
   "status": "missing"
  },
  "itunes_podcasts": {
-  "action": "design",
-  "detail": "#832bc1, #f452ff, #ffffff, url(#xmlid_2_), 5913 B",
-  "how": "design",
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
   "status": "colour"
  },
  "jellyfin": {
-  "action": "design",
-  "detail": "#00a4dc, #aa5cc3, #ffffff, url(#linear, 2658 B",
-  "how": "design",
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
   "status": "colour"
  },
  "kion_music": {
@@ -241,9 +242,9 @@
   "status": "black"
  },
  "listenbrainz_scrobble": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg, shapes white, detail lines black",
   "status": "missing"
  },
  "local_audio": {
@@ -277,9 +278,9 @@
   "status": "missing"
  },
  "mpd": {
-  "action": "design",
-  "detail": "svg-wrapped PNG, luminance 0.45, 118548 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "png-dark"
  },
  "msx_bridge": {
@@ -294,9 +295,9 @@
   "status": "missing"
  },
  "musicbrainz": {
-  "action": "design",
-  "detail": "white, 6285 B",
-  "how": "design (single-colour source over 5 KB: icon_monochrome.svg 5744 B)",
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
   "status": "oversize"
  },
  "musiccast": {
@@ -305,9 +306,9 @@
   "status": "png-white"
  },
  "musicme": {
-  "action": "design",
-  "detail": "svg-wrapped PNG, luminance 0.18, 3883 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "png-dark"
  },
  "neteasecloudmusic": {
@@ -419,9 +420,9 @@
   "status": "black"
  },
  "roku_media_assistant": {
-  "action": "design",
-  "detail": "#4e2270, #652c90, #fefefe, #ffffff, 60961 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "sendspin_source": {
@@ -466,9 +467,9 @@
   "status": "missing"
  },
  "soundcloud": {
-  "action": "design",
-  "detail": "#f30, #f80, #ffffff, url(#a), 3720 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "spotify": {
@@ -534,9 +535,9 @@
   "status": "png-white"
  },
  "webdav": {
-  "action": "design",
-  "detail": "#000000, #1a1a1a, #4d4d4d, #595959, #676767, #696969, #737373, #878787, #999999, #a9a9a9, #b2b4b7, #b3b3b3, #cecece, #d7d7d7, #d8d8d8, #d9d9d9, #ebdba6, #f2d26a, #f3af61, #f4f4f4, #f6b650, #fc8723, #ff7512, #ff841f, #ff8521, #ff8a36, #ff9445, #ffab43, #ffb047, #ffb06c, #ffdbaa, #ffdd70, #fff3cc, #ffffff, url(#xmlid_10_), url(#xmlid_11_), url(#xmlid_12_), url(#xmlid_13_), url(#xmlid_14_), url(#xmlid_15_), url(#xmlid_16_), url(#xmlid_17_), url(#xmlid_18_), url(#xmlid_19_), url(#xmlid_1_), url(#xmlid_20_), url(#xmlid_21_), url(#xmlid_22_), url(#xmlid_23_), url(#xmlid_25_), url(#xmlid_26_), url(#xmlid_2_), url(#xmlid_3_), url(#xmlid_4_), url(#xmlid_5_), url(#xmlid_6_), url(#xmlid_7_), url(#xmlid_8_), url(#xmlid_9_), 24597 B",
-  "how": "design",
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
   "status": "colour"
  },
  "wiim": {
@@ -546,15 +547,15 @@
   "status": "missing"
  },
  "yandex_smarthome": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg PNG in lifted greyscale",
   "status": "missing"
  },
  "yandex_station": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg in lifted greyscale",
   "status": "missing"
  },
  "yandex_ynison": {
