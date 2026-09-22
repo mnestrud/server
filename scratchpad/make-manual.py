@@ -600,6 +600,7 @@ for domain, how in {
     "heos": "icon.svg, everything white",
     "ai_radio": "icon.svg in lifted greyscale",
     "itunes_artwork": "icon.svg in lifted greyscale",
+    "nugs": "nugs.net logo SVG in lifted greyscale",
 }.items():
     plan[domain] = {
         "status": plan.get(domain, {}).get("status", ""),

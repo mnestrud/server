@@ -324,9 +324,9 @@
   "status": "bw"
  },
  "nugs": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "nugs.net logo SVG in lifted greyscale",
   "status": "missing"
  },
  "openai_compatible": {
