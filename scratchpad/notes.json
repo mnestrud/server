@@ -185,7 +185,7 @@
  ],
  "test": [
   "icon_dark.svg: icon.svg with colours swapped",
-  "icon_monochrome.svg: icon.svg with colours swapped"
+  "icon_monochrome.svg: icon.svg with the tile dropped, bars in white (first pass; not in the demo instruction)"
  ],
  "theaudiodb": [
   "icon_dark.svg: icon.svg with #454545 -> #d9d9d9"
