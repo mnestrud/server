@@ -91,14 +91,16 @@ def icon(path: Path) -> str | None:
     return data_uri(path.with_suffix(".svg")) or data_uri(path.with_suffix(".png"))
 
 
+CSS: list[str] = []  # one background-image rule per icon, so each data URI appears once
+
+
 def cell(uri: str | None, surface: str, invert: bool = False) -> str:
     if uri is None:
         return f'<td class="{surface} missing">MISSING</td>'
-    inv = ' class="inv"' if invert else ""
-    return (
-        f'<td class="{surface}"><img{inv} src="{uri}" width="48" height="48">'
-        f'<img{inv} src="{uri}" width="24" height="24"></td>'
-    )
+    name = f"i{len(CSS)}"
+    CSS.append(f".{name}{{background-image:url({uri})}}")
+    inv = " inv" if invert else ""
+    return f'<td class="{surface}"><span class="ic {name}{inv}"></span><span class="ic s {name}{inv}"></span></td>'
 
 
 def size_cell(*paths: Path) -> str:
@@ -183,10 +185,12 @@ th small{{font-weight:400;color:#666}}
 tr.group th{{background:#ddd;text-align:left}}
 td.light{{background:#fff}}
 td.dark{{background:#121212;color:#888}}
-td img{{vertical-align:middle;margin:0 6px}}
+.ic{{display:inline-block;width:48px;height:48px;margin:0 6px;vertical-align:middle;background:center/contain no-repeat}}
+.ic.s{{width:24px;height:24px}}
 td.missing{{color:#e33;font-weight:600}}
 .over{{color:#e33;font-weight:600}}
-img.inv{{filter:invert(1)}}
+.inv{{filter:invert(1)}}
+{"".join(CSS)}
 </style></head><body>
 <h1>backlog#158 &mdash; provider icon dark and monochrome variants</h1>
 <p>Each cell shows the icon at 48px and 24px (the setup wizard badge uses 16px).
