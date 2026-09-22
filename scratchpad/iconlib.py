@@ -28,27 +28,32 @@ GROUPS = {
     "B": (
         "Claude Design: multi-colour brand mark, brand colour too dark, or embedded PNG",
         [
-            "fully_kiosk",
             "heos",
-            "filesystem_onedrive",
-            "bbc_sounds",
             "ibroadcast",
             "gpodder",
-            "lrclib",
-            "musicme",
             "radioparadise",
-            "musiccast",
             "mpd",
         ],
     ),
     "C": (
         "dark variant taken from an existing file (user-directed), no design needed",
-        ["internet_archive", "theaudiodb", "abc_radio_network", "msx_bridge"],
+        [
+            "internet_archive",
+            "theaudiodb",
+            "abc_radio_network",
+            "msx_bridge",
+            "bbc_sounds",
+            "fully_kiosk",
+            "lrclib",
+            "musiccast",
+            "musicme",
+        ],
     ),
     "skip": (
         "no icon_dark planned: readable on dark as-is, or the user chose to keep icon.svg",
         [
             "airplay",
+            "filesystem_onedrive",
             "deezer",
             "lastfm_recommendations",
             "lastfm_scrobble",
@@ -140,6 +145,25 @@ def original_data_uri(path: Path) -> str | None:
 def change_of(path: Path) -> str:
     """'' for a file shipping today, 'A' for one this branch adds, 'M' for one it replaces."""
     return CHANGED.get(str(path.relative_to(ROOT)), "")
+
+
+NOTES_PATH = Path(__file__).parent / "notes.json"
+
+
+def add_note(domain: str, text: str) -> None:
+    """Record a human-readable change note for a provider (deduplicated, kept in notes.json)."""
+    notes = json.loads(NOTES_PATH.read_text()) if NOTES_PATH.exists() else {}
+    items = notes.setdefault(domain, [])
+    # a note about the same file replaces the earlier one for that file
+    file = text.split(":", 1)[0]
+    items[:] = [n for n in items if n.split(":", 1)[0] != file]
+    items.append(text)
+    NOTES_PATH.write_text(json.dumps(notes, indent=1, sort_keys=True) + "\n")
+
+
+def notes_for(domain: str) -> list[str]:
+    notes = json.loads(NOTES_PATH.read_text()) if NOTES_PATH.exists() else {}
+    return notes.get(domain, [])
 
 
 def all_providers() -> list[str]:

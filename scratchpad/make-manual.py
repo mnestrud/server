@@ -16,7 +16,7 @@ from pathlib import Path
 
 from PIL import Image, ImageOps
 
-from iconlib import BASE, PROVIDERS, ROOT
+from iconlib import BASE, PROVIDERS, ROOT, add_note
 
 PLAN = Path(__file__).parent / "mono-plan.json"
 done: list[str] = []
@@ -45,8 +45,92 @@ def write(domain: str, name: str, data: bytes | str, note: str) -> None:
     done.append(f"{domain}/{name}: {note} ({path.stat().st_size} B)")
 
 
-def minify_svg(svg: str, decimals: int) -> str:
+def _hex(r: float, g: float, b: float) -> str:
+    return "#%02x%02x%02x" % (round(r), round(g), round(b))
+
+
+def _parse_colour(value: str) -> tuple[float, float, float] | None:
+    value = value.strip().lower()
+    m = re.fullmatch(r"#([0-9a-f]{3}|[0-9a-f]{6})", value)
+    if m:
+        h = m.group(1)
+        if len(h) == 3:
+            h = "".join(c * 2 for c in h)
+        return tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))  # type: ignore[return-value]
+    m = re.fullmatch(r"rgb\(\s*([\d.]+)%\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%\s*\)", value)
+    if m:
+        return tuple(float(x) * 2.55 for x in m.groups())  # type: ignore[return-value]
+    m = re.fullmatch(r"rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)", value)
+    if m:
+        return tuple(float(x) for x in m.groups())  # type: ignore[return-value]
+    return None
+
+
+def greyscale(svg: str, lift: float = 0.45) -> str:
+    """
+    Map every fill/stroke/stop colour to a grey by luminance, brightened so it reads on a dark
+    surface (grey = lift + (1 - lift) * luminance). White and black stay as they are.
+    """
+
+    def to_grey(m: re.Match) -> str:
+        rgb = _parse_colour(m.group(3))
+        if rgb is None:
+            return m.group(0)
+        lum = (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255
+        if lum >= 0.98 or lum <= 0.02:
+            return m.group(0)
+        g = 255 * (lift + (1 - lift) * lum)
+        return f"{m.group(1)}{m.group(2)}{_hex(g, g, g)}"
+
+    return re.sub(
+        r"(fill|stroke|stop-color)(\s*[:=]\s*\"?\s*)(#[0-9a-fA-F]{3,6}|rgb\([^)]*\))", to_grey, svg
+    )
+
+
+def reencode_png_in_svg(svg: str, width: int, invert: bool = False) -> str:
+    """Re-encode the embedded PNG at the given width as a 64-colour palette PNG; optionally invert it first."""
+    m = re.search(r"data:image/png;base64,((?:[A-Za-z0-9+/=%\s]|&#1[03];)+)", svg)
+    raw = base64.b64decode(re.sub(r"\s|&#1[03];", "", m.group(1)))
+    img = Image.open(io.BytesIO(raw)).convert("RGBA")
+    if invert:
+        rgb = ImageOps.invert(img.convert("RGB"))
+        img = Image.merge("RGBA", (*rgb.split(), img.getchannel("A")))
+    img = img.resize((width, round(img.size[1] * width / img.size[0])), Image.LANCZOS).quantize(64)
+    buf = io.BytesIO()
+    img.save(buf, "PNG", optimize=True)
+    svg = svg[: m.start(1)] + base64.b64encode(buf.getvalue()).decode() + svg[m.end(1) :]
+    svg = re.sub(r"<defs>.*?</defs>\s*", "", svg, flags=re.DOTALL)
+    svg = re.sub(r'<g filter="[^"]*">\s*(<image.*?/>)\s*</g>', r"\1", svg, flags=re.DOTALL)
+    return svg
+
+
+def minify_svg(svg: str, decimals: int, tight: bool = False) -> str:
     """Drop editor metadata and redundant attributes, round path coordinates, collapse whitespace."""
+    if tight:
+        # gradient-heavy file: style attributes to plain attributes, defaults dropped, ids shortened,
+        # percentage rgb() to hex, transform matrices to integers
+        svg = re.sub(
+            r'style="([^"]*)"',
+            lambda m: " ".join(
+                f'{k.strip()}="{v.strip()}"'
+                for k, v in (p.split(":", 1) for p in m.group(1).split(";") if ":" in p)
+            ),
+            svg,
+        )
+        svg = re.sub(
+            r'\s+(stroke="none"|fill-rule="nonzero"|stop-opacity="1"|fx="0"|fy="0")', "", svg
+        )
+        svg = re.sub(r'\s+id="([a-z]+)(\d+)"', lambda m: f' id="{m.group(1)[0]}{m.group(2)}"', svg)
+        svg = re.sub(r"url\(#([a-z]+)(\d+)\)", lambda m: f"url(#{m.group(1)[0]}{m.group(2)})", svg)
+        svg = re.sub(r"rgb\([^)]*\)", lambda m: _hex(*_parse_colour(m.group(0))), svg)
+        svg = re.sub(
+            r'gradientTransform="[^"]*"',
+            lambda m: re.sub(r"-?\d+\.\d+", lambda n: str(round(float(n.group(0)))), m.group(0)),
+            svg,
+        )
+        svg = re.sub(
+            r"-?\d+\.\d{3,}", lambda n: f"{float(n.group(0)):.2f}".rstrip("0").rstrip("."), svg
+        )
     svg = re.sub(
         r"<\?xml.*?\?>|<!DOCTYPE[^>]*>|<!--.*?-->|<metadata>.*?</metadata>|<title>.*?</title>|<desc>.*?</desc>",
         "",
@@ -190,6 +274,80 @@ write(
     "icon.svg with #454545 -> #d9d9d9",
 )
 
+# 11. bbc_sounds: icon.svg reads on dark, so it is the dark variant; monochrome is a lifted
+#     greyscale of it (each orange mapped to a grey by luminance, brightened to read on dark)
+bbc = (PROVIDERS / "bbc_sounds" / "icon.svg").read_text()
+write("bbc_sounds", "icon_dark.svg", bbc, "copy of icon.svg")
+write("bbc_sounds", "icon_monochrome.svg", greyscale(bbc), "icon.svg in lifted greyscale")
+
+# 12. filesystem_onedrive: icon.svg replaced by the Commons 2025 OneDrive icon (minified to fit
+#     the budget, gradient ids kept); it serves dark as-is; monochrome is its lifted greyscale
+od = minify_svg(
+    (
+        Path(__file__).parent / "sources" / "Microsoft_OneDrive_Icon_(2025_-_present).svg"
+    ).read_text(),
+    decimals=0,
+    tight=True,
+)
+write("filesystem_onedrive", "icon.svg", od, "Commons 2025 OneDrive icon, minified")
+write(
+    "filesystem_onedrive",
+    "icon_monochrome.svg",
+    greyscale(od),
+    "the new icon.svg in lifted greyscale",
+)
+
+# 13. fully_kiosk: monochrome doubles as the dark variant
+write(
+    "fully_kiosk",
+    "icon_dark.svg",
+    (PROVIDERS / "fully_kiosk" / "icon_monochrome.svg").read_text(),
+    "copy of icon_monochrome.svg",
+)
+
+# 14. lrclib: monochrome is icon.svg with the embedded PNG inverted (re-encoded small enough
+#     for the budget); the same file is the dark variant
+lrc = reencode_png_in_svg(original("lrclib", "icon.svg").decode(), width=160, invert=True)
+write("lrclib", "icon_monochrome.svg", lrc, "icon.svg with the PNG inverted, re-encoded at 160 px")
+write("lrclib", "icon_dark.svg", lrc, "same file as icon_monochrome.svg")
+
+# 15. musiccast: monochrome doubles as the dark variant; the 29 KB raster is re-encoded at
+#     128 px so the new file fits the budget (the monochrome itself is grandfathered)
+write(
+    "musiccast",
+    "icon_dark.svg",
+    reencode_png_in_svg((PROVIDERS / "musiccast" / "icon_monochrome.svg").read_text(), width=128),
+    "icon_monochrome.svg re-encoded at 128 px",
+)
+
+# 16. musicme: monochrome doubles as the dark variant
+write(
+    "musicme",
+    "icon_dark.svg",
+    (PROVIDERS / "musicme" / "icon_monochrome.svg").read_text(),
+    "copy of icon_monochrome.svg",
+)
+
+# 17. nts: black tile + white text already behaves as a monochrome under the UI's inversion
+write(
+    "nts", "icon_monochrome.svg", (PROVIDERS / "nts" / "icon.svg").read_text(), "copy of icon.svg"
+)
+
+# 18. openai_compatible: monochrome from icon.svg, purple tile -> white, stars -> black
+write(
+    "openai_compatible",
+    "icon_monochrome.svg",
+    swap(
+        (PROVIDERS / "openai_compatible" / "icon.svg").read_text(),
+        [('fill="#ffffff"', 'fill="#000"'), ('fill="#7c5cff"', 'fill="#fff"')],
+    ),
+    "icon.svg with purple -> white, white -> black",
+)
+
+for entry in done:
+    domain, rest = entry.split("/", 1)
+    add_note(domain, re.sub(r" \(\d+ B\)$", "", rest))
+
 # record the monochromes this script owns so make-mono.py keeps them in the plan
 plan = json.loads(PLAN.read_text()) if PLAN.exists() else {}
 for domain, how in {
@@ -200,6 +358,11 @@ for domain, how in {
     "ariacast_receiver": "icon.svg, blues set to black (white tile kept)",
     "lastfm_recommendations": "copy of lastfm_scrobble/icon_monochrome.svg",
     "smart_playlist": "icon.svg, blue -> white, white -> black",
+    "bbc_sounds": "icon.svg in lifted greyscale",
+    "filesystem_onedrive": "new icon.svg in lifted greyscale",
+    "lrclib": "icon.svg PNG inverted, 160 px",
+    "nts": "copy of icon.svg (tile + text invert cleanly)",
+    "openai_compatible": "icon.svg, purple -> white, white -> black",
 }.items():
     plan[domain] = {
         "status": plan.get(domain, {}).get("status", ""),

@@ -16,7 +16,7 @@ import re
 import sys
 from pathlib import Path
 
-from iconlib import change_of
+from iconlib import add_note, change_of
 from mono_audit import PROVIDERS, _colours, _strip, audit, is_white
 
 DRY = "--dry-run" in sys.argv
@@ -65,6 +65,7 @@ def derive(domain: str) -> str:
             continue
         if not DRY:
             dst.write_text(text)
+            add_note(domain, f"icon_monochrome.svg: from {how}")
         return how
     return "design" + (
         f" (single-colour source over 5 KB: {', '.join(too_big)})" if too_big else ""
@@ -84,6 +85,9 @@ if __name__ == "__main__":
         and before.get(d, ("",))[0] in ("ok", "bw")
         and change_of(PROVIDERS / d / "icon_monochrome.svg")
     }
+    for domain, item in plan.items():
+        if item["action"] == "derived":
+            add_note(domain, f"icon_monochrome.svg: from {item['how']}")
     for domain, (status, detail) in sorted(before.items()):
         if status == "ok" or domain in plan:
             continue

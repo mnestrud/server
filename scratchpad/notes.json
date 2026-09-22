@@ -1,0 +1,206 @@
+{
+ "_demo_music_provider": [
+  "icon_dark.svg: icon.svg with colours swapped",
+  "icon_monochrome.svg: copy of icon_dark.svg"
+ ],
+ "_demo_player_provider": [
+  "icon_dark.svg: icon.svg with colours swapped",
+  "icon_monochrome.svg: copy of icon_dark.svg"
+ ],
+ "_demo_plugin_provider": [
+  "icon_dark.svg: icon.svg with colours swapped",
+  "icon_monochrome.svg: copy of icon_dark.svg"
+ ],
+ "abc_radio_network": [
+  "icon_dark.svg: the original white icon.svg",
+  "icon.svg: original inverted: fill black, shadow white"
+ ],
+ "acoustid_lookup": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "airplay": [
+  "icon.svg: original with #0000ff -> #0a84ff"
+ ],
+ "airplay_receiver": [
+  "icon_dark.svg: icon.svg with the colour set to white",
+  "icon_monochrome.svg: icon.svg with the colour set to white"
+ ],
+ "alexa": [
+  "icon_monochrome.svg: icon.svg with fill and stroke white"
+ ],
+ "ambient_sounds": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "ariacast_receiver": [
+  "icon_monochrome.svg: icon.svg with the blues set to black"
+ ],
+ "bbc_sounds": [
+  "icon_dark.svg: copy of icon.svg",
+  "icon_monochrome.svg: icon.svg in lifted greyscale"
+ ],
+ "bose_soundtouch": [
+  "icon_monochrome.svg: from icon.svg: already white, copied"
+ ],
+ "dlna": [
+  "icon_monochrome.svg: from icon.svg: #4aaa42 -> #fff"
+ ],
+ "emby": [
+  "icon_monochrome.svg: from icon_monochrome.svg: no fill -> #fff on <svg>"
+ ],
+ "fastmcp_server": [
+  "icon_dark.svg: icon.svg with the colour set to white",
+  "icon_monochrome.svg: icon.svg with the colour set to white"
+ ],
+ "filesystem_cloud": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "filesystem_onedrive": [
+  "icon.svg: Commons 2025 OneDrive icon, minified",
+  "icon_monochrome.svg: the new icon.svg in lifted greyscale"
+ ],
+ "fully_kiosk": [
+  "icon_monochrome.svg: from icon.svg: #00f -> #fff",
+  "icon_dark.svg: copy of icon_monochrome.svg"
+ ],
+ "genius_lyrics": [
+  "icon_monochrome.svg: from icon_monochrome.svg: #ffff64 -> #fff"
+ ],
+ "hue_entertainment": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "internet_archive": [
+  "icon_dark.svg: Commons logo+wordmark SVG, minified, white"
+ ],
+ "lastfm_recommendations": [
+  "icon_monochrome.svg: copy of lastfm_scrobble/icon_monochrome.svg"
+ ],
+ "lastfm_scrobble": [
+  "icon_monochrome.svg: from icon_monochrome.svg: black -> #fff"
+ ],
+ "local_audio": [
+  "icon_monochrome.svg: from icon.svg: #4a90d9 -> #fff"
+ ],
+ "loudness_analysis": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "lrclib": [
+  "icon_monochrome.svg: icon.svg with the PNG inverted, re-encoded at 160 px",
+  "icon_dark.svg: same file as icon_monochrome.svg"
+ ],
+ "mammamiradio": [
+  "icon_monochrome.svg: from icon_monochrome.svg: currentcolor -> #fff"
+ ],
+ "milkdrop_visualizer": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "msx_bridge": [
+  "icon_dark.svg: the original white icon.svg",
+  "icon.svg: original with the embedded PNG pixel-inverted"
+ ],
+ "music_quiz": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "musiccast": [
+  "icon_dark.svg: icon_monochrome.svg re-encoded at 128 px"
+ ],
+ "musicme": [
+  "icon_dark.svg: copy of icon_monochrome.svg"
+ ],
+ "neteasecloudmusic": [
+  "icon_monochrome.svg: from icon_monochrome.svg: #000000 -> #fff"
+ ],
+ "nicovideo": [
+  "icon_dark.svg: icon.svg with the colour set to white",
+  "icon_monochrome.svg: icon.svg with the colour set to white"
+ ],
+ "nts": [
+  "icon_monochrome.svg: copy of icon.svg"
+ ],
+ "openai_compatible": [
+  "icon_monochrome.svg: icon.svg with purple -> white, white -> black"
+ ],
+ "opensubsonic": [
+  "icon_monochrome.svg: from icon.svg: #fc0 -> #fff"
+ ],
+ "orf_radiothek": [
+  "icon_dark.svg: icon.svg with the colour set to white",
+  "icon_monochrome.svg: icon.svg with the colour set to white"
+ ],
+ "party": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "playlist_metadata": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "profiler": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "qqmusic": [
+  "icon_monochrome.svg: from icon_monochrome.svg: #59606b -> #fff"
+ ],
+ "radio_playlist": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "rain_mood": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "recommendations": [
+  "icon_monochrome.svg: from icon_monochrome.svg: currentcolor -> #fff"
+ ],
+ "sendspin_source": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "smart_fades": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "smart_playlist": [
+  "icon_monochrome.svg: icon.svg with blue -> white, white -> black"
+ ],
+ "somafm": [
+  "icon_monochrome.svg: from icon.svg: red -> #fff"
+ ],
+ "sonic_analysis": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "sonic_similarity": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "spotify": [
+  "icon_monochrome.svg: from icon.svg: #1ed760 -> #fff"
+ ],
+ "spotify_connect": [
+  "icon_monochrome.svg: from icon.svg: #1ed760 -> #fff"
+ ],
+ "squeezelite": [
+  "icon_monochrome.svg: from icon.svg: #2baaa6 -> #fff"
+ ],
+ "storytel": [
+  "icon_monochrome.svg: from icon_monochrome.svg: no fill -> #fff on <svg>"
+ ],
+ "subsonic_scrobble": [
+  "icon_monochrome.svg: from icon.svg: #fc0 -> #fff"
+ ],
+ "teddycloud": [
+  "icon_monochrome.svg: from icon_monochrome.svg: currentcolor -> #fff"
+ ],
+ "test": [
+  "icon_dark.svg: icon.svg with colours swapped",
+  "icon_monochrome.svg: icon.svg with colours swapped"
+ ],
+ "theaudiodb": [
+  "icon_dark.svg: icon.svg with #454545 -> #d9d9d9"
+ ],
+ "universal_player": [
+  "icon_monochrome.svg: from icon_dark.svg: already white, copied"
+ ],
+ "wiim": [
+  "icon_monochrome.svg: from icon.svg: already white, copied"
+ ],
+ "wikipedia": [
+  "icon_dark.svg: icon.svg with the colour set to white",
+  "icon_monochrome.svg: icon.svg with the colour set to white"
+ ],
+ "yandex_ynison": [
+  "icon_monochrome.svg: from icon.svg: #5b9bd5 -> #fff"
+ ]
+}

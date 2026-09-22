@@ -3,6 +3,8 @@
 
 from pathlib import Path
 
+from iconlib import add_note
+
 PROVIDERS = Path("/home/ataraxia/code/music-assistant/server/music_assistant/providers")
 
 # domain -> list of (old, new) replacements applied to icon.svg
@@ -31,7 +33,8 @@ MONO = {
     "nicovideo": SWAPS["nicovideo"],
     "fastmcp_server": SWAPS["fastmcp_server"],
 }
-for demo in ("_demo_music_provider", "_demo_player_provider", "_demo_plugin_provider", "test"):
+# (test keeps the white-bars monochrome from the first pass; the user named only the demos)
+for demo in ("_demo_music_provider", "_demo_player_provider", "_demo_plugin_provider"):
     MONO[demo] = SWAPS[demo]
 
 
@@ -44,6 +47,10 @@ def write_variant(domain: str, name: str, swaps: list[tuple[str, str]]) -> None:
         text = text.replace(old, new)
     assert text != src.read_text(), f"{domain}: unchanged"
     dst.write_text(text)
+    add_note(
+        domain,
+        f"{name}: icon.svg with {'colours swapped' if 'rgb(' in swaps[0][0] else 'the colour set to white'}",
+    )
     print(f"{domain:24s} {name:20s} {dst.stat().st_size:5d} B")
 
 

@@ -79,10 +79,10 @@
   "status": "bw"
  },
  "bbc_sounds": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
-  "status": "missing"
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
  },
  "bose_soundtouch": {
   "action": "derived",
@@ -144,6 +144,12 @@
   "action": "design",
   "detail": "#000000, #1a1a1a, #4d4d4d, #595959, #676767, #696969, #737373, #878787, #999999, #a9a9a9, #b2b4b7, #b3b3b3, #cecece, #d7d7d7, #d8d8d8, #d9d9d9, #ebdba6, #f2d26a, #f3af61, #f4f4f4, #f6b650, #fc8723, #ff7512, #ff841f, #ff8521, #ff8a36, #ff9445, #ffab43, #ffb047, #ffb06c, #ffdbaa, #ffdd70, #fff3cc, #ffffff, url(#xmlid_10_), url(#xmlid_11_), url(#xmlid_12_), url(#xmlid_13_), url(#xmlid_14_), url(#xmlid_15_), url(#xmlid_16_), url(#xmlid_17_), url(#xmlid_18_), url(#xmlid_19_), url(#xmlid_1_), url(#xmlid_20_), url(#xmlid_21_), url(#xmlid_22_), url(#xmlid_23_), url(#xmlid_25_), url(#xmlid_26_), url(#xmlid_2_), url(#xmlid_3_), url(#xmlid_4_), url(#xmlid_5_), url(#xmlid_6_), url(#xmlid_7_), url(#xmlid_8_), url(#xmlid_9_), 24586 B",
   "how": "design",
+  "status": "colour"
+ },
+ "filesystem_onedrive": {
+  "action": "manual",
+  "detail": "",
+  "how": "new icon.svg in lifted greyscale",
   "status": "colour"
  },
  "filesystem_smb": {
@@ -253,10 +259,10 @@
   "status": "missing"
  },
  "lrclib": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
-  "status": "missing"
+  "how": "icon.svg PNG inverted, 160 px",
+  "status": "png-mixed"
  },
  "mammamiradio": {
   "action": "derived",
@@ -311,10 +317,10 @@
   "status": "black"
  },
  "nts": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
-  "status": "missing"
+  "how": "copy of icon.svg (tile + text invert cleanly)",
+  "status": "bw"
  },
  "nugs": {
   "action": "design",
@@ -323,10 +329,10 @@
   "status": "missing"
  },
  "openai_compatible": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
-  "status": "missing"
+  "how": "icon.svg, purple -> white, white -> black",
+  "status": "bw"
  },
  "opensubsonic": {
   "action": "derived",

@@ -30,20 +30,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 
 # Part 1 — dark + monochrome
 
-## fully_kiosk
-
-- why: single-colour #00f mark; brand mark, not a plain glyph
-- viewBox: `0 0 135.467 135.467`
-- current colours: #00f
-- current size: 2902 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/fully_kiosk/icon.svg
-- output 1: `music_assistant/providers/fully_kiosk/icon_dark.svg`
-- output 2: `music_assistant/providers/fully_kiosk/icon_monochrome.svg` — exists and is fine (white, 2902 B): keep it
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/fully_kiosk/icon_monochrome.svg
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="512" height="512" viewBox="0 0 135.467 135.467"><path d="M38.812 134.447c-.657-.325-1.473-1.069-1.907-1.737-.472-.728-.867-1.888-1.048-3.074-.16-1.048-.389-4.734-.51-8.191-.12-3.457-.224-7.25-.231-8.429-.007-1.178.166-4.252.385-6.83.323-3.806.332-5.205.048-7.434-.318-2.494-.292-3.113.287-6.74.41-2.562.675-5.688.74-8.71.056-2.593.109-5.152.117-5.687.01-.535-.17-1.16-.4-1.388-.362-.363-.733-.304-2.959.473-1.399.488-2.818.888-3.154.888a.83.83 0 0 1-.79-.57c-.128-.403.375-1.494 1.714-3.717 1.674-2.779 2.155-3.343 4.124-4.842 1.605-1.222 2.352-2.003 2.667-2.79.24-.6.634-2.376.876-3.944.241-1.568.588-4.716.77-6.994.183-2.279.523-5.172.756-6.429s.669-3.016.968-3.909c.449-1.334.496-1.883.267-3.09-.182-.958-.18-2.16.005-3.462.155-1.096.476-3.102.712-4.456s.565-2.988.73-3.63.616-2.003 1-3.024c.386-1.022 1.246-2.852 1.913-4.069.666-1.216 2.04-3.384 3.055-4.818 1.013-1.434 2.925-3.846 4.248-5.36S56.39 9.06 57.352 8.24s3.101-2.19 4.751-3.042c1.65-.853 4.222-1.97 5.715-2.481 2.155-.739 3.214-.938 5.143-.968 1.335-.02 2.911-.22 3.502-.443.959-.362 1.236-.35 2.582.107 1.447.492 1.577.493 3.212.005 1.248-.372 2.581-.497 4.99-.47 2.45.028 3.775.19 5.216.637 1.312.408 2.247.916 2.915 1.584.59.59 1.062 1.4 1.18 2.026.107.573.122 2.343.033 3.933-.09 1.59-.427 4.111-.75 5.604-.324 1.493-.8 3.293-1.058 4-.259.707-.741 1.584-1.072 1.949-.38.418-.814.613-1.176.528-.316-.074-2.503-.935-4.86-1.912-4.286-1.777-4.286-1.777-6.143-1.158-1.595.531-2.071.577-3.371.325-1.043-.203-2.198-.201-3.714.005-1.21.164-2.972.485-3.915.712s-2.372.626-3.177.886c-.804.26-1.942.805-2.528 1.211s-1.242 1.061-1.458 1.454-1.228 2.45-2.249 4.571c-1.374 2.857-2.118 4.881-2.867 7.805-.556 2.172-1.847 7.593-2.87 12.048-1.023 4.454-2.05 8.556-2.284 9.114s-.424 1.505-.424 2.103.2 1.375.445 1.724c.244.349.679.635.966.635s2.24-.574 4.34-1.276c2.101-.7 4.785-1.425 5.963-1.609 1.179-.183 4.072-.767 6.429-1.296 3.148-.707 4.973-.962 6.878-.962 1.426 0 4.044-.261 5.818-.58 2.769-.5 3.554-.538 5.55-.275 1.49.196 2.958.612 4.089 1.159 1.467.71 1.866 1.065 2.375 2.115.586 1.212.6 1.444.33 5.787-.282 4.524-.282 4.524-1.417 6.516-1.085 1.903-1.179 1.988-2.094 1.901-.527-.05-2.436-.397-4.244-.771a1126 1126 0 0 1-5.634-1.182c-1.987-.425-2.604-.45-4-.163-.908.187-3.58.48-5.937.65s-5.121.434-6.143.587a96 96 0 0 1-3.556.455c-1.029.107-2.308.497-3.243.989-1.374.722-1.837.812-4.18.812-2.369 0-2.695.065-3.223.643-.324.353-.78 1.028-1.014 1.5-.235.471-.623 1.564-.864 2.428-.24.865-.721 2.903-1.068 4.531-.507 2.384-.576 3.232-.353 4.359.224 1.135.118 2.387-.56 6.612-.52 3.239-.78 5.734-.685 6.59.084.758-.097 3.2-.402 5.429a231 231 0 0 0-.862 7.194c-.17 1.728-.415 6.444-.547 10.478-.23 7.08-.265 7.394-.997 8.992-.417.912-.965 1.885-1.218 2.165-.336.371-.889.507-2.058.507-1.02 0-2.014-.206-2.747-.569" style="fill:#00f;stroke-width:1.07986;fill-opacity:1"/></svg>
-```
 ## heos
 
 - why: multi-colour brand mark (near-black + red)
@@ -57,33 +43,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" version="1.1"><path d="M 27.500 183.965 C 21.734 185.468, 18.982 186.975, 14.560 191.051 C 6.348 198.621, 6.500 197.395, 6.500 256 C 6.500 297.064, 6.778 308.286, 7.871 311.381 C 10.747 319.523, 21.062 327.504, 29.593 328.187 L 33.500 328.500 33.500 256.014 C 33.500 176.380, 33.991 182.273, 27.500 183.965 M 478 256.066 L 478 329.223 481.750 328.574 C 491.950 326.811, 501.658 318.699, 504.007 309.975 C 504.709 307.366, 504.972 288.366, 504.784 253.767 C 504.503 202.053, 504.477 201.456, 502.294 197.376 C 498.563 190.402, 490.753 185.153, 481.750 183.569 L 478 182.909 478 256.066 M 75.852 224.391 C 67.859 227.246, 60.813 235.766, 58.926 244.858 C 57.452 251.956, 58.216 267.291, 60.287 272.190 C 62.453 277.311, 69.713 284.942, 74.500 287.129 C 76.700 288.134, 80.188 288.966, 82.250 288.978 L 86 289 86 256 L 86 223 82.750 223.044 C 80.963 223.068, 77.858 223.674, 75.852 224.391 M 426 256 L 426 289 429.250 288.990 C 434.014 288.976, 442.023 284.876, 445.889 280.474 C 451.905 273.621, 452.953 269.995, 452.978 255.946 C 452.998 244.428, 452.787 242.965, 450.416 238.207 C 446.014 229.375, 436.884 223, 428.634 223 L 426 223 426 256" stroke="none" fill="#040404" fill-rule="evenodd"/><path d="M 244.500 1.039 C 225.111 5.014, 209.028 20.820, 204.498 40.353 C 203.161 46.116, 202.993 58.330, 203.228 132.250 L 203.500 217.500 206.490 222.899 C 209.917 229.087, 216.792 234.222, 224.050 236.013 C 227.064 236.757, 238.707 237.029, 258.550 236.818 L 288.500 236.500 293.590 233.814 C 299.267 230.819, 304.120 225.803, 306.752 220.213 C 308.373 216.769, 308.500 210.306, 308.500 131 C 308.500 50.876, 308.383 45.043, 306.638 38.231 C 302.325 21.400, 287.148 6.288, 270.081 1.833 C 263.158 0.026, 251.246 -0.344, 244.500 1.039 M 150.760 106.558 C 135.803 110.183, 121.974 121.961, 115.405 136.670 C 111.098 146.313, 110.886 152.644, 111.220 261.500 C 111.567 374.839, 111.183 367.804, 117.683 379.629 C 121.778 387.077, 133.571 398.223, 141.110 401.772 C 146.910 404.501, 157.292 407, 162.832 407 L 165 407 165 256 L 165 105 160.750 105.083 C 158.412 105.129, 153.917 105.793, 150.760 106.558 M 347 256 L 347 407 350.750 406.985 C 356.541 406.962, 366.789 404.236, 372.404 401.223 C 384.761 394.594, 396.596 378.968, 398.995 366.114 C 399.629 362.718, 399.995 321.884, 399.985 255.614 C 399.969 140.883, 400.094 143.551, 394.223 132.587 C 390.721 126.046, 378.954 114.279, 372.413 110.777 C 366.786 107.763, 356.537 105.038, 350.750 105.015 L 347 105 347 256 M 221.882 276.354 C 216.294 278.392, 211.210 281.858, 208.394 285.550 C 202.929 292.715, 202.999 291.476, 203.017 381.409 C 203.036 471.013, 203.107 472.372, 208.319 482.631 C 214.304 494.411, 227.733 506.061, 239.276 509.489 C 258.840 515.299, 279.029 510.254, 293 496.065 C 300.561 488.385, 304.347 481.873, 306.459 472.913 C 308.753 463.180, 308.752 298.383, 306.457 291.879 C 304.633 286.708, 300.217 281.847, 294 278.165 L 289.500 275.500 257.500 275.267 C 233.019 275.090, 224.650 275.345, 221.882 276.354" stroke="none" fill="#ca2d1a" fill-rule="evenodd"/></svg>
 ```
-## filesystem_onedrive
-
-- why: single brand colour #0078D4
-- viewBox: `0 0 24 24`
-- current colours: #0078D4
-- current size: 1403 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/filesystem_onedrive/icon.svg
-- output 1: `music_assistant/providers/filesystem_onedrive/icon_dark.svg`
-- output 2: `music_assistant/providers/filesystem_onedrive/icon_monochrome.svg` — exists and is fine (white, 1403 B): keep it
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/filesystem_onedrive/icon_monochrome.svg
-- official assets: Microsoft: icon must be used in full colour; no white variant public
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-  <path fill="#0078D4" d="M18.21 10.29Q19 10.34 19.7 10.68 20.39 11 20.9 11.57 21.41 12.12 21.71 12.83 22 13.54 22 14.34 22 15.18 21.68 15.92 21.36 16.66 20.8 17.21 20.25 17.76 19.5 18.08 18.78 18.41 17.94 18.41H7Q5.97 18.41 5.06 18 4.15 17.61 3.47 16.94 2.79 16.26 2.4 15.35 2 14.44 2 13.41 2 12.59 2.26 11.83 2.5 11.08 3 10.45 3.44 9.82 4.08 9.35 4.72 8.88 5.5 8.63 5.87 8.5 6.21 8.5 6.56 8.43 6.93 8.41H6.94Q7.37 7.75 7.95 7.23 8.5 6.71 9.2 6.34 9.87 6 10.62 5.78 11.37 5.59 12.16 5.59 13.22 5.59 14.2 5.94 15.18 6.29 16 6.91 16.8 7.53 17.37 8.39 17.95 9.26 18.21 10.29M12.16 6.84Q11.05 6.84 10.06 7.3 9.06 7.75 8.36 8.6 8.73 8.7 9.07 8.85 9.4 9 9.73 9.2L13.71 11.58L16 10.62Q16.21 10.53 16.44 10.45 16.67 10.38 16.92 10.33 16.68 9.55 16.21 8.91 15.74 8.27 15.11 7.81 14.5 7.35 13.73 7.1 13 6.84 12.16 6.84M4 15.66L12.27 12.18L9.08 10.26Q8.59 9.97 8.06 9.81 7.5 9.66 6.95 9.66 6.19 9.66 5.5 9.96 4.84 10.26 4.34 10.77 3.84 11.29 3.54 11.97 3.25 12.65 3.25 13.41 3.25 14 3.45 14.59 3.64 15.19 4 15.66M17.94 17.16Q18.41 17.16 18.84 17 19.27 16.86 19.64 16.58L13.61 13L5.03 16.59Q5.47 16.86 5.97 17 6.47 17.16 7 17.16M20.45 15.61Q20.75 15 20.75 14.34 20.75 13.7 20.5 13.17 20.26 12.65 19.85 12.28 19.43 11.91 18.88 11.71 18.32 11.5 17.7 11.5 17.35 11.5 17 11.6 16.66 11.68 16.33 11.81 16 11.93 15.67 12.08 15.35 12.23 15.04 12.37Z" />
-</svg>
-```
-## bbc_sounds
-
-- why: orange tones
-- viewBox: `0 0 246 246`
-- current colours: #a03207, #d24716, #f96200, #f96306, #fa6200
-- current size: 4012 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/bbc_sounds/icon.svg
-- output 1: `music_assistant/providers/bbc_sounds/icon_dark.svg`
-- output 2: `music_assistant/providers/bbc_sounds/icon_monochrome.svg` — none exists: create one
-- official assets: BBC requires written consent for any logo use; no assets published
 ## ibroadcast
 
 - why: dark brown + greys
@@ -118,25 +77,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/gpodder/icon.svg
 - output 1: `music_assistant/providers/gpodder/icon_dark.svg`
 - output 2: `music_assistant/providers/gpodder/icon_monochrome.svg` — none exists: create one
-## lrclib
-
-- why: embedded PNG, mostly near-black: needs re-drawing as a vector
-- viewBox: `0 0 200 200`
-- current colours: n/a
-- current size: 8050 B (embedded PNG)
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/lrclib/icon.svg
-- output 1: `music_assistant/providers/lrclib/icon_dark.svg`
-- output 2: `music_assistant/providers/lrclib/icon_monochrome.svg` — none exists: create one
-## musicme
-
-- why: embedded PNG, dark: needs re-drawing as a vector
-- viewBox: `0 0 96 96`
-- current colours: n/a
-- current size: 3228 B (embedded PNG)
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/musicme/icon.svg
-- output 1: `music_assistant/providers/musicme/icon_dark.svg`
-- output 2: `music_assistant/providers/musicme/icon_monochrome.svg` — exists but is an embedded PNG (3883 B): replace with a vector
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/musicme/icon_monochrome.svg
 ## radioparadise
 
 - why: embedded PNG, dark: needs re-drawing as a vector
@@ -148,17 +88,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 - output 2: `music_assistant/providers/radioparadise/icon_monochrome.svg` — exists but is an embedded PNG (13500 B): replace with a vector
 - current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/radioparadise/icon_monochrome.svg
 - official assets: single-colour sigil mask exists: https://radioparadise.com/safari-pinned-tab.svg (#000, recolour to white)
-## musiccast
-
-- why: embedded PNG, dark: needs re-drawing as a vector
-- viewBox: `0 0 135.46665 135.46665`
-- current colours: n/a
-- current size: 4538 B (embedded PNG)
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/musiccast/icon.svg
-- output 1: `music_assistant/providers/musiccast/icon_dark.svg`
-- output 2: `music_assistant/providers/musiccast/icon_monochrome.svg` — exists but is an embedded PNG (29623 B): replace with a vector
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/musiccast/icon_monochrome.svg
-- official assets: Yamaha: logos only on request (requestforlogos@yamaha.com)
 ## mpd
 
 - why: embedded PNG, mid-dark: needs re-drawing as a vector
@@ -278,13 +207,13 @@ These providers keep their icon.svg and need only `icon_monochrome.svg`: pure wh
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/musicbrainz/icon.svg
 - output: `music_assistant/providers/musicbrainz/icon_monochrome.svg`
 
-## nts
+## musicme
 
-- current monochrome: missing — none
-- viewBox: `0 0 26 26`
-- icon colours: #000, #fff
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/nts/icon.svg
-- output: `music_assistant/providers/nts/icon_monochrome.svg`
+- current monochrome: png-dark — svg-wrapped PNG, luminance 0.18, 3883 B
+- viewBox: `0 0 96 96`
+- icon colours: n/a
+- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/musicme/icon.svg
+- output: `music_assistant/providers/musicme/icon_monochrome.svg`
 
 ## nugs
 
@@ -294,14 +223,6 @@ These providers keep their icon.svg and need only `icon_monochrome.svg`: pure wh
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/nugs/icon.svg
 - output: `music_assistant/providers/nugs/icon_monochrome.svg`
 - official assets: site SVG logo is white + gradient: https://cdn.nugsdev.net/images/logo-xl.svg (site asset, not a published download)
-
-## openai_compatible
-
-- current monochrome: missing — none
-- viewBox: `0 0 24 24`
-- icon colours: #7c5cff, #ffffff
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/openai_compatible/icon.svg
-- output: `music_assistant/providers/openai_compatible/icon_monochrome.svg`
 
 ## radiobrowser
 

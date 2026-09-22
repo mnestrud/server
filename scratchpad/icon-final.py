@@ -17,6 +17,7 @@ from iconlib import (
     change_of,
     data_uri,
     icon_file,
+    notes_for,
     original_data_uri,
     pending_design,
 )
@@ -103,6 +104,11 @@ for domain in all_providers():
         )
 
     mono_pending = "icon_monochrome.svg" if domain in PENDING_MONO else None
+    notes = notes_for(domain)
+    if domain in PENDING_DARK:
+        notes.append("icon_dark.svg: to be designed")
+    if mono_pending:
+        notes.append("icon_monochrome.svg: to be designed")
     rows.append(
         "<tr>"
         f"<th>{domain}</th>"
@@ -110,7 +116,9 @@ for domain in all_providers():
         + dark_cell
         + cell(mono, "dark", pending=mono_pending)
         + cell(mono, "light", invert=True, pending=mono_pending)
-        + "</tr>"
+        + '<td class="notes">'
+        + ("<br>".join(html.escape(n) for n in notes) if notes else "&mdash;")
+        + "</td></tr>"
     )
 
 page = f"""<!doctype html>
@@ -124,6 +132,7 @@ thead th{{position:sticky;top:0;background:#ddd}}
 td.light{{background:#fff;color:#555}}
 td.dark{{background:#121212;color:#999}}
 td small{{display:block;font-size:11px;margin-top:4px}}
+td.notes{{text-align:left;font-size:12px;max-width:34em;color:#333}}
 .ic{{display:inline-block;width:48px;height:48px;margin:0 6px;vertical-align:middle;background:center/contain no-repeat}}
 .ic.s{{width:24px;height:24px}}
 .inv{{filter:invert(1)}}
@@ -160,7 +169,7 @@ Where the word is a link, click it to see what that surface showed before the br
 and for a <b>new</b> <code>icon_dark.svg</code> the <code>icon.svg</code> that dark used to fall back to.
 <b style="color:#d98200">DESIGN</b> = still to be produced in Claude Design; <b style="color:#e33">none</b> = no file and none planned.</p>
 <table><thead>
-<tr><th>provider</th><th>light theme</th><th>dark theme</th><th>monochrome on dark</th><th>monochrome on light<br>(inverted by UI)</th></tr>
+<tr><th>provider</th><th>light theme</th><th>dark theme</th><th>monochrome on dark</th><th>monochrome on light<br>(inverted by UI)</th><th>changes</th></tr>
 </thead><tbody>
 {"".join(rows)}
 </tbody></table></body></html>
