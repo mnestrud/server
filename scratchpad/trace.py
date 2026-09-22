@@ -20,7 +20,9 @@ LIMIT = 5 * 1024
 
 def _path_d(path: potrace.Path, scale: float, decimals: int) -> str:
     def f(v: float) -> str:
-        s = f"{v * scale:.{decimals}f}".rstrip("0").rstrip(".")
+        s = f"{v * scale:.{decimals}f}"
+        if "." in s:  # only trailing *fractional* zeros go ("51.0" -> "51", never "510" -> "51")
+            s = s.rstrip("0").rstrip(".")
         return "0" if s in ("", "-0") else s
 
     def pt(p) -> str:  # potracer points expose .x/.y
@@ -127,14 +129,14 @@ def fit_budget(img: Image.Image, colours: int = 2, limit: int = LIMIT, **kw) -> 
     """trace_image at decreasing working widths until the SVG fits `limit` bytes."""
     w0 = img.size[0]
     last = ""
+    # at each width try one decimal, then integers (integers at 128 px beat decimals at 64 px)
     for width in (w0, 512, 384, 256, 192, 160, 128, 96, 64):
         if width > w0:
             continue
-        last = trace_image(img, colours=colours, work_width=width, **kw)
-        if len(last.encode()) <= limit:
-            return last
-    # last resort: integer coordinates
-    last = trace_image(img, colours=colours, work_width=64, decimals=0, **kw)
+        for decimals in (1, 0):
+            last = trace_image(img, colours=colours, work_width=width, decimals=decimals, **kw)
+            if len(last.encode()) <= limit:
+                return last
     return last
 
 

@@ -373,14 +373,24 @@ write(
     "copy of icon_monochrome.svg",
 )
 
-# 14. lrclib: the icon.svg raster inverted and traced to a vector; that is the monochrome, and
-#     the same file is the dark variant
+# 14. lrclib: the icon.svg raster inverted and traced to a vector, the light tile forced to pure
+#     white; that is the monochrome, and the same file is the dark variant
 lrc_img = png_from_svg(original("lrclib", "icon.svg").decode())
 lrc_img = Image.merge(
     "RGBA", (*ImageOps.invert(lrc_img.convert("RGB")).split(), lrc_img.getchannel("A"))
 )
 lrc = fit_budget(lrc_img, colours=2)
-write("lrclib", "icon_monochrome.svg", lrc, "icon.svg raster inverted and traced to vector")
+lrc = re.sub(
+    r'fill="(#[0-9a-f]{6})"',
+    lambda m: 'fill="#ffffff"' if _parse_colour(m.group(1))[0] > 128 else m.group(0),
+    lrc,
+)
+write(
+    "lrclib",
+    "icon_monochrome.svg",
+    lrc,
+    "icon.svg raster inverted and traced to vector, tile white",
+)
 write("lrclib", "icon_dark.svg", lrc, "same file as icon_monochrome.svg")
 
 # 15. musiccast: monochrome doubles as the dark variant; its 29 KB white raster traced to a vector
@@ -393,14 +403,12 @@ write(
     "icon_monochrome.svg raster traced to vector",
 )
 
-# 16. musicme: monochrome doubles as the dark variant, traced to a vector (monochrome kept as-is)
+# 16. musicme: the existing monochrome is the dark variant too (user's call; it is a raster)
 write(
     "musicme",
     "icon_dark.svg",
-    fit_budget(
-        png_from_svg((PROVIDERS / "musicme" / "icon_monochrome.svg").read_text()), colours=2
-    ),
-    "icon_monochrome.svg raster traced to vector",
+    (PROVIDERS / "musicme" / "icon_monochrome.svg").read_text(),
+    "copy of icon_monochrome.svg",
 )
 
 # 17. nts: black tile + white text already behaves as a monochrome under the UI's inversion
@@ -559,23 +567,21 @@ write("nugs", "icon_monochrome.svg", greyscale(nugs), "the sphere in lifted grey
 # 30. mpd: no dark file — icon.svg serves the dark theme as-is (user's call)
 (PROVIDERS / "mpd" / "icon_dark.svg").unlink(missing_ok=True)
 
-# 31. gpodder: dark variant = the whole art with a thick white outline around its silhouette
-#     (a dilate filter on the flattened group, drawn behind the art); monochrome = same, fills black
-gp = minify_svg((PROVIDERS / "gpodder" / "icon.svg").read_text(), decimals=1)
+# 31. gpodder: dark variant = the art with a thick white outline around its silhouette: a copy of
+#     the flattened group stroked white behind the art (inner strokes hide under the art, only the
+#     outer ring shows). Two-decimal rounding only: the paths are relative and drift at one decimal.
+gp = minify_svg((PROVIDERS / "gpodder" / "icon.svg").read_text(), decimals=2)
 gp_paths = re.search(r"<svg[^>]*>(.*)</svg>", gp, re.DOTALL).group(1)
 gp_dark = (
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 72 72">'
-    '<defs><filter id="o" x="-15%" y="-15%" width="130%" height="130%">'
-    '<feMorphology in="SourceAlpha" operator="dilate" radius="3" result="d"/>'
-    '<feFlood flood-color="#fff"/><feComposite in2="d" operator="in"/></filter>'
-    f'<g id="a">{gp_paths}</g></defs>'
-    '<use href="#a" filter="url(#o)"/><use href="#a"/></svg>'
+    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-6 -6 76 76">'
+    f'<defs><g id="a">{gp_paths}</g></defs>'
+    '<use xlink:href="#a" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><use xlink:href="#a"/></svg>'
 )
 write(
     "gpodder",
     "icon_dark.svg",
     gp_dark,
-    "icon.svg with a 3-unit white outline around the whole silhouette",
+    "icon.svg with a thick white outline around the whole silhouette",
 )
 write(
     "gpodder",

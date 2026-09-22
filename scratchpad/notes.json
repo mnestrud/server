@@ -87,7 +87,7 @@
   "icon_monochrome.svg: from icon_monochrome.svg: #ffff64 -> #fff"
  ],
  "gpodder": [
-  "icon_dark.svg: icon.svg with a 3-unit white outline around the whole silhouette",
+  "icon_dark.svg: icon.svg with a thick white outline around the whole silhouette",
   "icon_monochrome.svg: icon_dark.svg with every fill black"
  ],
  "hass": [
@@ -134,7 +134,7 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "lrclib": [
-  "icon_monochrome.svg: icon.svg raster inverted and traced to vector",
+  "icon_monochrome.svg: icon.svg raster inverted and traced to vector, tile white",
   "icon_dark.svg: same file as icon_monochrome.svg"
  ],
  "mammamiradio": [
@@ -161,7 +161,7 @@
   "icon_dark.svg: icon_monochrome.svg raster traced to vector"
  ],
  "musicme": [
-  "icon_dark.svg: icon_monochrome.svg raster traced to vector",
+  "icon_dark.svg: copy of icon_monochrome.svg",
   "icon_monochrome.svg: kept as-is (user)"
  ],
  "neteasecloudmusic": [
