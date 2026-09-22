@@ -3,7 +3,6 @@
 # Regenerate with: uv run -m scripts.check_provider_icons --update-baseline
 music_assistant/providers/airplay/icon_monochrome.svg	1
 music_assistant/providers/alexa/icon.svg	1
-music_assistant/providers/alexa/icon_monochrome.svg	1
 music_assistant/providers/builtin/icon.svg	1
 music_assistant/providers/builtin/icon_monochrome.svg	1
 music_assistant/providers/coverartarchive/icon_monochrome.svg	1
