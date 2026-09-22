@@ -22,7 +22,7 @@ def label(path: Path | None, fallback: str | None = None) -> str:
     """'icon_dark.svg · new' style caption."""
     if path is None:
         return fallback or ""
-    state = {"A": "new", "M": "new (replaced)", "": "orig"}[change_of(path)]
+    state = {"A": "new", "M": "replaced", "": "orig"}[change_of(path)]
     return f"{path.name} &middot; {state}"
 
 
@@ -100,7 +100,8 @@ td.missing .ph{{border-color:#e33;color:#e33}}
 <p>One row per provider ({len(rows)}). Each column is what the UI renders after this branch:
 light theme shows <code>icon.svg</code>; dark theme shows <code>icon_dark.svg</code> when it exists, else <code>icon.svg</code>;
 <code>icon_monochrome.svg</code> is shown as-is on dark and CSS-inverted on light.
-Each cell names the file it comes from and whether that file is <b>orig</b> (shipping today) or <b>new</b> (added or replaced on this branch).
+Each cell names the file it comes from and whether that file is <b>orig</b> (shipping today, untouched),
+<b>replaced</b> (existed, discarded and replaced on this branch) or <b>new</b> (there was no such file before).
 <b style="color:#d98200">DESIGN</b> = still to be produced in Claude Design; <b style="color:#e33">none</b> = no file and none planned.</p>
 <table><thead>
 <tr><th>provider</th><th>light theme</th><th>dark theme</th><th>monochrome on dark</th><th>monochrome on light<br>(inverted by UI)</th></tr>
