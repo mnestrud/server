@@ -51,6 +51,12 @@ def cell(
         if pending:
             return f'<td class="{surface} pending"><div class="ph">DESIGN</div><small>{pending}</small></td>'
         return f'<td class="{surface} missing"><div class="ph">none</div></td>'
+    if pending:
+        # the file exists but is wrong and will be replaced by a designed one: show it, say so
+        inner = cell(
+            path, surface, invert, caption=f"{label(path)} &rarr; <b>DESIGN</b> replacement pending"
+        )
+        return inner.replace(f'<td class="{surface}">', f'<td class="{surface} pending">', 1)
     uri = data_uri(path)
     name = f"i{len(CSS)}"
     CSS.append(f".{name}{{background-image:url({uri})}}")
