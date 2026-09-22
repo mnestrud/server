@@ -91,7 +91,9 @@ def trace_image(
     idx[alpha] = merged
     scale = w0 / work.size[0]
     # speckle threshold grows with the working resolution (anti-aliasing crumbs are ~1-2 px)
-    turd = max(turdsize, round(work.size[0] * work.size[1] / 4000))
+    turd = min(
+        12, max(turdsize, round(work.size[0] * work.size[1] / 4000))
+    )  # capped: thin strokes must survive
     min_area = max(turd * 4, int(alpha.sum() * 0.004))
     layers = []
     for i in kept:
@@ -101,7 +103,7 @@ def trace_image(
         mask = idx == i
         if mask.sum() < min_area:
             continue
-        bmp = potrace.Bitmap(mask)
+        bmp = potrace.Bitmap(~mask)  # potracer traces the False pixels as foreground
         path = bmp.trace(
             turdsize=turd,
             turnpolicy=potrace.POTRACE_TURNPOLICY_MINORITY,
