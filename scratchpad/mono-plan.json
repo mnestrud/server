@@ -1,0 +1,583 @@
+{
+ "_demo_music_provider": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of icon_dark.svg",
+  "status": ""
+ },
+ "_demo_player_provider": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of icon_dark.svg",
+  "status": ""
+ },
+ "_demo_plugin_provider": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of icon_dark.svg",
+  "status": ""
+ },
+ "acoustid_lookup": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "ai_radio": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "airplay": {
+  "action": "manual",
+  "detail": "",
+  "how": "original icon.svg in white",
+  "status": "png-white"
+ },
+ "alexa": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg, all white",
+  "status": "oversize"
+ },
+ "ambient_sounds": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "amplipi": {
+  "action": "manual",
+  "detail": "",
+  "how": "forum PNG, everything white",
+  "status": "png-white"
+ },
+ "apple_music": {
+  "action": "debt",
+  "detail": "#000000, #ffffff, 3460 B",
+  "status": "bw"
+ },
+ "ard_audiothek": {
+  "action": "debt",
+  "detail": "#000, #fff, 2744 B",
+  "status": "bw"
+ },
+ "ariacast_receiver": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg, blues set to black (white tile kept)",
+  "status": "missing"
+ },
+ "audible": {
+  "action": "debt",
+  "detail": "#000000, #ffffff, 1882 B",
+  "status": "bw"
+ },
+ "audiobookshelf": {
+  "action": "debt",
+  "detail": "#000, #ffffff, 2931 B",
+  "status": "bw"
+ },
+ "bbc_sounds": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "bose_soundtouch": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon.svg: already white, copied",
+  "status": "missing"
+ },
+ "builtin": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "chromecast": {
+  "action": "debt",
+  "detail": "#000000, #ffffff, 2161 B",
+  "status": "bw"
+ },
+ "coverartarchive": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "digitally_incorporated": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 14731 B",
+  "status": "png-white"
+ },
+ "dlna": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
+  "status": "colour"
+ },
+ "emby": {
+  "action": "derived",
+  "detail": "no fill set (defaults to black), 1648 B",
+  "how": "icon_monochrome.svg: no fill -> #fff on <svg>",
+  "status": "black"
+ },
+ "fanarttv": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 45135 B",
+  "status": "png-white"
+ },
+ "filesystem_cloud": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "filesystem_local": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 21585 B",
+  "status": "png-white"
+ },
+ "filesystem_nfs": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "filesystem_onedrive": {
+  "action": "manual",
+  "detail": "",
+  "how": "new icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "filesystem_smb": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "fully_kiosk": {
+  "action": "derived",
+  "detail": "white, 6526 B",
+  "how": "icon.svg: #00f -> #fff",
+  "status": "oversize"
+ },
+ "genius_lyrics": {
+  "action": "derived",
+  "detail": "single colour #ffff64, 852 B",
+  "how": "icon_monochrome.svg: #ffff64 -> #fff",
+  "status": "black"
+ },
+ "gpodder": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon_dark.svg with every fill black",
+  "status": "missing"
+ },
+ "hass": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "hass_players": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "heos": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg, everything white",
+  "status": "missing"
+ },
+ "hue_entertainment": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "internet_archive": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 26877 B",
+  "status": "png-white"
+ },
+ "itunes_artwork": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "itunes_podcasts": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "jellyfin": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "kion_music": {
+  "action": "debt",
+  "detail": "#000000, #ffffff, 313 B",
+  "status": "bw"
+ },
+ "lastfm_recommendations": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of lastfm_scrobble/icon_monochrome.svg",
+  "status": "missing"
+ },
+ "lastfm_scrobble": {
+  "action": "derived",
+  "detail": "single colour black, 1113 B",
+  "how": "icon_monochrome.svg: black -> #fff",
+  "status": "black"
+ },
+ "listenbrainz_scrobble": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg, shapes white, detail lines black",
+  "status": "missing"
+ },
+ "local_audio": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon.svg: #4a90d9 -> #fff",
+  "status": "missing"
+ },
+ "loudness_analysis": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "lrclib": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg PNG inverted, 160 px",
+  "status": "colour"
+ },
+ "mammamiradio": {
+  "action": "derived",
+  "detail": "single colour currentcolor, 522 B",
+  "how": "icon_monochrome.svg: currentcolor -> #fff",
+  "status": "black"
+ },
+ "milkdrop_visualizer": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "mpd": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "png-dark"
+ },
+ "msx_bridge": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 2867 B",
+  "status": "png-white"
+ },
+ "music_quiz": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "musicbrainz": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "musiccast": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 0.91, 29623 B",
+  "status": "png-white"
+ },
+ "musicme": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "png-dark"
+ },
+ "neteasecloudmusic": {
+  "action": "derived",
+  "detail": "single colour #000000, 1942 B",
+  "how": "icon_monochrome.svg: #000000 -> #fff",
+  "status": "black"
+ },
+ "nts": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of icon.svg (tile + text invert cleanly)",
+  "status": "bw"
+ },
+ "nugs": {
+  "action": "manual",
+  "detail": "",
+  "how": "nugs.net sphere in lifted greyscale",
+  "status": "colour"
+ },
+ "openai_compatible": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg, purple -> white, white -> black",
+  "status": "bw"
+ },
+ "opensubsonic": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
+  "status": "oversize"
+ },
+ "pandora": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 9097 B",
+  "status": "png-white"
+ },
+ "party": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "phishin": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 62198 B",
+  "status": "png-white"
+ },
+ "playlist_metadata": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "podcast_index": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 40334 B",
+  "status": "png-white"
+ },
+ "podcastfeed": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 27419 B",
+  "status": "png-white"
+ },
+ "profiler": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "qobuz": {
+  "action": "debt",
+  "detail": "#000000, #ffffff, 2418 B",
+  "status": "bw"
+ },
+ "qqmusic": {
+  "action": "derived",
+  "detail": "single colour #59606b, 2197 B",
+  "how": "icon_monochrome.svg: #59606b -> #fff",
+  "status": "black"
+ },
+ "radio_playlist": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "radiobrowser": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "oversize"
+ },
+ "radioparadise": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 13500 B",
+  "status": "png-white"
+ },
+ "rain_mood": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "recommendations": {
+  "action": "derived",
+  "detail": "single colour currentcolor, 618 B",
+  "how": "icon_monochrome.svg: currentcolor -> #fff",
+  "status": "black"
+ },
+ "roku_media_assistant": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "sendspin_source": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "smart_fades": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "smart_playlist": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg, blue -> white, white -> black",
+  "status": "missing"
+ },
+ "snapcast": {
+  "action": "debt",
+  "detail": "#000, #ffffff, 2975 B",
+  "status": "bw"
+ },
+ "somafm": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon.svg: red -> #fff",
+  "status": "missing"
+ },
+ "sonic_analysis": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "sonic_similarity": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "soundcloud": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "spotify": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
+  "status": "colour"
+ },
+ "spotify_connect": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
+  "status": "colour"
+ },
+ "squeezelite": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
+  "status": "colour"
+ },
+ "storytel": {
+  "action": "derived",
+  "detail": "no fill set (defaults to black), 474 B",
+  "how": "icon_monochrome.svg: no fill -> #fff on <svg>",
+  "status": "black"
+ },
+ "subsonic_scrobble": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (original already renders white; audit false positive)",
+  "status": "oversize"
+ },
+ "sync_group": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 7564 B",
+  "status": "png-white"
+ },
+ "teddycloud": {
+  "action": "derived",
+  "detail": "single colour currentcolor, 497 B",
+  "how": "icon_monochrome.svg: currentcolor -> #fff",
+  "status": "black"
+ },
+ "theaudiodb": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 22168 B",
+  "status": "png-white"
+ },
+ "universal_group": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 7564 B",
+  "status": "png-white"
+ },
+ "universal_player": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon_dark.svg: already white, copied",
+  "status": "missing"
+ },
+ "vban_receiver": {
+  "action": "debt",
+  "detail": "svg-wrapped PNG, luminance 1.00, 6641 B",
+  "status": "png-white"
+ },
+ "webdav": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ },
+ "wiim": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon.svg: already white, copied",
+  "status": "missing"
+ },
+ "yandex_smarthome": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg PNG in lifted greyscale",
+  "status": "colour"
+ },
+ "yandex_station": {
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg in lifted greyscale",
+  "status": "colour"
+ },
+ "yandex_ynison": {
+  "action": "derived",
+  "detail": "",
+  "how": "icon.svg: #5b9bd5 -> #fff",
+  "status": "missing"
+ },
+ "yoto": {
+  "action": "debt",
+  "detail": "icon_monochrome.png, luminance 0.92, 13647 B",
+  "status": "png-white"
+ },
+ "yousee": {
+  "action": "debt",
+  "detail": "black, white, 2646 B",
+  "status": "bw"
+ },
+ "ytmusic": {
+  "action": "keep",
+  "detail": "",
+  "how": "kept as-is (user)",
+  "status": "colour"
+ }
+}
