@@ -40,7 +40,13 @@ def cell(
     invert: bool = False,
     pending: str | None = None,
     caption: str | None = None,
+    previous: tuple[str | None, str] | None = None,
 ) -> str:
+    """
+    One cell. `previous` is (data URI, file name) of what the UI rendered on this surface
+    before the branch, when that differs from `path`; for a replaced file it defaults to the
+    file's own original. The caption's state word then toggles between the two renderings.
+    """
     if path is None:
         if pending:
             return f'<td class="{surface} pending"><div class="ph">DESIGN</div><small>{pending}</small></td>'
@@ -51,18 +57,19 @@ def cell(
     inv = " inv" if invert else ""
     icons = f'<span class="ic {name}{inv}"></span><span class="ic s {name}{inv}"></span>'
     text = caption or label(path)
-    # a replaced file: also embed the original and let the caption toggle between the two
-    if change_of(path) == "M" and (orig := original_data_uri(path)):
+    state = change_of(path)
+    if previous is None and state == "M":
+        previous = (original_data_uri(path), path.name)
+    if previous and previous[0]:
         oname = f"i{len(CSS)}"
-        CSS.append(f".{oname}{{background-image:url({orig})}}")
+        CSS.append(f".{oname}{{background-image:url({previous[0]})}}")
         icons = (
             f'<span class="cur">{icons}</span>'
             f'<span class="old"><span class="ic {oname}{inv}"></span><span class="ic s {oname}{inv}"></span></span>'
         )
-        text = text.replace(
-            "replaced",
-            '<a href="#" class="tog" data-alt="showing original — click for replaced">replaced</a>',
-        )
+        word = "replaced" if state == "M" else "new"
+        alt = f"showing {previous[1]} as before &mdash; click for {word}"
+        text = text.replace(word, f'<a href="#" class="tog" data-alt="{alt}">{word}</a>', 1)
     return f'<td class="{surface}">{icons}<small>{text}</small></td>'
 
 
@@ -75,7 +82,11 @@ for domain in all_providers():
 
     # dark theme: icon_dark if it exists, else the default (that is what useProviderIcon does)
     if dark is not None:
-        dark_cell = cell(dark, "dark")
+        # a new icon_dark still displaces what dark showed before: the (original) icon.svg
+        before = None
+        if change_of(dark) == "A":
+            before = (original_data_uri(default) or data_uri(default), default.name)
+        dark_cell = cell(dark, "dark", previous=before)
     elif domain in PENDING_DARK:
         dark_cell = cell(None, "dark", pending="icon_dark.svg")
     else:
@@ -138,7 +149,9 @@ document.addEventListener("click", function (e) {{
 light theme shows <code>icon.svg</code>; dark theme shows <code>icon_dark.svg</code> when it exists, else <code>icon.svg</code>;
 <code>icon_monochrome.svg</code> is shown as-is on dark and CSS-inverted on light.
 Each cell names the file it comes from and whether that file is <b>orig</b> (shipping today, untouched),
-<b style="color:#d98200">replaced</b> (existed, discarded and replaced on this branch — click the word to see the original on the same background) or <b>new</b> (there was no such file before).
+<b style="color:#d98200">replaced</b> (existed, discarded and replaced on this branch) or <b>new</b> (there was no such file before).
+Where the word is a link, click it to see what that surface showed before the branch: the original file for <b>replaced</b>,
+and for a <b>new</b> <code>icon_dark.svg</code> the <code>icon.svg</code> that dark used to fall back to.
 <b style="color:#d98200">DESIGN</b> = still to be produced in Claude Design; <b style="color:#e33">none</b> = no file and none planned.</p>
 <table><thead>
 <tr><th>provider</th><th>light theme</th><th>dark theme</th><th>monochrome on dark</th><th>monochrome on light<br>(inverted by UI)</th></tr>
