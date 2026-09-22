@@ -1,4 +1,22 @@
 {
+ "_demo_music_provider": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of icon_dark.svg",
+  "status": ""
+ },
+ "_demo_player_provider": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of icon_dark.svg",
+  "status": ""
+ },
+ "_demo_plugin_provider": {
+  "action": "manual",
+  "detail": "",
+  "how": "copy of icon_dark.svg",
+  "status": ""
+ },
  "acoustid_lookup": {
   "action": "derived",
   "detail": "",
@@ -17,9 +35,10 @@
   "status": "png-white"
  },
  "alexa": {
-  "action": "debt",
-  "detail": "rgb(0,0,0), rgb(255,255,255), 20589 B",
-  "status": "bw"
+  "action": "manual",
+  "detail": "",
+  "how": "icon.svg, all white",
+  "status": "oversize"
  },
  "ambient_sounds": {
   "action": "derived",
@@ -44,9 +63,9 @@
   "status": "bw"
  },
  "ariacast_receiver": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg, blues set to black (white tile kept)",
   "status": "missing"
  },
  "audible": {
@@ -204,9 +223,9 @@
   "status": "bw"
  },
  "lastfm_recommendations": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "copy of lastfm_scrobble/icon_monochrome.svg",
   "status": "missing"
  },
  "lastfm_scrobble": {
@@ -412,9 +431,9 @@
   "status": "missing"
  },
  "smart_playlist": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg, blue -> white, white -> black",
   "status": "missing"
  },
  "snapcast": {

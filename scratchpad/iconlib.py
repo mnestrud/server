@@ -28,25 +28,27 @@ GROUPS = {
     "B": (
         "Claude Design: multi-colour brand mark, brand colour too dark, or embedded PNG",
         [
-            "airplay",
             "fully_kiosk",
             "heos",
-            "theaudiodb",
             "filesystem_onedrive",
             "bbc_sounds",
             "ibroadcast",
             "gpodder",
             "lrclib",
             "musicme",
-            "internet_archive",
             "radioparadise",
             "musiccast",
             "mpd",
         ],
     ),
+    "C": (
+        "dark variant taken from an existing file (user-directed), no design needed",
+        ["internet_archive", "theaudiodb", "abc_radio_network", "msx_bridge"],
+    ),
     "skip": (
         "no icon_dark planned: readable on dark as-is, or the user chose to keep icon.svg",
         [
+            "airplay",
             "deezer",
             "lastfm_recommendations",
             "lastfm_scrobble",
@@ -57,7 +59,6 @@ GROUPS = {
             "somafm",
             "storytel",
             "yandex_station",
-            "abc_radio_network",
             "amplipi",
             "apple_music",
             "bluesound",
@@ -117,7 +118,7 @@ def changed_files() -> dict[str, str]:
         ["git", "status", "--porcelain", "--", "music_assistant/providers"], cwd=ROOT, text=True
     ).splitlines():
         code, path = line[:2].strip() or "M", line[3:]
-        status.setdefault(path, "A" if code == "?" else code[0])
+        status.setdefault(path, "A" if code.startswith("?") else code[0])
     return status
 
 

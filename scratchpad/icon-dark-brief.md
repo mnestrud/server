@@ -30,53 +30,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 
 # Part 1 — dark + monochrome
 
-## airplay
-
-- why: single-colour #0000ff mark; brand mark, not a plain glyph
-- viewBox: `0 0 24 24`
-- current colours: #0000ff
-- current size: 2681 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/airplay/icon.svg
-- output 1: `music_assistant/providers/airplay/icon_dark.svg`
-- output 2: `music_assistant/providers/airplay/icon_monochrome.svg` — exists but is an embedded PNG (50591 B): replace with a vector
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/airplay/icon_monochrome.svg
-- official assets: Apple HIG says use the white AirPlay icon on dark backgrounds; glyph shipped only as PDF in a .dmg — a white recolour of our mark is the same thing
-
-```svg
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   viewBox="0 0 24 24"
-   version="1.1"
-   id="svg1"
-   sodipodi:docname="icon.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs1" />
-
-  <title
-     id="title1">AirPlay Audio</title>
-  <path
-     d="M11.908.183a12 12 0 0 0-8.044 3.172c-4.882 4.475-5.166 12.08-.692 16.962.204.244.448.447.692.692a.315.315 0 0 0 .408-.04l.53-.61a.32.32 0 0 0 0-.448C.53 15.965.243 9.253 4.23 4.982S14.889.427 19.16 4.414s4.555 10.655.568 14.927c-.203.203-.365.407-.568.57a.32.32 0 0 0 0 .447l.53.611a.37.37 0 0 0 .446.04c4.882-4.516 5.166-12.081.692-16.962a11.98 11.98 0 0 0-8.92-3.864m.387 3.518A8.6 8.6 0 0 0 6.143 6c-3.458 3.213-3.66 8.623-.447 12.08.122.123.243.285.406.407a.32.32 0 0 0 .447 0l.53-.61a.32.32 0 0 0 0-.446A7.26 7.26 0 0 1 4.8 12.183c0-3.946 3.212-7.16 7.158-7.16s7.16 3.253 7.16 7.199a7.2 7.2 0 0 1-2.238 5.209.32.32 0 0 0 0 .447l.529.61c.122.121.325.162.447.04a8.6 8.6 0 0 0 .408-12.122 8.5 8.5 0 0 0-5.97-2.705zm-.266 3.316A5.2 5.2 0 0 0 8.34 8.48c-2.075 1.993-2.115 5.247-.122 7.322l.121.123a.32.32 0 0 0 .447 0l.53-.611a.32.32 0 0 0 0-.448 3.8 3.8 0 0 1-1.098-2.683 3.73 3.73 0 0 1 3.742-3.742 3.73 3.73 0 0 1 3.742 3.742c0 1.017-.406 1.951-1.139 2.683a.32.32 0 0 0 0 .448l.53.61a.32.32 0 0 0 .447 0 5.19 5.19 0 0 0 .123-7.321 5.13 5.13 0 0 0-3.633-1.586zm.006 7.744a.6.6 0 0 0-.402.146l-.04.041-7.159 8.055a.506.506 0 0 0 .041.69.44.44 0 0 0 .283.124h14.36a.495.495 0 0 0 .489-.488.46.46 0 0 0-.121-.326l-7.08-8.055a.5.5 0 0 0-.37-.187z"
-     id="path1"
-     style="fill:#0000ff;fill-opacity:1" />
-  <metadata
-     id="metadata1">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:title>AirPlay Audio</dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-</svg>
-```
 ## fully_kiosk
 
 - why: single-colour #00f mark; brand mark, not a plain glyph
@@ -103,45 +56,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" version="1.1"><path d="M 27.500 183.965 C 21.734 185.468, 18.982 186.975, 14.560 191.051 C 6.348 198.621, 6.500 197.395, 6.500 256 C 6.500 297.064, 6.778 308.286, 7.871 311.381 C 10.747 319.523, 21.062 327.504, 29.593 328.187 L 33.500 328.500 33.500 256.014 C 33.500 176.380, 33.991 182.273, 27.500 183.965 M 478 256.066 L 478 329.223 481.750 328.574 C 491.950 326.811, 501.658 318.699, 504.007 309.975 C 504.709 307.366, 504.972 288.366, 504.784 253.767 C 504.503 202.053, 504.477 201.456, 502.294 197.376 C 498.563 190.402, 490.753 185.153, 481.750 183.569 L 478 182.909 478 256.066 M 75.852 224.391 C 67.859 227.246, 60.813 235.766, 58.926 244.858 C 57.452 251.956, 58.216 267.291, 60.287 272.190 C 62.453 277.311, 69.713 284.942, 74.500 287.129 C 76.700 288.134, 80.188 288.966, 82.250 288.978 L 86 289 86 256 L 86 223 82.750 223.044 C 80.963 223.068, 77.858 223.674, 75.852 224.391 M 426 256 L 426 289 429.250 288.990 C 434.014 288.976, 442.023 284.876, 445.889 280.474 C 451.905 273.621, 452.953 269.995, 452.978 255.946 C 452.998 244.428, 452.787 242.965, 450.416 238.207 C 446.014 229.375, 436.884 223, 428.634 223 L 426 223 426 256" stroke="none" fill="#040404" fill-rule="evenodd"/><path d="M 244.500 1.039 C 225.111 5.014, 209.028 20.820, 204.498 40.353 C 203.161 46.116, 202.993 58.330, 203.228 132.250 L 203.500 217.500 206.490 222.899 C 209.917 229.087, 216.792 234.222, 224.050 236.013 C 227.064 236.757, 238.707 237.029, 258.550 236.818 L 288.500 236.500 293.590 233.814 C 299.267 230.819, 304.120 225.803, 306.752 220.213 C 308.373 216.769, 308.500 210.306, 308.500 131 C 308.500 50.876, 308.383 45.043, 306.638 38.231 C 302.325 21.400, 287.148 6.288, 270.081 1.833 C 263.158 0.026, 251.246 -0.344, 244.500 1.039 M 150.760 106.558 C 135.803 110.183, 121.974 121.961, 115.405 136.670 C 111.098 146.313, 110.886 152.644, 111.220 261.500 C 111.567 374.839, 111.183 367.804, 117.683 379.629 C 121.778 387.077, 133.571 398.223, 141.110 401.772 C 146.910 404.501, 157.292 407, 162.832 407 L 165 407 165 256 L 165 105 160.750 105.083 C 158.412 105.129, 153.917 105.793, 150.760 106.558 M 347 256 L 347 407 350.750 406.985 C 356.541 406.962, 366.789 404.236, 372.404 401.223 C 384.761 394.594, 396.596 378.968, 398.995 366.114 C 399.629 362.718, 399.995 321.884, 399.985 255.614 C 399.969 140.883, 400.094 143.551, 394.223 132.587 C 390.721 126.046, 378.954 114.279, 372.413 110.777 C 366.786 107.763, 356.537 105.038, 350.750 105.015 L 347 105 347 256 M 221.882 276.354 C 216.294 278.392, 211.210 281.858, 208.394 285.550 C 202.929 292.715, 202.999 291.476, 203.017 381.409 C 203.036 471.013, 203.107 472.372, 208.319 482.631 C 214.304 494.411, 227.733 506.061, 239.276 509.489 C 258.840 515.299, 279.029 510.254, 293 496.065 C 300.561 488.385, 304.347 481.873, 306.459 472.913 C 308.753 463.180, 308.752 298.383, 306.457 291.879 C 304.633 286.708, 300.217 281.847, 294 278.165 L 289.500 275.500 257.500 275.267 C 233.019 275.090, 224.650 275.345, 221.882 276.354" stroke="none" fill="#ca2d1a" fill-rule="evenodd"/></svg>
-```
-## theaudiodb
-
-- why: grey #454545 body + white; decide whether to lighten the grey or go white
-- viewBox: `0 0 916 916`
-- current colours: #454545, #fff
-- current size: 4421 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/theaudiodb/icon.svg
-- output 1: `music_assistant/providers/theaudiodb/icon_dark.svg`
-- output 2: `music_assistant/providers/theaudiodb/icon_monochrome.svg` — exists but is an embedded PNG (22168 B): replace with a vector
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/theaudiodb/icon_monochrome.svg
-- official assets: site header SVG is white + blue, suited to dark: https://www.theaudiodb.com/images/logo_simple.svg (8.5 KB, site asset)
-
-```svg
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   viewBox="0 0 916 916"
-   version="1.1"
-   id="svg2"
-   sodipodi:docname="tadb-optimized-5kb.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs2" />
-
-  <path
-     fill="#454545"
-     fill-rule="evenodd"
-     d="M248.0 721.5L209.0 718.5L184.0 713.5L164.0 707.5L126.0 690.5L110.0 680.5L92.0 666.5L66.5 639.0L55.5 622.0L47.5 605.0L39.5 574.0L38.5 554.0L41.5 530.0L47.5 510.0L58.5 488.0L74.5 466.0L91.0 449.5L110.0 434.5L126.0 424.5L146.0 414.5L178.5 403.0L186.5 365.0L199.5 330.0L219.5 293.0L247.5 256.0L270.0 233.5L299.0 210.5L325.0 194.5L360.0 178.5L401.0 166.5L425.0 162.5L452.0 160.5L494.0 162.5L518.0 166.5L559.0 178.5L578.0 186.5L611.0 204.5L647.0 231.5L672.5 257.0L701.5 296.0L719.5 330.0L727.5 350.0L734.5 372.0L740.5 402.0L748.0 406.5L773.0 414.5L795.0 425.5L826.0 447.5L851.5 475.0L860.5 489.0L872.5 513.0L878.5 537.0L878.5 579.0L870.5 608.0L857.5 632.0L842.5 652.0L826.0 668.5L812.0 679.5L795.0 690.5L768.0 703.5L744.0 711.5L721.0 716.5L696.0 718.5L688.0 720.5L671.0 719.5L668.5 717.0L668.5 383.0L665.5 366.0L659.5 347.0L648.5 325.0L631.5 302.0L604.0 276.5L581.0 261.5L561.0 251.5L537.0 242.5L519.0 237.5L490.0 232.5L439.0 231.5L400.0 237.5L373.0 245.5L338.0 261.5L322.0 271.5L304.0 285.5L287.5 302.0L270.5 325.0L262.5 340.0L254.5 362.0L249.5 389.0L249.5 718.0L248.0 721.5Z"
-     id="path1" />
-  <path
-     fill="#fff"
-     fill-rule="evenodd"
-     d="M285.0 757.5L233.0 757.5L214.0 755.5L182.0 749.5L146.0 738.5L120.0 727.5L85.0 706.5L67.0 692.5L44.5 670.0L25.5 644.0L14.5 623.0L6.5 601.0L1.5 575.0L1.5 541.0L4.5 523.0L10.5 503.0L22.5 477.0L33.5 460.0L49.5 440.0L75.0 416.5L105.0 395.5L124.0 387.5L146.5 375.0L154.5 343.0L165.5 313.0L177.5 288.0L197.5 256.0L216.5 232.0L245.0 203.5L264.0 187.5L301.0 163.5L356.0 139.5L402.0 128.5L434.0 124.5L484.0 124.5L531.0 131.5L573.0 143.5L616.0 162.5L652.0 186.5L673.0 203.5L701.5 232.0L720.5 256.0L740.5 288.0L752.5 313.0L763.5 343.0L771.5 377.0L812.0 396.5L844.0 418.5L871.5 445.0L882.5 459.0L894.5 478.0L903.5 497.0L909.5 515.0L914.5 540.0L914.5 574.0L910.5 600.0L894.5 639.0L875.5 666.0L846.0 694.5L822.0 711.5L787.0 730.5L749.0 744.5L720.0 751.5L682.0 756.5L633.0 756.5L632.5 383.0L624.5 354.0L609.5 328.0L592.0 308.5L569.0 290.5L545.0 277.5L514.0 266.5L480.0 260.5L459.0 259.5L424.0 262.5L405.0 266.5L381.0 274.5L360.0 284.5L340.0 297.5L327.0 308.5L309.5 328.0L301.5 340.0L290.5 365.0L286.5 383.0L285.5 396.0L285.0 757.5ZM248.5 721.0L249.5 391.0L251.5 389.0L251.5 380.0L255.5 361.0L261.5 344.0L273.5 322.0L284.5 307.0L299.0 291.5L318.0 275.5L338.0 262.5L365.0 249.5L388.0 241.5L427.0 233.5L466.0 231.5L505.0 235.5L531.0 241.5L549.0 247.5L581.0 262.5L605.0 278.5L620.0 291.5L634.5 307.0L651.5 332.0L662.5 358.0L668.5 386.0L668.5 717.0L671.0 719.5L689.0 720.5L719.0 717.5L747.0 711.5L765.0 705.5L805.0 685.5L833.0 663.5L845.5 650.0L858.5 632.0L869.5 611.0L875.5 594.0L879.5 574.0L879.5 542.0L875.5 522.0L869.5 505.0L858.5 484.0L845.5 466.0L824.0 444.5L795.0 424.5L775.0 414.5L741.5 403.0L734.5 370.0L727.5 348.0L717.5 324.0L703.5 298.0L684.5 270.0L665.5 248.0L645.0 228.5L626.0 213.5L603.0 198.5L571.0 182.5L530.0 168.5L500.0 162.5L481.0 160.5L427.0 161.5L402.0 165.5L375.0 172.5L341.0 185.5L310.0 202.5L292.0 214.5L272.0 230.5L245.5 257.0L229.5 277.0L215.5 298.0L198.5 331.0L191.5 348.0L183.5 374.0L179.5 392.0L179.5 401.0L177.0 403.5L154.0 410.5L130.0 421.5L106.0 436.5L92.0 447.5L73.5 466.0L59.5 485.0L48.5 506.0L41.5 527.0L38.5 545.0L38.5 570.0L41.5 588.0L46.5 604.0L56.5 625.0L63.5 636.0L73.5 649.0L92.0 667.5L123.0 689.5L140.0 698.5L162.0 707.5L186.0 714.5L212.0 719.5L232.0 721.5L248.5 721.0Z"
-     id="path2" />
-</svg>
 ```
 ## filesystem_onedrive
 
@@ -223,17 +137,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 - output 1: `music_assistant/providers/musicme/icon_dark.svg`
 - output 2: `music_assistant/providers/musicme/icon_monochrome.svg` — exists but is an embedded PNG (3883 B): replace with a vector
 - current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/musicme/icon_monochrome.svg
-## internet_archive
-
-- why: embedded PNG, near-black: needs re-drawing as a vector
-- viewBox: `0 0 135.46665 135.46665`
-- current colours: n/a
-- current size: 5434 B (embedded PNG)
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/internet_archive/icon.svg
-- output 1: `music_assistant/providers/internet_archive/icon_dark.svg`
-- output 2: `music_assistant/providers/internet_archive/icon_monochrome.svg` — exists but is an embedded PNG (26877 B): replace with a vector
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/internet_archive/icon_monochrome.svg
-- official assets: official colour-agnostic glyph: https://raw.githubusercontent.com/internetarchive/ia-icons/master/svg/ia-logo.svg (AGPL-3.0 repo) — recolour that rather than redraw
 ## radioparadise
 
 - why: embedded PNG, dark: needs re-drawing as a vector
@@ -286,14 +189,6 @@ These providers keep their icon.svg and need only `icon_monochrome.svg`: pure wh
 - icon colours: #000000, #c01824, #f0f0f0
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/amplipi/icon.svg
 - output: `music_assistant/providers/amplipi/icon_monochrome.svg`
-
-## ariacast_receiver
-
-- current monochrome: missing — none
-- viewBox: `0 0 24 24`
-- icon colours: #010101, #4a6097, #4c6298, #50649a, #50659b, #fafafa, #fff
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/ariacast_receiver/icon.svg
-- output: `music_assistant/providers/ariacast_receiver/icon_monochrome.svg`
 
 ## builtin
 
@@ -367,14 +262,6 @@ These providers keep their icon.svg and need only `icon_monochrome.svg`: pure wh
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/jellyfin/icon.svg
 - output: `music_assistant/providers/jellyfin/icon_monochrome.svg`
 
-## lastfm_recommendations
-
-- current monochrome: missing — none
-- viewBox: `0 0 804 447`
-- icon colours: #d1170e, black
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/lastfm_recommendations/icon.svg
-- output: `music_assistant/providers/lastfm_recommendations/icon_monochrome.svg`
-
 ## listenbrainz_scrobble
 
 - current monochrome: missing — none
@@ -431,14 +318,6 @@ These providers keep their icon.svg and need only `icon_monochrome.svg`: pure wh
 - icon colours: #50206f, #662d91, #7b3bb0, #fff
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/roku_media_assistant/icon.svg
 - output: `music_assistant/providers/roku_media_assistant/icon_monochrome.svg`
-
-## smart_playlist
-
-- current monochrome: missing — none
-- viewBox: `0 0 24 24`
-- icon colours: #18bcf2, #ffffff
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/smart_playlist/icon.svg
-- output: `music_assistant/providers/smart_playlist/icon_monochrome.svg`
 
 ## soundcloud
 

@@ -74,7 +74,7 @@ if plan_path.exists():
     for domain, item in sorted(plan.items()):
         if domain in dark_scope and item["action"] != "debt":
             continue  # already listed above; its monochrome is part of that row
-        by_action[item["action"]].append(domain)
+        by_action["derived" if item["action"] == "manual" else item["action"]].append(domain)
     GROUPS["M1"] = (
         "monochrome derived by text edit (single-colour source recoloured to white)",
         by_action["derived"],

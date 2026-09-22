@@ -80,12 +80,12 @@ if __name__ == "__main__":
     plan: dict[str, dict[str, str]] = {
         d: p
         for d, p in previous.items()
-        if p["action"] == "derived"
-        and before.get(d, ("",))[0] == "ok"
+        if p["action"] in ("derived", "manual")
+        and before.get(d, ("",))[0] in ("ok", "bw")
         and change_of(PROVIDERS / d / "icon_monochrome.svg")
     }
     for domain, (status, detail) in sorted(before.items()):
-        if status == "ok":
+        if status == "ok" or domain in plan:
             continue
         if status in ("png-white", "bw"):
             plan[domain] = {"status": status, "detail": detail, "action": "debt"}

@@ -11,17 +11,14 @@ OUT = Path(__file__).parent / "icon-dark-brief.md"
 RAW = "https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers"
 
 GROUP_B = {
-    "airplay": "single-colour #0000ff mark; brand mark, not a plain glyph",
     "fully_kiosk": "single-colour #00f mark; brand mark, not a plain glyph",
     "heos": "multi-colour brand mark (near-black + red)",
-    "theaudiodb": "grey #454545 body + white; decide whether to lighten the grey or go white",
     "filesystem_onedrive": "single brand colour #0078D4",
     "bbc_sounds": "orange tones",
     "ibroadcast": "dark brown + greys",
     "gpodder": "dark grey + purple + white",
     "lrclib": "embedded PNG, mostly near-black: needs re-drawing as a vector",
     "musicme": "embedded PNG, dark: needs re-drawing as a vector",
-    "internet_archive": "embedded PNG, near-black: needs re-drawing as a vector",
     "radioparadise": "embedded PNG, dark: needs re-drawing as a vector",
     "musiccast": "embedded PNG, dark: needs re-drawing as a vector",
     "mpd": "embedded PNG, mid-dark: needs re-drawing as a vector",

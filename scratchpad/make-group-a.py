@@ -23,7 +23,7 @@ for demo in ("_demo_music_provider", "_demo_player_provider", "_demo_plugin_prov
 
 # monochrome must be white on transparent: the frontend shows it as-is on the dark theme
 # and CSS-inverts it on the light theme. For a single-colour glyph it equals the dark file.
-# The demo tile + bars boilerplate keeps just the bars in white.
+# The demo/test tile + bars boilerplate: monochrome is the dark file too (user's call).
 MONO = {
     "wikipedia": SWAPS["wikipedia"],
     "airplay_receiver": SWAPS["airplay_receiver"],
@@ -31,14 +31,8 @@ MONO = {
     "nicovideo": SWAPS["nicovideo"],
     "fastmcp_server": SWAPS["fastmcp_server"],
 }
-DEMO_TILE = (
-    '<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" '
-    'd="M 1.5 0 L 23.5 0 C 24.328125 0 25 0.671875 25 1.5 L 25 23.5 C 25 24.328125 '
-    "24.328125 25 23.5 25 L 1.5 25 C 0.671875 25 0 24.328125 0 23.5 L 0 1.5 C 0 0.671875 "
-    '0.671875 0 1.5 0 Z M 1.5 0 "/>\n'
-)
 for demo in ("_demo_music_provider", "_demo_player_provider", "_demo_plugin_provider", "test"):
-    MONO[demo] = [(DEMO_TILE, "")]
+    MONO[demo] = SWAPS[demo]
 
 
 def write_variant(domain: str, name: str, swaps: list[tuple[str, str]]) -> None:
