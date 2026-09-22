@@ -28,8 +28,6 @@ GROUPS = {
     "B": (
         "Claude Design: multi-colour brand mark, brand colour too dark, or embedded PNG",
         [
-            "heos",
-            "ibroadcast",
             "gpodder",
         ],
     ),
@@ -48,6 +46,9 @@ GROUPS = {
             "amplipi",
             "mpd",
             "radioparadise",
+            "heos",
+            "ibroadcast",
+            "nugs",
         ],
     ),
     "skip": (
@@ -59,7 +60,6 @@ GROUPS = {
             "lastfm_recommendations",
             "lastfm_scrobble",
             "neteasecloudmusic",
-            "nugs",
             "pandora",
             "siriusxm",
             "somafm",

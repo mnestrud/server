@@ -30,44 +30,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 
 # Part 1 — dark + monochrome
 
-## heos
-
-- why: multi-colour brand mark (near-black + red)
-- viewBox: `0 0 512 512`
-- current colours: #040404, #ca2d1a
-- current size: 3119 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/heos/icon.svg
-- output 1: `music_assistant/providers/heos/icon_dark.svg`
-- output 2: `music_assistant/providers/heos/icon_monochrome.svg` — none exists: create one
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" version="1.1"><path d="M 27.500 183.965 C 21.734 185.468, 18.982 186.975, 14.560 191.051 C 6.348 198.621, 6.500 197.395, 6.500 256 C 6.500 297.064, 6.778 308.286, 7.871 311.381 C 10.747 319.523, 21.062 327.504, 29.593 328.187 L 33.500 328.500 33.500 256.014 C 33.500 176.380, 33.991 182.273, 27.500 183.965 M 478 256.066 L 478 329.223 481.750 328.574 C 491.950 326.811, 501.658 318.699, 504.007 309.975 C 504.709 307.366, 504.972 288.366, 504.784 253.767 C 504.503 202.053, 504.477 201.456, 502.294 197.376 C 498.563 190.402, 490.753 185.153, 481.750 183.569 L 478 182.909 478 256.066 M 75.852 224.391 C 67.859 227.246, 60.813 235.766, 58.926 244.858 C 57.452 251.956, 58.216 267.291, 60.287 272.190 C 62.453 277.311, 69.713 284.942, 74.500 287.129 C 76.700 288.134, 80.188 288.966, 82.250 288.978 L 86 289 86 256 L 86 223 82.750 223.044 C 80.963 223.068, 77.858 223.674, 75.852 224.391 M 426 256 L 426 289 429.250 288.990 C 434.014 288.976, 442.023 284.876, 445.889 280.474 C 451.905 273.621, 452.953 269.995, 452.978 255.946 C 452.998 244.428, 452.787 242.965, 450.416 238.207 C 446.014 229.375, 436.884 223, 428.634 223 L 426 223 426 256" stroke="none" fill="#040404" fill-rule="evenodd"/><path d="M 244.500 1.039 C 225.111 5.014, 209.028 20.820, 204.498 40.353 C 203.161 46.116, 202.993 58.330, 203.228 132.250 L 203.500 217.500 206.490 222.899 C 209.917 229.087, 216.792 234.222, 224.050 236.013 C 227.064 236.757, 238.707 237.029, 258.550 236.818 L 288.500 236.500 293.590 233.814 C 299.267 230.819, 304.120 225.803, 306.752 220.213 C 308.373 216.769, 308.500 210.306, 308.500 131 C 308.500 50.876, 308.383 45.043, 306.638 38.231 C 302.325 21.400, 287.148 6.288, 270.081 1.833 C 263.158 0.026, 251.246 -0.344, 244.500 1.039 M 150.760 106.558 C 135.803 110.183, 121.974 121.961, 115.405 136.670 C 111.098 146.313, 110.886 152.644, 111.220 261.500 C 111.567 374.839, 111.183 367.804, 117.683 379.629 C 121.778 387.077, 133.571 398.223, 141.110 401.772 C 146.910 404.501, 157.292 407, 162.832 407 L 165 407 165 256 L 165 105 160.750 105.083 C 158.412 105.129, 153.917 105.793, 150.760 106.558 M 347 256 L 347 407 350.750 406.985 C 356.541 406.962, 366.789 404.236, 372.404 401.223 C 384.761 394.594, 396.596 378.968, 398.995 366.114 C 399.629 362.718, 399.995 321.884, 399.985 255.614 C 399.969 140.883, 400.094 143.551, 394.223 132.587 C 390.721 126.046, 378.954 114.279, 372.413 110.777 C 366.786 107.763, 356.537 105.038, 350.750 105.015 L 347 105 347 256 M 221.882 276.354 C 216.294 278.392, 211.210 281.858, 208.394 285.550 C 202.929 292.715, 202.999 291.476, 203.017 381.409 C 203.036 471.013, 203.107 472.372, 208.319 482.631 C 214.304 494.411, 227.733 506.061, 239.276 509.489 C 258.840 515.299, 279.029 510.254, 293 496.065 C 300.561 488.385, 304.347 481.873, 306.459 472.913 C 308.753 463.180, 308.752 298.383, 306.457 291.879 C 304.633 286.708, 300.217 281.847, 294 278.165 L 289.500 275.500 257.500 275.267 C 233.019 275.090, 224.650 275.345, 221.882 276.354" stroke="none" fill="#ca2d1a" fill-rule="evenodd"/></svg>
-```
-## ibroadcast
-
-- why: dark brown + greys
-- viewBox: `0 0 40 40`
-- current colours: rgb
-- current size: 3620 B
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/ibroadcast/icon.svg
-- output 1: `music_assistant/providers/ibroadcast/icon_dark.svg`
-- output 2: `music_assistant/providers/ibroadcast/icon_monochrome.svg` — exists and is fine (white, 3682 B): keep it
-- current monochrome file: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/ibroadcast/icon_monochrome.svg
-- official assets: official dark 'Powered by' SVG (multi-grey, no modification allowed): https://help.ibroadcast.com/ibroadcast-dark-compact-powered.svg — candidate for icon_dark; monochrome must still be white
-
-```svg
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" version="1.1">
-<g id="surface1">
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(12.156863%,7.843137%,5.882353%);fill-opacity:1;" d="M 0 0 C 13.199219 0 26.398438 0 40 0 C 40 13.199219 40 26.398438 40 40 C 26.800781 40 13.601562 40 0 40 C 0 26.800781 0 13.601562 0 0 Z M 0 0 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(81.176471%,81.960784%,81.960784%);fill-opacity:1;" d="M 16.300781 8.300781 C 28.957031 8.300781 28.957031 8.300781 31 10.101562 C 31.058594 10.144531 31.117188 10.191406 31.175781 10.234375 C 31.914062 10.875 32.53125 12.082031 32.683594 13.046875 C 32.796875 14.652344 32.660156 16.140625 31.699219 17.5 C 31.242188 18.019531 30.746094 18.472656 30.199219 18.898438 C 30.289062 18.9375 30.375 18.976562 30.46875 19.019531 C 31.875 19.664062 32.964844 20.589844 33.53125 22.0625 C 34.136719 23.761719 33.878906 25.832031 33.125 27.445312 C 32.21875 29.089844 30.761719 30.183594 29 30.800781 C 25.082031 31.898438 19.320312 31.199219 16.300781 31.199219 C 16.300781 23.644531 16.300781 16.085938 16.300781 8.300781 Z M 16.300781 8.300781 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(81.568627%,82.352941%,82.352941%);fill-opacity:1;" d="M 7.601562 18.398438 C 9.316406 18.398438 11.03125 18.398438 12.800781 18.398438 C 12.800781 22.625 12.800781 26.847656 12.800781 31.199219 C 11.085938 31.199219 9.367188 31.199219 7.601562 31.199219 C 7.601562 26.976562 7.601562 22.753906 7.601562 18.398438 Z M 7.601562 18.398438 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(44.705882%,44.313725%,46.27451%);fill-opacity:1;" d="M 11.675781 10.5625 C 12.46875 11.050781 12.910156 11.734375 13.199219 12.601562 C 13.328125 13.628906 13.058594 14.394531 12.4375 15.21875 C 11.867188 15.839844 11.257812 16.109375 10.417969 16.152344 C 9.644531 16.167969 9.046875 16.039062 8.398438 15.601562 C 8.308594 15.539062 8.214844 15.480469 8.117188 15.417969 C 7.503906 14.804688 7.175781 14.058594 7.148438 13.1875 C 7.164062 12.375 7.445312 11.730469 7.960938 11.105469 C 8.941406 10.175781 10.460938 9.996094 11.675781 10.5625 Z M 11.675781 10.5625 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(12.54902%,8.235294%,6.27451%);fill-opacity:1;" d="M 22.300781 21.898438 C 22.9375 21.890625 23.574219 21.882812 24.230469 21.875 C 24.429688 21.871094 24.628906 21.867188 24.832031 21.863281 C 25.890625 21.851562 26.84375 21.855469 27.707031 22.542969 C 28.125 23.097656 28.179688 23.617188 28.101562 24.300781 C 27.925781 24.925781 27.65625 25.347656 27.101562 25.699219 C 26.171875 26.136719 25.132812 26.03125 24.136719 26.019531 C 23.53125 26.011719 22.925781 26.007812 22.300781 26 C 22.300781 24.648438 22.300781 23.292969 22.300781 21.898438 Z M 22.300781 21.898438 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(13.72549%,9.411765%,7.45098%);fill-opacity:1;" d="M 22.300781 13.398438 C 23.0625 13.382812 23.0625 13.382812 23.835938 13.367188 C 23.996094 13.363281 24.152344 13.359375 24.316406 13.355469 C 25.289062 13.34375 26.042969 13.453125 26.761719 14.15625 C 27.011719 14.777344 27 15.421875 26.773438 16.050781 C 26.398438 16.585938 26.070312 16.828125 25.425781 16.953125 C 25.089844 17 24.769531 17.011719 24.429688 17.007812 C 24.316406 17.007812 24.203125 17.007812 24.089844 17.007812 C 23.949219 17.007812 23.808594 17.007812 23.664062 17.007812 C 22.988281 17.003906 22.988281 17.003906 22.300781 17 C 22.300781 15.8125 22.300781 14.625 22.300781 13.398438 Z M 22.300781 13.398438 "/>
-</g>
-</svg>
-```
 ## gpodder
 
 - why: dark grey + purple + white
@@ -81,14 +43,6 @@ Survey of owner-published assets (what can be reused instead of redrawn): https:
 # Part 2 — monochrome only
 
 These providers keep their icon.svg and need only `icon_monochrome.svg`: pure white on transparent, vector, <= 5 KB, same viewBox as icon.svg. The current file (if any) is unusable for the reason given.
-
-## ai_radio
-
-- current monochrome: missing — none
-- viewBox: `-5 -5 34 34`
-- icon colours: #18bcf2, #efb04d, #f7d562, #ffffff
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/ai_radio/icon.svg
-- output: `music_assistant/providers/ai_radio/icon_monochrome.svg`
 
 ## hass
 
@@ -106,19 +60,11 @@ These providers keep their icon.svg and need only `icon_monochrome.svg`: pure wh
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/hass_players/icon.svg
 - output: `music_assistant/providers/hass_players/icon_monochrome.svg`
 
-## itunes_artwork
-
-- current monochrome: missing — none
-- viewBox: `0 0 512 512`
-- icon colours: #17c9ff, #2da8ff, #a04cff, #e5e3e3, #ff4f63, #ff5b57, url
-- source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/itunes_artwork/icon.svg
-- output: `music_assistant/providers/itunes_artwork/icon_monochrome.svg`
-
 ## nugs
 
 - current monochrome: missing — none
-- viewBox: `0 0 200 200`
-- icon colours: #000, #a8a8a8, #fff, red
+- viewBox: `0 0 135 36`
+- icon colours: #000, #57167E, #AD2CFC, url, white
 - source: https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers/nugs/icon.svg
 - output: `music_assistant/providers/nugs/icon_monochrome.svg`
 - official assets: site SVG logo is white + gradient: https://cdn.nugsdev.net/images/logo-xl.svg (site asset, not a published download)

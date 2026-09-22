@@ -17,6 +17,7 @@ from pathlib import Path
 from PIL import Image, ImageOps
 
 from iconlib import BASE, PROVIDERS, ROOT, add_note
+from trace import fit_budget, png_from_svg
 
 PLAN = Path(__file__).parent / "mono-plan.json"
 done: list[str] = []
@@ -215,6 +216,20 @@ def minify_svg(svg: str, decimals: int, tight: bool = False) -> str:
     return re.sub(r">\s+<", "><", svg).strip()
 
 
+def lighten_dark_fills(svg: str, floor: float = 0.75) -> str:
+    """Raise any fill darker than `floor` luminance to a light grey (for dark variants of dark marks)."""
+
+    def fix(m: re.Match) -> str:
+        rgb = _parse_colour(m.group(1))
+        lum = (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255
+        if lum >= floor:
+            return m.group(0)
+        g = 255 * (floor + (1 - floor) * lum)
+        return f'fill="{_hex(g, g, g)}"'
+
+    return re.sub(r'fill="(#[0-9a-fA-F]{6})"', fix, svg)
+
+
 def invert_png_in_svg(svg: str) -> str:
     """Pixel-invert the embedded PNG (RGB only, alpha kept), drop any filter wrapper."""
     m = re.search(r"data:image/png;base64,((?:[A-Za-z0-9+/=%\s]|&#1[03];)+)", svg)
@@ -294,14 +309,16 @@ write(
     "copy of lastfm_scrobble/icon_monochrome.svg",
 )
 
-# 8. msx_bridge: today's white icon.svg becomes the dark variant; icon.svg is the PNG inverted
-msx = original("msx_bridge", "icon.svg").decode()
-write("msx_bridge", "icon_dark.svg", msx, "the original white icon.svg")
+# 8. msx_bridge: the original white raster traced to a vector; that is the dark variant, and
+#    icon.svg is the same vector in black so it reads on light
+msx_img = png_from_svg(original("msx_bridge", "icon.svg").decode())
+msx_vec = fit_budget(msx_img, colours=1)
+write("msx_bridge", "icon_dark.svg", msx_vec, "original white raster traced to vector")
 write(
     "msx_bridge",
     "icon.svg",
-    invert_png_in_svg(msx),
-    "original with the embedded PNG pixel-inverted",
+    re.sub(r'fill="#[0-9a-f]{6}"', 'fill="#000"', msx_vec),
+    "same vector in black",
 )
 
 # 9. smart_playlist: monochrome from icon.svg, blue -> white, white -> black
@@ -356,27 +373,34 @@ write(
     "copy of icon_monochrome.svg",
 )
 
-# 14. lrclib: monochrome is icon.svg with the embedded PNG inverted (re-encoded small enough
-#     for the budget); the same file is the dark variant
-lrc = reencode_png_in_svg(original("lrclib", "icon.svg").decode(), width=160, invert=True)
-write("lrclib", "icon_monochrome.svg", lrc, "icon.svg with the PNG inverted, re-encoded at 160 px")
+# 14. lrclib: the icon.svg raster inverted and traced to a vector; that is the monochrome, and
+#     the same file is the dark variant
+lrc_img = png_from_svg(original("lrclib", "icon.svg").decode())
+lrc_img = Image.merge(
+    "RGBA", (*ImageOps.invert(lrc_img.convert("RGB")).split(), lrc_img.getchannel("A"))
+)
+lrc = fit_budget(lrc_img, colours=2)
+write("lrclib", "icon_monochrome.svg", lrc, "icon.svg raster inverted and traced to vector")
 write("lrclib", "icon_dark.svg", lrc, "same file as icon_monochrome.svg")
 
-# 15. musiccast: monochrome doubles as the dark variant; the 29 KB raster is re-encoded at
-#     128 px so the new file fits the budget (the monochrome itself is grandfathered)
+# 15. musiccast: monochrome doubles as the dark variant; its 29 KB white raster traced to a vector
 write(
     "musiccast",
     "icon_dark.svg",
-    reencode_png_in_svg((PROVIDERS / "musiccast" / "icon_monochrome.svg").read_text(), width=128),
-    "icon_monochrome.svg re-encoded at 128 px",
+    fit_budget(
+        png_from_svg((PROVIDERS / "musiccast" / "icon_monochrome.svg").read_text()), colours=1
+    ),
+    "icon_monochrome.svg raster traced to vector",
 )
 
-# 16. musicme: monochrome doubles as the dark variant
+# 16. musicme: monochrome doubles as the dark variant, traced to a vector (monochrome kept as-is)
 write(
     "musicme",
     "icon_dark.svg",
-    (PROVIDERS / "musicme" / "icon_monochrome.svg").read_text(),
-    "copy of icon_monochrome.svg",
+    fit_budget(
+        png_from_svg((PROVIDERS / "musicme" / "icon_monochrome.svg").read_text()), colours=2
+    ),
+    "icon_monochrome.svg raster traced to vector",
 )
 
 # 17. nts: black tile + white text already behaves as a monochrome under the UI's inversion
@@ -403,22 +427,25 @@ write(
     "original icon.svg in white",
 )
 
-# 20. amplipi: the wordmark PNG from the AmpliPi forum (white + red on transparent), embedded as a
-#     small palette PNG — no vector tracer on this box. icon_dark = as-is; icon.svg = the white
-#     text made black so it reads on light; monochrome = everything white.
-amp = Image.open(Path(__file__).parent / "sources" / "amplipi.png").convert("RGBA")
-write("amplipi", "icon_dark.svg", png_svg(amp, 160), "AmpliPi forum PNG, embedded at 160 px")
+# 20. amplipi: the wordmark PNG from the AmpliPi forum (white + red on transparent) traced to a
+#     two-colour vector. icon_dark = as traced; icon.svg = the white text made black so it reads
+#     on light; monochrome = everything white.
+amp = fit_budget(
+    Image.open(Path(__file__).parent / "sources" / "amplipi.png").convert("RGBA"), colours=2
+)
+amp_red = next(c for c in re.findall(r'fill="(#[0-9a-f]{6})"', amp) if c != "#ffffff")
+write("amplipi", "icon_dark.svg", amp, "AmpliPi wordmark PNG traced to vector")
 write(
     "amplipi",
     "icon.svg",
-    png_svg(recolour(amp, light=(0, 0, 0)), 160),
-    "same PNG with the white text made black",
+    amp.replace('fill="#ffffff"', 'fill="#000"'),
+    "same vector with the white text made black",
 )
 write(
     "amplipi",
     "icon_monochrome.svg",
-    png_svg(recolour(amp, light=(255, 255, 255), dark=(255, 255, 255), all_=True), 160),
-    "same PNG, everything white",
+    amp.replace(f'fill="{amp_red}"', 'fill="#ffffff"'),
+    "same vector, everything white",
 )
 
 # 21. itunes_podcasts, jellyfin, musicbrainz, yandex_station: monochrome = icon.svg in lifted greyscale
@@ -430,30 +457,26 @@ for domain in ("itunes_podcasts", "jellyfin", "musicbrainz", "yandex_station"):
         "icon.svg in lifted greyscale",
     )
 
-# 22. yandex_smarthome: icon.svg is an embedded PNG — greyscale it pixel-wise (lifted), re-encode
-ys = (PROVIDERS / "yandex_smarthome" / "icon.svg").read_text()
+# 22. yandex_smarthome: icon.svg is an embedded PNG — traced to a vector (3 colours) and greyed
+ys_img = png_from_svg((PROVIDERS / "yandex_smarthome" / "icon.svg").read_text())
 write(
     "yandex_smarthome",
     "icon_monochrome.svg",
-    reencode_png_in_svg(ys, width=160, grey=True),
-    "icon.svg PNG in lifted greyscale, re-encoded at 160 px",
+    greyscale(fit_budget(ys_img, colours=3)),
+    "icon.svg raster traced to vector, lifted greyscale",
 )
 
-# 23. mpd: current icon.svg is the dark variant (minified to fit the budget); monochrome kept
-write(
-    "mpd",
-    "icon_dark.svg",
-    minify_svg((PROVIDERS / "mpd" / "icon.svg").read_text(), decimals=2),
-    "copy of icon.svg, editor metadata dropped",
-)
+# 23. (mpd's dark variant is step 30)
 
-# 24. radioparadise: dark variant = icon.svg with the black square background turned white
-rp = (PROVIDERS / "radioparadise" / "icon.svg").read_text()
+# 24. radioparadise: dark variant = the icon.svg raster traced to a vector (3 colours) with the
+#     black square background turned white
+rp_img = png_from_svg((PROVIDERS / "radioparadise" / "icon.svg").read_text())
+rp_vec = fit_budget(recolour(rp_img, dark=(255, 255, 255), threshold=40), colours=3)
 write(
     "radioparadise",
     "icon_dark.svg",
-    reencode_png_in_svg(rp, width=128, black_to=(255, 255, 255)),
-    "icon.svg PNG with the black background made white, re-encoded at 128 px",
+    rp_vec,
+    "icon.svg raster traced to vector, black background made white",
 )
 
 # 25. listenbrainz_scrobble: monochrome = the two half-hexagons white, the cream detail lines black
@@ -473,6 +496,63 @@ write(
         decimals=2,
     ),
     "icon.svg with the shapes white and the detail lines black, minified",
+)
+
+# 26. heos: dark variant = icon.svg with the black made white; monochrome = everything white
+heos = (PROVIDERS / "heos" / "icon.svg").read_text()
+write(
+    "heos",
+    "icon_dark.svg",
+    swap(heos, [('fill="#040404"', 'fill="#fff"')]),
+    "icon.svg with black -> white",
+)
+write(
+    "heos",
+    "icon_monochrome.svg",
+    swap(heos, [('fill="#040404"', 'fill="#fff"'), ('fill="#ca2d1a"', 'fill="#fff"')]),
+    "icon.svg, everything white",
+)
+
+# 27. ai_radio, itunes_artwork: monochrome = icon.svg in lifted greyscale
+for domain in ("ai_radio", "itunes_artwork"):
+    write(
+        domain,
+        "icon_monochrome.svg",
+        greyscale((PROVIDERS / domain / "icon.svg").read_text()),
+        "icon.svg in lifted greyscale",
+    )
+
+# 28. ibroadcast: dark variant = icon.svg with the full-square near-black background made white
+ib = (PROVIDERS / "ibroadcast" / "icon.svg").read_text()
+write(
+    "ibroadcast",
+    "icon_dark.svg",
+    swap(ib, [("fill:rgb(13.72549%,9.411765%,7.45098%)", "fill:#fff")]),
+    "icon.svg with the black background made white",
+)
+
+# 29. nugs: all three from nugs.net's own logo SVG (white wordmark + purple gradient mark):
+#     icon_dark as published, icon.svg with the white text made black, monochrome in greyscale
+nugs = minify_svg(
+    (Path(__file__).parent / "sources" / "nugs-logo-xl.svg").read_text(), decimals=2, tight=True
+)
+write("nugs", "icon_dark.svg", nugs, "nugs.net logo SVG, minified")
+write(
+    "nugs",
+    "icon.svg",
+    nugs.replace('fill="white"', 'fill="#000"'),
+    "nugs.net logo SVG with the white text made black",
+)
+write("nugs", "icon_monochrome.svg", greyscale(nugs), "nugs.net logo SVG in lifted greyscale")
+
+# 30. mpd: dark variant traced from the icon.svg raster (4 colours), dark greys lightened so the
+#     mark reads on dark; the earlier copy of icon.svg was invisible there
+mpd_img = png_from_svg((PROVIDERS / "mpd" / "icon.svg").read_text())
+write(
+    "mpd",
+    "icon_dark.svg",
+    lighten_dark_fills(fit_budget(mpd_img, colours=4)),
+    "icon.svg raster traced to vector, dark greys lightened",
 )
 
 # monochromes the user chose to keep as they are
@@ -517,6 +597,9 @@ for domain, how in {
     "yandex_station": "icon.svg in lifted greyscale",
     "yandex_smarthome": "icon.svg PNG in lifted greyscale",
     "listenbrainz_scrobble": "icon.svg, shapes white, detail lines black",
+    "heos": "icon.svg, everything white",
+    "ai_radio": "icon.svg in lifted greyscale",
+    "itunes_artwork": "icon.svg in lifted greyscale",
 }.items():
     plan[domain] = {
         "status": plan.get(domain, {}).get("status", ""),

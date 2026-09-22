@@ -24,9 +24,9 @@
   "status": "missing"
  },
  "ai_radio": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg in lifted greyscale",
   "status": "missing"
  },
  "airplay": {
@@ -51,7 +51,7 @@
   "action": "manual",
   "detail": "",
   "how": "forum PNG, everything white",
-  "status": "colour"
+  "status": "png-white"
  },
  "apple_music": {
   "action": "debt",
@@ -190,9 +190,9 @@
   "status": "colour"
  },
  "heos": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg, everything white",
   "status": "missing"
  },
  "hue_entertainment": {
@@ -207,9 +207,9 @@
   "status": "png-white"
  },
  "itunes_artwork": {
-  "action": "design",
+  "action": "manual",
   "detail": "",
-  "how": "design",
+  "how": "icon.svg in lifted greyscale",
   "status": "missing"
  },
  "itunes_podcasts": {
@@ -298,7 +298,7 @@
   "action": "manual",
   "detail": "",
   "how": "icon.svg in lifted greyscale",
-  "status": "oversize"
+  "status": "colour"
  },
  "musiccast": {
   "action": "debt",
@@ -550,13 +550,13 @@
   "action": "manual",
   "detail": "",
   "how": "icon.svg PNG in lifted greyscale",
-  "status": "missing"
+  "status": "png-mixed"
  },
  "yandex_station": {
   "action": "manual",
   "detail": "",
   "how": "icon.svg in lifted greyscale",
-  "status": "missing"
+  "status": "colour"
  },
  "yandex_ynison": {
   "action": "derived",

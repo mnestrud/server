@@ -18,6 +18,9 @@
  "acoustid_lookup": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "ai_radio": [
+  "icon_monochrome.svg: icon.svg in lifted greyscale"
+ ],
  "airplay": [
   "icon.svg: original with #0000ff -> #0a84ff",
   "icon_monochrome.svg: original icon.svg in white"
@@ -33,9 +36,9 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "amplipi": [
-  "icon_dark.svg: AmpliPi forum PNG, embedded at 160 px",
-  "icon.svg: same PNG with the white text made black",
-  "icon_monochrome.svg: same PNG, everything white"
+  "icon_dark.svg: AmpliPi wordmark PNG traced to vector",
+  "icon.svg: same vector with the white text made black",
+  "icon_monochrome.svg: same vector, everything white"
  ],
  "ariacast_receiver": [
   "icon_monochrome.svg: icon.svg with the blues set to black"
@@ -83,11 +86,21 @@
  "genius_lyrics": [
   "icon_monochrome.svg: from icon_monochrome.svg: #ffff64 -> #fff"
  ],
+ "heos": [
+  "icon_dark.svg: icon.svg with black -> white",
+  "icon_monochrome.svg: icon.svg, everything white"
+ ],
  "hue_entertainment": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
+ "ibroadcast": [
+  "icon_dark.svg: icon.svg with the black background made white"
+ ],
  "internet_archive": [
   "icon_dark.svg: Commons logo+wordmark SVG, minified, white"
+ ],
+ "itunes_artwork": [
+  "icon_monochrome.svg: icon.svg in lifted greyscale"
  ],
  "itunes_podcasts": [
   "icon_monochrome.svg: icon.svg in lifted greyscale"
@@ -111,7 +124,7 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "lrclib": [
-  "icon_monochrome.svg: icon.svg with the PNG inverted, re-encoded at 160 px",
+  "icon_monochrome.svg: icon.svg raster inverted and traced to vector",
   "icon_dark.svg: same file as icon_monochrome.svg"
  ],
  "mammamiradio": [
@@ -121,12 +134,12 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "mpd": [
-  "icon_dark.svg: copy of icon.svg, editor metadata dropped",
+  "icon_dark.svg: icon.svg raster traced to vector, dark greys lightened",
   "icon_monochrome.svg: kept as-is (user)"
  ],
  "msx_bridge": [
-  "icon_dark.svg: the original white icon.svg",
-  "icon.svg: original with the embedded PNG pixel-inverted"
+  "icon_dark.svg: original white raster traced to vector",
+  "icon.svg: same vector in black"
  ],
  "music_quiz": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
@@ -135,10 +148,10 @@
   "icon_monochrome.svg: icon.svg in lifted greyscale"
  ],
  "musiccast": [
-  "icon_dark.svg: icon_monochrome.svg re-encoded at 128 px"
+  "icon_dark.svg: icon_monochrome.svg raster traced to vector"
  ],
  "musicme": [
-  "icon_dark.svg: copy of icon_monochrome.svg",
+  "icon_dark.svg: icon_monochrome.svg raster traced to vector",
   "icon_monochrome.svg: kept as-is (user)"
  ],
  "neteasecloudmusic": [
@@ -150,6 +163,11 @@
  ],
  "nts": [
   "icon_monochrome.svg: copy of icon.svg"
+ ],
+ "nugs": [
+  "icon_dark.svg: nugs.net logo SVG, minified",
+  "icon.svg: nugs.net logo SVG with the white text made black",
+  "icon_monochrome.svg: nugs.net logo SVG in lifted greyscale"
  ],
  "openai_compatible": [
   "icon_monochrome.svg: icon.svg with purple -> white, white -> black"
@@ -177,7 +195,7 @@
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
  ],
  "radioparadise": [
-  "icon_dark.svg: icon.svg PNG with the black background made white, re-encoded at 128 px"
+  "icon_dark.svg: icon.svg raster traced to vector, black background made white"
  ],
  "rain_mood": [
   "icon_monochrome.svg: from icon_dark.svg: already white, copied"
@@ -248,7 +266,7 @@
   "icon_monochrome.svg: icon.svg with the colour set to white"
  ],
  "yandex_smarthome": [
-  "icon_monochrome.svg: icon.svg PNG in lifted greyscale, re-encoded at 160 px"
+  "icon_monochrome.svg: icon.svg raster traced to vector, lifted greyscale"
  ],
  "yandex_station": [
   "icon_monochrome.svg: icon.svg in lifted greyscale"

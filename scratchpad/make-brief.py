@@ -11,8 +11,6 @@ OUT = Path(__file__).parent / "icon-dark-brief.md"
 RAW = "https://raw.githubusercontent.com/mnestrud/server/review/provider-dark-icons/music_assistant/providers"
 
 GROUP_B = {
-    "heos": "multi-colour brand mark (near-black + red)",
-    "ibroadcast": "dark brown + greys",
     "gpodder": "dark grey + purple + white",
 }
 
