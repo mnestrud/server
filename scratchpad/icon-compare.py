@@ -78,11 +78,11 @@ if plan_path.exists():
             continue  # the user chose to keep the existing file; nothing to review
         by_action["derived" if item["action"] == "manual" else item["action"]].append(domain)
     GROUPS["M1"] = (
-        "monochrome derived by text edit (single-colour source recoloured to white)",
+        "monochrome derived by text edit (recoloured, traced or user-directed)",
         by_action["derived"],
     )
     GROUPS["M2"] = (
-        "monochrome for Claude Design (multi-colour or raster source)",
+        "monochrome still to be produced (none left)",
         by_action["design"],
     )
     GROUPS["M3"] = (

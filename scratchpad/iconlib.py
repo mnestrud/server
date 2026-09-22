@@ -26,7 +26,7 @@ GROUPS = {
         ],
     ),
     "B": (
-        "Claude Design: multi-colour brand mark, brand colour too dark, or embedded PNG",
+        "dark icon still to be produced (none left)",
         [],
     ),
     "C": (
