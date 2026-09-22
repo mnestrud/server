@@ -37,8 +37,11 @@ def swap(text: str, pairs: list[tuple[str, str]]) -> str:
 
 
 def write(domain: str, name: str, data: bytes | str, note: str) -> None:
+    """Write the file the way the repo's pre-commit hooks want it: no trailing whitespace, one final newline."""
     path = PROVIDERS / domain / name
-    path.write_bytes(data.encode() if isinstance(data, str) else data)
+    text = data.decode() if isinstance(data, bytes) else data
+    text = "\n".join(line.rstrip() for line in text.splitlines()).rstrip("\n") + "\n"
+    path.write_text(text)
     done.append(f"{domain}/{name}: {note} ({path.stat().st_size} B)")
 
 
@@ -77,7 +80,14 @@ write(
     "original inverted: fill black, shadow white",
 )
 
-# 3. airplay: icon.svg serves dark too — no file (handled in iconlib groups)
+# 3. airplay: icon.svg serves dark too (no icon_dark file); its blue becomes Apple's system
+#    blue for dark mode, sampled from the HIG "custom color icon set" image (#0a84ff)
+write(
+    "airplay",
+    "icon.svg",
+    swap(original("airplay", "icon.svg").decode(), [("fill:#0000ff", "fill:#0a84ff")]),
+    "original with #0000ff -> #0a84ff",
+)
 
 # 4. alexa: monochrome from icon.svg, everything white (editor ids and the XML declaration
 #    dropped to stay under the 5 KB budget)
