@@ -147,9 +147,9 @@
  },
  "genius_lyrics": {
   "action": "derived",
-  "detail": "",
-  "how": "icon.svg: already white, copied",
-  "status": "missing"
+  "detail": "single colour #ffff64, 852 B",
+  "how": "icon_monochrome.svg: #ffff64 -> #fff",
+  "status": "black"
  },
  "gpodder": {
   "action": "design",

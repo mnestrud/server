@@ -63,10 +63,16 @@ def _hex_luminance(value: str) -> float | None:
 
 
 def is_white(colour: str) -> bool:
+    """White or a near-white grey; a light saturated colour (e.g. #ffff64) is not white."""
     if colour in WHITE:
         return True
-    lum = _hex_luminance(colour)
-    return lum is not None and lum >= 0.9
+    m = re.fullmatch(r"#([0-9a-f]{3}|[0-9a-f]{6})", colour)
+    if not m:
+        return False
+    h = m.group(1)
+    if len(h) == 3:
+        h = "".join(c * 2 for c in h)
+    return all(int(h[i : i + 2], 16) >= 0xE6 for i in (0, 2, 4))
 
 
 def is_black(colour: str) -> bool:
