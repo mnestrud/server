@@ -45,6 +45,41 @@ def write(domain: str, name: str, data: bytes | str, note: str) -> None:
     done.append(f"{domain}/{name}: {note} ({path.stat().st_size} B)")
 
 
+def minify_svg(svg: str, decimals: int) -> str:
+    """Drop editor metadata and redundant attributes, round path coordinates, collapse whitespace."""
+    svg = re.sub(
+        r"<\?xml.*?\?>|<!DOCTYPE[^>]*>|<!--.*?-->|<metadata>.*?</metadata>|<title>.*?</title>|<desc>.*?</desc>",
+        "",
+        svg,
+        flags=re.DOTALL,
+    )
+    svg = re.sub(r"<sodipodi:namedview.*?/>", "", svg, flags=re.DOTALL)
+    svg = re.sub(
+        r'\s+(id|version|xml:space|enable-background|xmlns:xlink|xmlns:svg|xmlns:sodipodi|xmlns:inkscape|inkscape:[\w-]+|sodipodi:[\w-]+)="[^"]*"',
+        "",
+        svg,
+    )
+    # x/y/width/height are redundant on the root only (the viewBox sets the geometry)
+    svg = re.sub(
+        r"<svg\b[^>]*>",
+        lambda m: re.sub(r'\s+(x|y|width|height)="[^"]*"', "", m.group(0)),
+        svg,
+        count=1,
+    )
+
+    def rnd(m: re.Match) -> str:
+        r = f"{float(m.group(0)):.{decimals}f}".rstrip("0").rstrip(".")
+        return "0" if r in ("", "-0") else r
+
+    def fix_d(m: re.Match) -> str:
+        d = re.sub(r"-?\d+\.\d+", rnd, m.group(2))
+        d = re.sub(r"\s+", " ", d).replace(", ", ",").replace(" ,", ",")
+        return f'{m.group(1)}="{d}"'
+
+    svg = re.sub(r'\b(d|points)="([^"]*)"', fix_d, svg)
+    return re.sub(r">\s+<", "><", svg).strip()
+
+
 def invert_png_in_svg(svg: str) -> str:
     """Pixel-invert the embedded PNG (RGB only, alpha kept), drop any filter wrapper."""
     m = re.search(r"data:image/png;base64,((?:[A-Za-z0-9+/=%\s]|&#1[03];)+)", svg)
@@ -106,14 +141,15 @@ aria = re.sub(r"fill: #(50649a|4c6298|50659b|4a6097);", "fill: #000;", aria)
 assert "#50649a" not in aria
 write("ariacast_receiver", "icon_monochrome.svg", aria, "icon.svg with the blues set to black")
 
-# 6. internet_archive: monochrome doubles as the dark variant
-shutil.copyfile(
-    PROVIDERS / "internet_archive" / "icon_monochrome.svg",
-    PROVIDERS / "internet_archive" / "icon_dark.svg",
+# 6. internet_archive: dark variant from the Commons "logo and wordmark" SVG
+#    (https://commons.wikimedia.org/wiki/File:Internet_Archive_logo_and_wordmark.svg, PD-shape),
+#    minified to fit the 5 KB budget and filled white
+ia = minify_svg(
+    (Path(__file__).parent / "sources" / "Internet_Archive_logo_and_wordmark.svg").read_text(),
+    decimals=1,
 )
-done.append(
-    f"internet_archive/icon_dark.svg: copy of icon_monochrome.svg ({(PROVIDERS / 'internet_archive' / 'icon_dark.svg').stat().st_size} B)"
-)
+ia = ia.replace("<svg", '<svg fill="#fff"', 1)
+write("internet_archive", "icon_dark.svg", ia, "Commons logo+wordmark SVG, minified, white")
 
 # 7. lastfm_recommendations: same monochrome as lastfm_scrobble
 write(
@@ -144,12 +180,14 @@ write(
     "icon.svg with blue -> white, white -> black",
 )
 
-# 10. theaudiodb: monochrome doubles as the dark variant
-shutil.copyfile(
-    PROVIDERS / "theaudiodb" / "icon_monochrome.svg", PROVIDERS / "theaudiodb" / "icon_dark.svg"
-)
-done.append(
-    f"theaudiodb/icon_dark.svg: copy of icon_monochrome.svg ({(PROVIDERS / 'theaudiodb' / 'icon_dark.svg').stat().st_size} B)"
+# 10. theaudiodb: dark variant is icon.svg with the grey body made very light (white glyph kept)
+write(
+    "theaudiodb",
+    "icon_dark.svg",
+    swap(
+        (PROVIDERS / "theaudiodb" / "icon.svg").read_text(), [('fill="#454545"', 'fill="#d9d9d9"')]
+    ),
+    "icon.svg with #454545 -> #d9d9d9",
 )
 
 # record the monochromes this script owns so make-mono.py keeps them in the plan
