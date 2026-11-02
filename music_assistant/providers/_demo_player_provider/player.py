@@ -8,6 +8,7 @@ from music_assistant_models.config_entries import ConfigEntry
 from music_assistant_models.enums import ConfigEntryType, PlaybackState, PlayerFeature
 from music_assistant_models.player import PlayerOptionValueType, PlayerSource
 
+from music_assistant.constants import create_sample_rates_config_entry
 from music_assistant.models.player import Player, PlayerMedia
 
 if TYPE_CHECKING:
@@ -96,6 +97,13 @@ class DemoPlayer(Player):
         # note that the config controller will always add a set of default config entries
         # if you want, you can override those by specifying the same key as a default entry.
         return [
+            # DEV ONLY (byte-range gate): offer 24 bit like the Sonos provider does
+            create_sample_rates_config_entry(
+                supported_sample_rates=[44100, 48000],
+                supported_bit_depths=[16, 24],
+                safe_max_sample_rate=48000,
+                safe_max_bit_depth=24,
+            ),
             # example of a player specific config entry
             # you can also override a default entry by specifying the same key
             # as a default entry, but with a different type or default value.

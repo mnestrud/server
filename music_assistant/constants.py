@@ -933,6 +933,8 @@ DLNA_CONTENT_FEATURES = "DLNA.ORG_OP=00;DLNA.ORG_FLAGS=0170000000000000000000000
 # player should not try to buffer ahead faster than the server delivers.
 # Flags: 0x81700000 = Sender Paced + Streaming + Background + Connection Stalling + V1.5
 DLNA_CONTENT_FEATURES_REALTIME = "DLNA.ORG_OP=00;DLNA.ORG_FLAGS=81700000000000000000000000000000"
+# Tracks served with byte-range support: ORG_OP=01 (byte seek), same flags as bufferable streams.
+DLNA_CONTENT_FEATURES_RANGES = "DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000"
 ICY_HEADERS = {
     "icy-name": APPLICATION_NAME,
     "icy-description": f"{APPLICATION_NAME} - Your personal music assistant",

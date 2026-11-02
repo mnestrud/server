@@ -10,7 +10,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
-from collections.abc import AsyncGenerator
+from collections.abc import AsyncGenerator, Callable
 from contextlib import aclosing, suppress
 from dataclasses import dataclass
 from ipaddress import ip_address
@@ -66,6 +66,7 @@ from music_assistant.constants import (
     DEFAULT_HOST,
     DEFAULT_STREAM_HEADERS,
     DLNA_CONTENT_FEATURES,
+    DLNA_CONTENT_FEATURES_RANGES,
     DLNA_CONTENT_FEATURES_REALTIME,
     ICY_HEADERS,
     SILENCE_FILE,
@@ -85,6 +86,22 @@ from music_assistant.controllers.streams.audio import (
 from music_assistant.controllers.streams.audio_analysis import AudioAnalysisController
 from music_assistant.controllers.streams.audio_processing import (
     AudioProcessingManager,
+)
+from music_assistant.controllers.streams.byte_ranges import (
+    RANGE_CODECS,
+    RANGE_MAX_STATES,
+    WAV_BLOCK_SAMPLES,
+    ByteRangeState,
+    RangePlan,
+    RangeSegment,
+    RangeStats,
+    announced_length,
+    byte_ranges_enabled,
+    frame_samples_for,
+    parse_range_start,
+    record_stream,
+    serve_from,
+    trim_pcm,
 )
 from music_assistant.controllers.streams.constants import (
     CONF_ALLOW_CROSSFADE_SAME_ALBUM,
@@ -285,6 +302,9 @@ class StreamsController(CoreController):
         # Per queue, the session and the items whose GET requests ended in it since the
         # player last asked for another item, which that next request checks
         self._ended_item_streams: dict[str, tuple[str, set[str]]] = {}
+        # What was sent of each item stream that answers byte-range requests, by
+        # (session, queue item, player)
+        self._byte_range_states: dict[tuple[str, str, str], ByteRangeState] = {}
         # Number of queue streams (single item or flow) actively serving a player right now,
         # counted for both entry points: the http routes and the raw-PCM get_stream helper.
         # Audio analysis reads this (via audio_analysis.playback_active) to yield CPU while a
@@ -1004,6 +1024,22 @@ class StreamsController(CoreController):
                 source_bit_depth=queue_item.streamdetails.audio_format.bit_depth,
             )
 
+            playback_speed = cast("float", queue_item.extra_attributes.get("playback_speed", 1.0))
+            range_state = await self._get_byte_range_state(
+                player,
+                queue_item,
+                session_id,
+                pcm_format,
+                output_format,
+                ranges_possible=(
+                    crossfade_mode == CrossfadeMode.DISABLED
+                    and not fade_in_pending
+                    and not mix_overlay
+                    and playback_speed == 1.0
+                ),
+            )
+            range_start = parse_range_start(request.headers.get("Range"))
+
             # prepare request, add some DLNA/UPNP compatible headers
             # icy-name is sanitized (all control chars, not just newlines) to avoid a
             # "Potential header injection attack" ValueError by aiohttp
@@ -1021,6 +1057,31 @@ class StreamsController(CoreController):
                 "contentFeatures.dlna.org": dlna_features,
                 "Content-Type": get_mime_type(output_format.output_format_str),
             }
+            if range_state is not None:
+                headers["Accept-Ranges"] = "bytes"
+                headers["contentFeatures.dlna.org"] = DLNA_CONTENT_FEATURES_RANGES
+                start = range_start or 0
+                if request.method == "GET" and (
+                    (start == 0 and range_state.head_usable)
+                    or (
+                        start > 0
+                        and (range_state.head_usable or start >= (range_state.header_size or 0))
+                    )
+                ):
+                    return await self._serve_item_byte_range(
+                        request,
+                        queue,
+                        queue_item,
+                        player,
+                        pq_data,
+                        session_id,
+                        requested_after,
+                        range_state,
+                        start,
+                        pcm_format,
+                        output_format,
+                        headers,
+                    )
 
             resp = web.StreamResponse(status=200, reason="OK", headers=headers)
             resp.content_type = get_mime_type(output_format.output_format_str)
@@ -1039,6 +1100,13 @@ class StreamsController(CoreController):
                 )
             elif http_profile == "chunked":
                 resp.enable_chunked_encoding()
+            if range_state is not None:
+                resp.content_length = range_state.content_length
+                if range_start == 0:
+                    resp.set_status(206)
+                    resp.headers["Content-Range"] = (
+                        f"bytes 0-{range_state.content_length - 1}/{range_state.content_length}"
+                    )
 
             # re-check right before audio is handed out: a queue edit landing during
             # the awaited setup above must not hand the player a stale track after all
@@ -1048,6 +1116,7 @@ class StreamsController(CoreController):
 
             # return early if this is not a GET request
             if request.method != "GET":
+                self._log_byte_range_response(request, resp, "head-request")
                 return resp
 
             self._update_audio_processing_context(
@@ -1083,59 +1152,23 @@ class StreamsController(CoreController):
                     queue_item=queue_item,
                     pcm_format=pcm_format,
                     seek_position=int(queue_item.streamdetails.seek_position),
-                    playback_speed=cast(
-                        "float", queue_item.extra_attributes.get("playback_speed", 1.0)
-                    ),
+                    playback_speed=playback_speed,
                     session_id=session_id,
                     consumer_connected=_player_connected,
                 )
             if mix_overlay:
                 audio_input = self.audio.get_overlay_mixed_stream(queue, audio_input, pcm_format)
-            # stream the audio
-            # this final ffmpeg process in the chain converts raw lossless PCM into
-            # the desired output format for the player including any player specific
-            # filter params such as channels mixing, DSP, resampling and, only if
-            # needed, encoding to lossy formats
-            output_plan = self.audio.get_player_output_plan(
-                player_id=player.player_id,
-                input_format=pcm_format,
-                output_format=output_format,
-                shared_player_ids=player.state.group_members,
-                queue_id=queue_id,
-                session_id=session_id,
-                queue_item_id=queue_item.queue_item_id,
+            audio_bytes = self._encode_item_output(
+                player, queue_id, queue_item, session_id, pcm_format, output_format, audio_input
             )
-            filter_params = output_plan.filter_params
-            # Fast path for live AudioSource: when the player accepts WAV at the
-            # source's exact PCM rate/depth/channels and no filters apply, we
-            # skip the encode ffmpeg entirely and just stream a WAV header
-            # followed by the raw PCM bytes — saves an ffmpeg process and the
-            # latency of its internal buffer on every realtime stream.
-            audio_bytes: AsyncGenerator[bytes]
-            if (
-                queue_item.media_type == MediaType.AUDIO_SOURCE
-                and output_format.content_type == ContentType.WAV
-                and not filter_params
-                and output_format.sample_rate == pcm_format.sample_rate
-                and output_format.bit_depth == pcm_format.bit_depth
-                and output_format.channels == pcm_format.channels
-            ):
-                audio_bytes = _wav_passthrough_stream(audio_input, output_format)
-            else:
-                pacing: PacingProfile
-                if queue_item.media_type == MediaType.AUDIO_SOURCE:
-                    pacing = PacingProfile.LOW_LATENCY
-                elif queue_item.streamdetails.is_realtime:
-                    pacing = PacingProfile.NEAR_REALTIME
-                else:
-                    pacing = PacingProfile.DEFAULT
-                audio_bytes = get_ffmpeg_stream(
-                    audio_input=audio_input,
-                    input_format=pcm_format,
-                    output_format=output_format,
-                    filter_params=filter_params,
-                    extra_input_args=output_pacing_args(pacing),
-                )
+            range_segment: RangeSegment | None = None
+            if range_state is not None:
+                self._log_byte_range_response(request, resp, "normal")
+                range_segment = RangeSegment(start=0)
+                range_state.segments.append(range_segment)
+                range_state.head.clear()
+                range_state.head_complete = False
+                audio_bytes = record_stream(range_state, range_segment, audio_bytes)
             first_chunk_received = False
             bytes_sent = 0
             stream_failure: AudioError | None = None
@@ -1161,6 +1194,8 @@ class StreamsController(CoreController):
                         try:
                             await resp.write(chunk)
                             bytes_sent += len(chunk)
+                            if range_segment is not None:
+                                range_segment.end = bytes_sent
                             if not first_chunk_received:
                                 first_chunk_received = True
                                 # inform the queue that the track is now loaded in the buffer
@@ -1204,6 +1239,18 @@ class StreamsController(CoreController):
                 stream_failure = err
             finally:
                 self._active_output_streams -= 1
+            if range_state is not None:
+                self.logger.info(
+                    "byte range normal stream for %s ended: sent %s of %s bytes, stream end %s",
+                    queue_item.name,
+                    bytes_sent,
+                    range_state.content_length,
+                    range_segment.stream_end if range_segment else None,
+                )
+                if bytes_sent < range_state.content_length:
+                    # the body ends short of the announced length, which the player
+                    # only learns from the connection closing
+                    resp.force_close()
             if stream_failure is not None or queue_item.streamdetails.stream_error:
                 # every stage in between replaces the message with one of its own, so
                 # the reason worth reporting is the one at the bottom of the chain
@@ -2605,6 +2652,304 @@ class StreamsController(CoreController):
                 continue
             self._ended_item_ids(queue_id, session_id).discard(item_id)
             await self.mass.player_queues.release_failed_item_source(queue_id, item_id)
+
+    def _encode_item_output(
+        self,
+        player: Player,
+        queue_id: str,
+        queue_item: QueueItem,
+        session_id: str,
+        pcm_format: AudioFormat,
+        output_format: AudioFormat,
+        audio_input: AsyncGenerator[bytes],
+    ) -> AsyncGenerator[bytes]:
+        """
+        Return the PCM audio of a queue item encoded for the player that streams it.
+
+        :param player: Player the stream is for.
+        :param queue_id: Queue the item belongs to.
+        :param queue_item: The queue item.
+        :param session_id: Queue session of the stream.
+        :param pcm_format: Format of audio_input.
+        :param output_format: Format the player gets.
+        :param audio_input: The item's PCM audio.
+        """
+        # this final ffmpeg process in the chain converts raw lossless PCM into
+        # the desired output format for the player including any player specific
+        # filter params such as channels mixing, DSP, resampling and, only if
+        # needed, encoding to lossy formats
+        output_plan = self.audio.get_player_output_plan(
+            player_id=player.player_id,
+            input_format=pcm_format,
+            output_format=output_format,
+            shared_player_ids=player.state.group_members,
+            queue_id=queue_id,
+            session_id=session_id,
+            queue_item_id=queue_item.queue_item_id,
+        )
+        filter_params = output_plan.filter_params
+        # Fast path for live AudioSource: when the player accepts WAV at the
+        # source's exact PCM rate/depth/channels and no filters apply, we
+        # skip the encode ffmpeg entirely and just stream a WAV header
+        # followed by the raw PCM bytes — saves an ffmpeg process and the
+        # latency of its internal buffer on every realtime stream.
+        if (
+            queue_item.media_type == MediaType.AUDIO_SOURCE
+            and output_format.content_type == ContentType.WAV
+            and not filter_params
+            and output_format.sample_rate == pcm_format.sample_rate
+            and output_format.bit_depth == pcm_format.bit_depth
+            and output_format.channels == pcm_format.channels
+        ):
+            return _wav_passthrough_stream(audio_input, output_format)
+        pacing: PacingProfile
+        if queue_item.media_type == MediaType.AUDIO_SOURCE:
+            pacing = PacingProfile.LOW_LATENCY
+        elif queue_item.streamdetails is not None and queue_item.streamdetails.is_realtime:
+            pacing = PacingProfile.NEAR_REALTIME
+        else:
+            pacing = PacingProfile.DEFAULT
+        return get_ffmpeg_stream(
+            audio_input=audio_input,
+            input_format=pcm_format,
+            output_format=output_format,
+            filter_params=filter_params,
+            extra_input_args=output_pacing_args(pacing),
+        )
+
+    async def _get_byte_range_state(
+        self,
+        player: Player,
+        queue_item: QueueItem,
+        session_id: str,
+        pcm_format: AudioFormat,
+        output_format: AudioFormat,
+        ranges_possible: bool,
+    ) -> ByteRangeState | None:
+        """
+        Return the byte-range state of an item stream, None when it does not answer ranges.
+
+        :param player: Player the stream is for.
+        :param queue_item: The queue item.
+        :param session_id: Queue session of the stream.
+        :param pcm_format: PCM format the item is read in.
+        :param output_format: Format the player gets.
+        :param ranges_possible: Whether the stream can be rebuilt from an offset at all.
+        """
+        if not byte_ranges_enabled(player.player_id):
+            return None
+        streamdetails = queue_item.streamdetails
+        assert streamdetails is not None
+        reason: str | None = None
+        if output_format.content_type not in RANGE_CODECS:
+            reason = f"codec {output_format.content_type}"
+        elif queue_item.media_type != MediaType.TRACK:
+            reason = "not a track"
+        elif not streamdetails.allow_seek:
+            reason = "source does not seek"
+        elif not ranges_possible:
+            reason = "crossfade, overlay or playback speed"
+        duration = queue_item.duration
+        if not duration:
+            reason = "no known duration"
+        if reason or not duration:
+            self.logger.debug("byte ranges off for %s: %s", queue_item.name, reason)
+            return None
+        key = (session_id, queue_item.queue_item_id, player.player_id)
+        if state := self._byte_range_states.get(key):
+            return state
+        start_seconds = int(streamdetails.seek_position)
+        # a whole second more: the duration is rounded, and a sample count or length
+        # below the real one makes a player stop early
+        seconds = max(duration - start_seconds, 1) + 1
+        content_length = announced_length(output_format, seconds)
+        stream_header: bytes | None = None
+        if output_format.content_type == ContentType.WAV:
+            # sized like a finite file: a speaker seeks only in a WAV whose sizes are known
+            header = bytearray(create_streaming_wave_header(output_format))
+            header[4:8] = (content_length - 8).to_bytes(4, "little")
+            header[40:44] = (content_length - len(header)).to_bytes(4, "little")
+            stream_header = bytes(header)
+        state = ByteRangeState(
+            content_type=output_format.content_type,
+            sample_rate=output_format.sample_rate,
+            pcm_sample_rate=pcm_format.sample_rate,
+            content_length=content_length,
+            total_samples=seconds * output_format.sample_rate,
+            start_seconds=start_seconds,
+            frame_samples=frame_samples_for(output_format.content_type, output_format.sample_rate),
+            frame_bytes=WAV_BLOCK_SAMPLES * output_format.channels * output_format.bit_depth // 8,
+            stream_header=stream_header,
+        )
+        self._byte_range_states[key] = state
+        while len(self._byte_range_states) > RANGE_MAX_STATES:
+            self._byte_range_states.pop(next(iter(self._byte_range_states))).close()
+        self.logger.info(
+            "byte ranges on for %s to %s: %s %s/%s, length %s, %s samples, from %ss",
+            queue_item.name,
+            player.state.name,
+            output_format.output_format_str,
+            output_format.sample_rate,
+            output_format.bit_depth,
+            state.content_length,
+            state.total_samples,
+            start_seconds,
+        )
+        return state
+
+    async def _serve_item_byte_range(  # noqa: PLR0913
+        self,
+        request: web.Request,
+        queue: PlayerQueue,
+        queue_item: QueueItem,
+        player: Player,
+        pq_data: PlayerQueueData,
+        session_id: str,
+        requested_after: str | None,
+        state: ByteRangeState,
+        start: int,
+        pcm_format: AudioFormat,
+        output_format: AudioFormat,
+        headers: dict[str, str],
+    ) -> web.StreamResponse:
+        """
+        Serve an item stream from a byte offset: from its kept head or a new encode.
+
+        :param request: The GET request.
+        :param queue: Queue the item belongs to.
+        :param queue_item: The queue item.
+        :param player: Player the stream is for.
+        :param pq_data: Runtime data of the queue.
+        :param session_id: Queue session of the stream.
+        :param requested_after: Item the player asked for before this request.
+        :param state: Byte-range state of the item stream.
+        :param start: First byte asked for.
+        :param pcm_format: PCM format the item is read in.
+        :param output_format: Format the player gets.
+        :param headers: Response headers.
+        """
+        has_range = "Range" in request.headers
+        ended_at = state.ended_at(start)
+        if (
+            start >= state.content_length
+            or ended_at is not None
+            or (start >= len(state.head) and state.plan(start) is None)
+        ):
+            self.logger.info(
+                "byte range %s for %s on %s: past the end (ended at %s, %s frames, length %s)"
+                " -> 416",
+                request.headers.get("Range"),
+                queue_item.name,
+                player.state.name,
+                ended_at,
+                state.end_frame,
+                state.content_length,
+            )
+            # the announced length, not the real end: a player that learns a smaller size
+            # refuses its own later seeks past it, which it places by the announced length
+            raise web.HTTPRequestRangeNotSatisfiable(
+                headers={**headers, "Content-Range": f"bytes */{state.content_length}"}
+            )
+        resp = web.StreamResponse(status=206 if has_range else 200, headers=headers)
+        resp.content_type = get_mime_type(output_format.output_format_str)
+        resp.content_length = state.content_length - start
+        if has_range:
+            resp.headers["Content-Range"] = (
+                f"bytes {start}-{state.content_length - 1}/{state.content_length}"
+            )
+        self._raise_if_stale_item_request(player, queue.queue_id, queue_item, requested_after)
+        await resp.prepare(request)
+        path = "head" if start < len(state.head) else "re-encode"
+        self._log_byte_range_response(request, resp, path)
+
+        sample_bytes = pcm_format.bit_depth // 8 * pcm_format.channels
+
+        def _encode_from(
+            plan: RangePlan, consumer_connected: Callable[[], bool]
+        ) -> AsyncGenerator[bytes]:
+            pcm = self.audio.get_queue_item_stream(
+                queue_item=queue_item,
+                pcm_format=pcm_format,
+                seek_position=plan.seek_seconds,
+                session_id=session_id,
+                exact_seek=True,
+                consumer_connected=consumer_connected,
+            )
+            return self._encode_item_output(
+                player,
+                queue.queue_id,
+                queue_item,
+                session_id,
+                pcm_format,
+                output_format,
+                trim_pcm(pcm, plan.trim_samples * sample_bytes),
+            )
+
+        stats = RangeStats(player_name=player.state.name)
+        body = serve_from(state, start, _encode_from, stats, self.logger)
+        position = start
+        stream_failure: AudioError | None = None
+        self._active_output_streams += 1
+        try:
+            async with aclosing(body):
+                async for chunk in body:
+                    if pq_data.session_id != session_id:
+                        break
+                    try:
+                        await resp.write(chunk)
+                    except BrokenPipeError, ConnectionResetError, ConnectionError:
+                        break
+                    position += len(chunk)
+                    if stats.segment is not None:
+                        stats.segment.end = position
+        except AudioError as err:
+            stream_failure = err
+        finally:
+            self._active_output_streams -= 1
+        plan = stats.plan
+        self.logger.info(
+            "byte range %s for %s on %s (%s): sent %s bytes (%s-%s of %s), first frame %s"
+            " (expected %s%s), overlap frames %s checked / %s mismatched (first %s),"
+            " pre-roll from frame %s%s, first byte after %.2fs%s",
+            request.headers.get("Range", "none"),
+            queue_item.name,
+            player.state.name,
+            path,
+            position - start,
+            start,
+            position,
+            state.content_length,
+            stats.first_frame,
+            plan.frame if plan else None,
+            ", estimated" if plan and plan.estimated else "",
+            stats.frames_checked,
+            stats.frames_mismatched,
+            stats.first_mismatch,
+            plan.preroll_frame if plan else None,
+            " (frames of a running encode)" if stats.reused else "",
+            stats.preroll_seconds or 0,
+            f", failed: {_root_cause(stream_failure)}" if stream_failure else "",
+        )
+        if position < state.content_length:
+            resp.force_close()
+        return resp
+
+    def _log_byte_range_response(
+        self, request: web.Request, resp: web.StreamResponse, path: str
+    ) -> None:
+        """Log how a request to an item stream with byte ranges was answered."""
+        if resp.headers.get("Accept-Ranges") != "bytes":
+            return
+        self.logger.info(
+            "byte range %s %s from %s (Range %s) -> %s via %s, %s",
+            request.method,
+            request.path,
+            request.remote,
+            request.headers.get("Range", "none"),
+            resp.status,
+            path,
+            {k: v for k, v in resp.headers.items() if k not in ("icy-name", "Server")},
+        )
 
     def _log_request(self, request: web.Request) -> None:
         """Log request."""

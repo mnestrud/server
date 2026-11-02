@@ -14,6 +14,7 @@ from aiohttp import web
 from music_assistant_models.errors import InvalidDataError
 
 from music_assistant.constants import MASS_LOGO_ONLINE, VERBOSE_LOG_LEVEL
+from music_assistant.controllers.streams.byte_ranges import byte_ranges_enabled
 from music_assistant.helpers.audio import get_mime_type
 
 from .player import SonosPlayer, SonosQueueWindow
@@ -210,8 +211,9 @@ class SonosCloudQueue:
                 "limitedSkips": True,
                 "canSkipToItem": True,  # unsure
                 "canSkipBack": True,
-                # seek needs to be disabled because we dont properly support range requests
-                "canSeek": False,
+                # the speaker seeks with range requests, which only streams with byte
+                # ranges answer
+                "canSeek": byte_ranges_enabled(player.player_id),
                 "canRepeat": False,  # handled by MA queue controller
                 "canRepeatOne": False,  # handled by MA queue controller
                 "canCrossfade": False,  # handled by MA queue controller
